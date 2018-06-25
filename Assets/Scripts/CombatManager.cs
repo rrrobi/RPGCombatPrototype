@@ -38,7 +38,11 @@ public class CombatManager : MonoBehaviour {
 
     void AddEnemyMonsters()
     {
-
+        for (int i = 0; i < EnemyMonstersNum; i++)
+        {
+            GameObject monsterGO = new GameObject();
+            //monsterGO = Instantiate("Monster", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+        }
     }
 
 	// Update is called once per frame

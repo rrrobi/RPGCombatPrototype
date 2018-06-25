@@ -13,11 +13,14 @@ public class Monster : MonoBehaviour {
     [SerializeField]
     float attackTimer;
 
+    [SerializeField]
+    Sprite monsterSprite;
     private SpriteRenderer MonsterSprite;
 
     void Awake()
     {
         Assert.IsNotNull(SpeedBarGO);
+        Assert.IsNotNull(monsterSprite);
     }
 
 	// Use this for initialization
@@ -25,8 +28,11 @@ public class Monster : MonoBehaviour {
         attackTimer = attackCD;
 
         // Set Correct Monster sprite
-        // MonsterSprite.sprite =
-	}
+        //MonsterSprite = this.gameObject.GetComponent<SpriteRenderer>();
+        //MonsterSprite.sprite = monsterSprite;
+        //MonsterSprite.sortingLayerName = "Characters";
+        //this.gameObject.AddComponent<SpriteRenderer>()
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -45,7 +51,7 @@ public class Monster : MonoBehaviour {
     {
         float timePast = attackCD - attackTimer;
         float scale = (timePast / attackCD);
-        Debug.Log("CD: " + attackCD + ", time past: " + timePast + ", scale: " + scale);
+        //Debug.Log("CD: " + attackCD + ", time past: " + timePast + ", scale: " + scale);
 
         SpeedBarGO.transform.localScale = new Vector3(1.1f, scale, 1.0f);
 
