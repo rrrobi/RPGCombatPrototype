@@ -12,14 +12,32 @@ public class CombatManager : MonoBehaviour {
     private int FriendlyMonstersNum;
     [SerializeField]
     private int EnemyMonstersNum;
+    [SerializeField]
+    GameObject MonsterGOTemplate;
 
-	// Use this for initialization
-	void Start () {
+    Dictionary<string, Sprite> monsterSprites;
+
+    // Use this for initialization
+    void Start () {
+
+        // Load Monster Sprites
+        monsterSprites = new Dictionary<string, Sprite>();
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Monsters/");
+        Debug.Log("LOADED RESOURCE: ");
+        foreach (Sprite s in sprites)
+        {
+            Debug.Log(s);
+            monsterSprites.Add(s.name, s);
+        }
+
+
         // Spawn Enemy monsters
         AddEnemyMonsters();
 
         // Spawn Players Monsters
         AddPlayerMonsters();
+
+        
 
     }
 	
@@ -40,8 +58,8 @@ public class CombatManager : MonoBehaviour {
     {
         for (int i = 0; i < EnemyMonstersNum; i++)
         {
-            GameObject monsterGO = new GameObject();
-            //monsterGO = Instantiate("Monster", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+            GameObject monsterGO = Instantiate(MonsterGOTemplate, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+            monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
         }
     }
 

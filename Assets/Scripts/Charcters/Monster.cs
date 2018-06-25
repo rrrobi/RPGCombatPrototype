@@ -15,7 +15,13 @@ public class Monster : MonoBehaviour {
 
     [SerializeField]
     Sprite monsterSprite;
+
     private SpriteRenderer MonsterSprite;
+
+    public void SetMonsterSprite(Sprite sprite)
+    {
+        monsterSprite = sprite;
+    }
 
     void Awake()
     {
@@ -27,11 +33,11 @@ public class Monster : MonoBehaviour {
 	void Start () {
         attackTimer = attackCD;
 
+        MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
         // Set Correct Monster sprite
-        //MonsterSprite = this.gameObject.GetComponent<SpriteRenderer>();
-        //MonsterSprite.sprite = monsterSprite;
-        //MonsterSprite.sortingLayerName = "Characters";
-        //this.gameObject.AddComponent<SpriteRenderer>()
+       // MonsterSprite = this.gameObject.GetComponent<SpriteRenderer>();
+        MonsterSprite.sprite = monsterSprite;
+        MonsterSprite.sortingLayerName = "Characters";
     }
 	
 	// Update is called once per frame
