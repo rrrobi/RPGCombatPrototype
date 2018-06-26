@@ -66,14 +66,27 @@ public class CombatManager : MonoBehaviour {
     void AddPlayerMonsters()
     {
         // get number of Monster slots available
+        slotList = new List<GameObject>();
+        foreach (Transform child in FriendlyMonsterSlots.transform)
+        {
+            slotList.Add(child.gameObject);
+        }
 
         // get number of monsters on this team
-
         // Check theres room for all of them
+        // spawn each monster, unless there are more monsters than available slots.
+        int numToSpawn = slotList.Count;
+        if (FriendlyMonstersNum <= slotList.Count)
+            numToSpawn = FriendlyMonstersNum;
 
         // for each Monster 
-
+        for (int i = 0; i < numToSpawn; i++)
+        {
             // Instaniate GO, Assign location of next available monster slot
+            GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform) as GameObject;
+            monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterBackBlue"]);
+        }
+        
     }
 
     void AddEnemyMonsters()
@@ -84,14 +97,15 @@ public class CombatManager : MonoBehaviour {
             slotList.Add(child.gameObject);
         }
 
+        // spawn each monster, unless there are more monsters than available slots.
+        int numToSpawn = slotList.Count;
         if (EnemyMonstersNum <= slotList.Count)
-        {
+            numToSpawn = EnemyMonstersNum;
 
-            for (int i = 0; i < EnemyMonstersNum; i++)
-            {
-                GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position/* new Vector3(0.0f, 0.0f, 0.0f)*/, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
-                monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
-            }
+        for (int i = 0; i < numToSpawn; i++)
+        {
+            GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
+            monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
         }
     }
 

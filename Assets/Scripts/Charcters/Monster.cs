@@ -9,7 +9,7 @@ public class Monster : MonoBehaviour {
     GameObject SpeedBarGO;
 
     [SerializeField]
-    float attackCD = 10;
+    float attackCD;
     [SerializeField]
     float attackTimer;
 
