@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CombatManager : MonoBehaviour {
 
@@ -11,11 +12,32 @@ public class CombatManager : MonoBehaviour {
     [SerializeField]
     private int FriendlyMonstersNum;
     [SerializeField]
+    private GameObject FriendlyTeamGO;
+    [SerializeField]
+    private GameObject FriendlyMonsterSlots;
+    [SerializeField]    
     private int EnemyMonstersNum;
+    [SerializeField]
+    private GameObject EnemyTeamGO;
+    [SerializeField]
+    private GameObject EnemyMonsterSlots;
+
     [SerializeField]
     GameObject MonsterGOTemplate;
 
     Dictionary<string, Sprite> monsterSprites;
+
+    public List<GameObject> slotList = new List<GameObject>();
+
+
+    void Awake()
+    {
+        Assert.IsNotNull(FriendlyTeamGO);
+        Assert.IsNotNull(FriendlyMonsterSlots);
+        Assert.IsNotNull(EnemyTeamGO);
+        Assert.IsNotNull(EnemyMonsterSlots);
+        Assert.IsNotNull(MonsterGOTemplate);
+    }
 
     // Use this for initialization
     void Start () {
@@ -56,10 +78,20 @@ public class CombatManager : MonoBehaviour {
 
     void AddEnemyMonsters()
     {
-        for (int i = 0; i < EnemyMonstersNum; i++)
+        slotList = new List<GameObject>();
+        foreach (Transform child in EnemyMonsterSlots.transform)
         {
-            GameObject monsterGO = Instantiate(MonsterGOTemplate, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-            monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
+            slotList.Add(child.gameObject);
+        }
+
+        if (EnemyMonstersNum <= slotList.Count)
+        {
+
+            for (int i = 0; i < EnemyMonstersNum; i++)
+            {
+                GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position/* new Vector3(0.0f, 0.0f, 0.0f)*/, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
+                monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
+            }
         }
     }
 
