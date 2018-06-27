@@ -22,6 +22,10 @@ public class Monster : MonoBehaviour {
     {
         monsterSprite = sprite;
     }
+    public Sprite GetMonsterSprite()
+    {
+        return monsterSprite;
+    }
 
     void Awake()
     {
@@ -68,6 +72,41 @@ public class Monster : MonoBehaviour {
 
     private void MonsterAttack()
     {
-        Debug.Log("Monster Attacks!");
+        // get team this monster is on
+        GameObject myTeam = this.gameObject.transform.parent.gameObject;
+        // get opposing team
+        GameObject enemyTeam;
+        switch (myTeam.tag)
+        {
+            case "FriendlyTeam":
+                enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
+                break;
+            case "EnemyTeam":
+                enemyTeam = GameObject.FindGameObjectWithTag("FriendlyTeam");
+                break;
+            default:
+                enemyTeam = myTeam;
+                Debug.LogError("Issue with team tags, this shouldn't happen!");
+                break;
+        }
+
+        // get list of enemies
+        List<GameObject> mobList = new List<GameObject>();
+        foreach (Transform child in enemyTeam.transform)
+        {
+            mobList.Add(child.gameObject);
+        }
+        // attack 1st enemy in list
+        if (mobList.Count > 0)
+        {
+            Debug.Log(this.name + " Attacks " + mobList[0].name);
+            mobList[0].GetComponent<Monster>().TakeAttack(10);
+        }
+
+    }
+
+    public void TakeAttack(int damage)
+    {
+        Debug.Log(this.name + " got hit for " + damage);
     }
 }

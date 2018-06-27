@@ -85,6 +85,8 @@ public class CombatManager : MonoBehaviour {
             // Instaniate GO, Assign location of next available monster slot
             GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform) as GameObject;
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterBackBlue"]);
+            // Set name of monsters, use sprite name and number (starts from 1)
+            monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
         }
         
     }
@@ -106,6 +108,8 @@ public class CombatManager : MonoBehaviour {
         {
             GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
+            // Set name of monsters, use sprite name and number (starts from 1)
+            monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
         }
     }
 
