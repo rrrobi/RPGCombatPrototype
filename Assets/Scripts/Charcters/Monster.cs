@@ -16,6 +16,9 @@ public class Monster : MonoBehaviour {
     [SerializeField]
     Sprite monsterSprite;
 
+    GameObject myTeam;
+    GameObject enemyTeam;
+
     private SpriteRenderer MonsterSprite;
 
     public void SetMonsterSprite(Sprite sprite)
@@ -42,20 +45,45 @@ public class Monster : MonoBehaviour {
        // MonsterSprite = this.gameObject.GetComponent<SpriteRenderer>();
         MonsterSprite.sprite = monsterSprite;
         MonsterSprite.sortingLayerName = "Characters";
+
+        // Discove whcih teams are friend or foe
+        DiscoverTeams();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        // TODO...
+        // Change this code so that when a monster is waiting in the action Queue, 
+        // its attack times does not continue to count down past zero
         attackTimer -= Time.deltaTime;
         ScaleSpeedBar();
         if (attackTimer <= 0)
         {
-            MonsterAttack();
-            attackTimer = attackCD;
+            TakeTurn();            
         }
 
 	}
+
+    void DiscoverTeams()
+    {
+        // get team this monster is on
+        myTeam = this.gameObject.transform.parent.gameObject;
+        // get opposing team
+        switch (myTeam.tag)
+        {
+            case "FriendlyTeam":
+                enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
+                break;
+            case "EnemyTeam":
+                enemyTeam = GameObject.FindGameObjectWithTag("FriendlyTeam");
+                break;
+            default:
+                enemyTeam = myTeam;
+                Debug.LogError("Issue with team tags, this shouldn't happen!");
+                break;
+        }
+    }
 
     private void ScaleSpeedBar()
     {
@@ -70,39 +98,36 @@ public class Monster : MonoBehaviour {
         SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
     }
 
-    private void MonsterAttack()
+    // TODO....
+    // Split AI/Player attack code
+    private void TakeTurn()
     {
-        // get team this monster is on
-        GameObject myTeam = this.gameObject.transform.parent.gameObject;
-        // get opposing team
-        GameObject enemyTeam;
-        switch (myTeam.tag)
-        {
-            case "FriendlyTeam":
-                enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
-                break;
-            case "EnemyTeam":
-                enemyTeam = GameObject.FindGameObjectWithTag("FriendlyTeam");
-                break;
-            default:
-                enemyTeam = myTeam;
-                Debug.LogError("Issue with team tags, this shouldn't happen!");
-                break;
-        }
+        if (myTeam.tag == "EnemyTeam")
+            MonsterAttack();
+        else
+            CombatManager.Instance.AddToActionQueue(this.gameObject);
+    }
 
+    private void MonsterAttack()
+    {        
         // get list of enemies
         List<GameObject> mobList = new List<GameObject>();
         foreach (Transform child in enemyTeam.transform)
         {
             mobList.Add(child.gameObject);
         }
-        // attack 1st enemy in list
+        // attack Random enemy in list - AI (temp solution)
+        // TODO....
+        // Split AI/Player attack code
         if (mobList.Count > 0)
         {
-            Debug.Log(this.name + " Attacks " + mobList[0].name);
-            mobList[0].GetComponent<Monster>().TakeAttack(10);
+            int targetIndex = Random.Range(0, mobList.Count);
+
+            Debug.Log(this.name + " Attacks " + mobList[targetIndex].name);
+            mobList[targetIndex].GetComponent<Monster>().TakeAttack(10);
         }
 
+        attackTimer = attackCD;
     }
 
     public void TakeAttack(int damage)

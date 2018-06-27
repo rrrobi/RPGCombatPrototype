@@ -5,10 +5,13 @@ using UnityEngine.Assertions;
 
 public class CombatManager : MonoBehaviour {
 
-    // Later
+    // Later - unused
     List<Monster> PlayerMonsters;
     List<Monster> EnemyMonsters;
 
+    public static CombatManager Instance { get; protected set; }
+
+    // Monster Setup Objects
     [SerializeField]
     private int FriendlyMonstersNum;
     [SerializeField]
@@ -24,11 +27,17 @@ public class CombatManager : MonoBehaviour {
 
     [SerializeField]
     GameObject MonsterGOTemplate;
-
     Dictionary<string, Sprite> monsterSprites;
 
-    public List<GameObject> slotList = new List<GameObject>();
+    // Battle Objects
+    Queue<GameObject> actionQueue = new Queue<GameObject>();
 
+    void OnEnable()
+    {
+        if (Instance != null)
+            Debug.LogError("There should never be more than one CombatManager.");
+        Instance = this;
+    }
 
     void Awake()
     {
@@ -66,7 +75,7 @@ public class CombatManager : MonoBehaviour {
     void AddPlayerMonsters()
     {
         // get number of Monster slots available
-        slotList = new List<GameObject>();
+        List<GameObject> slotList = new List<GameObject>();
         foreach (Transform child in FriendlyMonsterSlots.transform)
         {
             slotList.Add(child.gameObject);
@@ -93,7 +102,7 @@ public class CombatManager : MonoBehaviour {
 
     void AddEnemyMonsters()
     {
-        slotList = new List<GameObject>();
+        List<GameObject> slotList = new List<GameObject>();
         foreach (Transform child in EnemyMonsterSlots.transform)
         {
             slotList.Add(child.gameObject);
@@ -111,6 +120,22 @@ public class CombatManager : MonoBehaviour {
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
         }
+    }
+
+    public void AddToActionQueue(GameObject monster)
+    {
+        actionQueue.Enqueue(monster);
+
+        // Temp
+        foreach (var current in actionQueue)
+        {
+            Debug.Log(current.name + " joined the action queue");
+        }
+    }
+
+    public GameObject TakeFromActionQueue()
+    {
+        return actionQueue.Dequeue();
     }
 
 	// Update is called once per frame
