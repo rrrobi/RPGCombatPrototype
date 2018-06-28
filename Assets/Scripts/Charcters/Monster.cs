@@ -56,14 +56,14 @@ public class Monster : MonoBehaviour {
         // TODO...
         // Change this code so that when a monster is waiting in the action Queue, 
         // its attack times does not continue to count down past zero
-        attackTimer -= Time.deltaTime;
-        ScaleSpeedBar();
+        attackTimer -= Time.deltaTime;        
         if (attackTimer <= 0)
         {
             TakeTurn();            
         }
-
-	}
+        else
+            ScaleSpeedBar();
+    }
 
     void DiscoverTeams()
     {
