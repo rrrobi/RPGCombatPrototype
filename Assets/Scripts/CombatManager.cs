@@ -124,12 +124,12 @@ public class CombatManager : MonoBehaviour {
 
     public void AddToActionQueue(GameObject monster)
     {
-        actionQueue.Enqueue(monster);
-
-        // Temp
-        foreach (var current in actionQueue)
+        if (!actionQueue.Contains(monster))
         {
-            Debug.Log(current.name + " joined the action queue");
+            actionQueue.Enqueue(monster);
+
+            // Temp
+            Debug.Log(monster.name + " joined the action queue");
         }
     }
 

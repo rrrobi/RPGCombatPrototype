@@ -40,29 +40,23 @@ public class Monster : MonoBehaviour {
 	void Start () {
         attackTimer = attackCD;
 
-        MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
-        // Set Correct Monster sprite
-       // MonsterSprite = this.gameObject.GetComponent<SpriteRenderer>();
-        MonsterSprite.sprite = monsterSprite;
-        MonsterSprite.sortingLayerName = "Characters";
+        // Set this monster's Sprite
+        AssignSprite();
+
+        // Set monster's colider, (Make it clickable)
+        CircleCollider2D col = this.gameObject.AddComponent<CircleCollider2D>();
+        col.radius = 1.0f;
 
         // Discove whcih teams are friend or foe
         DiscoverTeams();
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void AssignSprite()
     {
-        // TODO...
-        // Change this code so that when a monster is waiting in the action Queue, 
-        // its attack times does not continue to count down past zero
-        attackTimer -= Time.deltaTime;        
-        if (attackTimer <= 0)
-        {
-            TakeTurn();            
-        }
-        else
-            ScaleSpeedBar();
+        MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
+        // Set Correct Monster sprite
+        MonsterSprite.sprite = monsterSprite;
+        MonsterSprite.sortingLayerName = "Characters";
     }
 
     void DiscoverTeams()
@@ -83,6 +77,21 @@ public class Monster : MonoBehaviour {
                 Debug.LogError("Issue with team tags, this shouldn't happen!");
                 break;
         }
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+        // TODO...
+        // Change this code so that when a monster is waiting in the action Queue, 
+        // its attack times does not continue to count down past zero
+        attackTimer -= Time.deltaTime;        
+        if (attackTimer <= 0)
+        {
+            TakeTurn();            
+        }
+        else
+            ScaleSpeedBar();
     }
 
     private void ScaleSpeedBar()
