@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class TouchInputController : MonoBehaviour {
 
+    //testing an idea
+    enum inputState
+    {
+        Nuetral,
+        EnemySelected,
+        FriendlySelected
+    };
+
 	// Use this for initialization
 	void Start () {
 		
