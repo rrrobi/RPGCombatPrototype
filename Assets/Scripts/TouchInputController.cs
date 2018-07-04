@@ -12,6 +12,8 @@ public class TouchInputController : MonoBehaviour {
         FriendlySelected
     };
 
+    public GameObject SelectCursor;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -36,6 +38,7 @@ public class TouchInputController : MonoBehaviour {
 
         if (hit)
         {
+            Instantiate(SelectCursor, hit.transform.position, Quaternion.identity);
             Debug.Log("Clicked on: " + hit.transform.name);
         }
 
