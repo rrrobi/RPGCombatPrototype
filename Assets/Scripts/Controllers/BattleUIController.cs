@@ -36,8 +36,6 @@ public class BattleUIController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InitialFriendlyPanelSetup();
-        InitialFriendlyPanelSetup();
-        InitialFriendlyPanelSetup();
 
         InitialActionPanelSetup();
 
@@ -51,19 +49,18 @@ public class BattleUIController : MonoBehaviour {
     void InitialFriendlyPanelSetup()
     {
         // foreach Character on the friendly side
-
-        // TODO.... Must agg GO for whcih ever Charcater is being added
-        AddToFriendlyPanel();
-
+        foreach (var characterKVP in CombatManager.Instance.GetPlayerCharacterList)
+        {
+            AddToFriendlyPanel(characterKVP.Value);
+        }
     }    
 
-    // TODO.... Must agg GO for whcih ever Charcater is being added
-    void AddToFriendlyPanel()
+    void AddToFriendlyPanel(GameObject character)
     {
         // Instantiate button
         GameObject buttonGO = Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = "Blue Monster 1";
+        buttonGO.name = character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
 
         foreach (var text in buttonTexts)
@@ -71,7 +68,7 @@ public class BattleUIController : MonoBehaviour {
             switch (text.name)
             {
                 case "NameText":
-                    text.text = "Blue Monster 1";
+                    text.text = character.name.Replace("_", " ");
                     break;
                 case "HPText":
                     text.text = "HP: 9999/10000";
@@ -117,23 +114,20 @@ public class BattleUIController : MonoBehaviour {
     void InitialEnemyPanelSetup()
     {
         // foreach Character on the Enemy side
-
-        // TODO.... Must agg GO for which ever enemy is being added
-        AddToEnemyPanel("Redmonster 1");
-        AddToEnemyPanel("Redmonster 2");
-        AddToEnemyPanel("Redmonster 3");
-
+        foreach (var characterKVP in CombatManager.Instance.GetEnemyCharacterList)
+        {
+            AddToEnemyPanel(characterKVP.Value);
+        }
     }
 
-    // TODO.... Must agg GO for whcih ever Charcater is being added
-    void AddToEnemyPanel(string buttonName)
+    void AddToEnemyPanel(GameObject character)
     {
         // Instantiate button
-        GameObject buttonGO = Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+        GameObject buttonGO = Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = buttonName + " Button";
+        buttonGO.name = character.name + " Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
-        buttonText.text = buttonName;
+        buttonText.text = character.name;
 
         // TODO...
         // Provide instructions for what each button does

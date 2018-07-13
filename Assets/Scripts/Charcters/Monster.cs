@@ -61,6 +61,9 @@ public class Monster : MonoBehaviour {
 
     void DiscoverTeams()
     {
+        // TODO... refactor i don't like how this decides which team its on, and how it selects its target
+        // should use setup from Combat manager instead
+
         // get team this monster is on
         myTeam = this.gameObject.transform.parent.gameObject;
         // get opposing team

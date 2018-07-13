@@ -6,8 +6,36 @@ using UnityEngine.Assertions;
 public class CombatManager : MonoBehaviour {
 
     // Later - unused
-    List<Monster> PlayerMonsters;
-    List<Monster> EnemyMonsters;
+    Dictionary<string, GameObject> playerCharacters;
+    Dictionary<string, GameObject> enemyCharacters;
+
+    public Dictionary<string, GameObject> GetPlayerCharacterList { get{  return playerCharacters; }  }
+    public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }
+    public GameObject GetPlayerCharacterByName(string name)
+    {
+        return playerCharacters[name];
+    }
+    public GameObject GetEnemyCharacterByName(string name)
+    {
+        return enemyCharacters[name];
+    }
+    private void AddToPlayerCharacterList(GameObject character)
+    {
+        playerCharacters.Add(character.name, character);
+    }
+    private void AddToEnemyCharacterList(GameObject character)
+    {
+        enemyCharacters.Add(character.name, character);
+    }
+    private void RemoveFromPlayerCharacterList(GameObject character)
+    {
+        playerCharacters.Remove(character.name);
+    }
+    private void RemoveFromEnemyCharacterList(GameObject character)
+    {
+        enemyCharacters.Remove(character.name);
+    }
+
 
     public static CombatManager Instance { get; protected set; }
 
@@ -50,6 +78,8 @@ public class CombatManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        playerCharacters = new Dictionary<string, GameObject>();
+        enemyCharacters = new Dictionary<string, GameObject>();
 
         // Load Monster Sprites
         monsterSprites = new Dictionary<string, Sprite>();
@@ -96,6 +126,9 @@ public class CombatManager : MonoBehaviour {
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterBackBlue"]);
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
+
+            // add to PlayerCharacterList
+            playerCharacters.Add(monsterGO.name, monsterGO);
         }
         
     }
@@ -119,6 +152,9 @@ public class CombatManager : MonoBehaviour {
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
+
+            // Add to EnemyCharacterList
+            enemyCharacters.Add(monsterGO.name, monsterGO);
         }
     }
 
