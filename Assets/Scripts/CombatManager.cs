@@ -126,6 +126,11 @@ public class CombatManager : MonoBehaviour {
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterBackBlue"]);
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
+            // Set Monster's ability
+            Attack attack = new Attack("Slash", 10);
+            Attack[] abilities = new Attack[1];
+            abilities[0] = attack;
+            monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // add to PlayerCharacterList
             playerCharacters.Add(monsterGO.name, monsterGO);
@@ -152,6 +157,11 @@ public class CombatManager : MonoBehaviour {
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
+            // Set Monster's ability
+            Attack attack = new Attack("Slash", 10);
+            Attack[] abilities = new Attack[1];
+            abilities[0] = attack;
+            monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // Add to EnemyCharacterList
             enemyCharacters.Add(monsterGO.name, monsterGO);

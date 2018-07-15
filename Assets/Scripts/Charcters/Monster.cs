@@ -12,6 +12,9 @@ public class Monster : MonoBehaviour {
     float attackCD;
     [SerializeField]
     float attackTimer;
+    int numOfAbilities = 1;
+    Attack[] Abilities;
+    public Attack[] GetAbilities { get { return Abilities; } }
 
     [SerializeField]
     Sprite monsterSprite;
@@ -29,6 +32,15 @@ public class Monster : MonoBehaviour {
     {
         return monsterSprite;
     }
+    public void SetMonsterAbilities(Attack[] abilities)
+    {
+        Abilities = new Attack[abilities.Length];
+
+        for (int i = 0; i < abilities.Length; i++)
+        {
+            Abilities[i] = abilities[i];
+        }
+    }
 
     void Awake()
     {
@@ -38,7 +50,7 @@ public class Monster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        attackTimer = attackCD;
+        attackTimer = attackCD;        
 
         // Set this monster's Sprite
         AssignSprite();
@@ -101,7 +113,6 @@ public class Monster : MonoBehaviour {
     {
         float timePast = attackCD - attackTimer;
         float scale = (timePast / attackCD);
-        //Debug.Log("CD: " + attackCD + ", time past: " + timePast + ", scale: " + scale);
 
         SpeedBarGO.transform.localScale = new Vector3(1.1f, scale, 1.0f);
 
