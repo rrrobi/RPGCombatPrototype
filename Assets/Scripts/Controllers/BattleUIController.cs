@@ -37,8 +37,6 @@ public class BattleUIController : MonoBehaviour {
     void Start () {
         InitialFriendlyPanelSetup();
 
-        InitialActionPanelSetup();
-
         InitialEnemyPanelSetup();
     }
 	
@@ -63,6 +61,7 @@ public class BattleUIController : MonoBehaviour {
         buttonGO.name = character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
 
+        buttonGO.GetComponent<Button>().onClick.AddListener(CharcterSelectbuttonPressed);
         foreach (var text in buttonTexts)
         {
             switch (text.name)
@@ -82,34 +81,6 @@ public class BattleUIController : MonoBehaviour {
         // TODO... For when a charcter is killed and needs to be removed from a panel
         // May be reusable for the other panels
     }
-
-
-
-    void InitialActionPanelSetup()
-    {
-        // TODO...
-        // to be dynamic for each characters abilities
-
-        AddToActionPanel("Attack");
-        AddToActionPanel("Defend");
-        AddToActionPanel("Heal");
-        AddToActionPanel("Skip");
-
-    }
-
-    void AddToActionPanel(string buttonName)
-    {
-        // Instantiate button
-        GameObject buttonGO = Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
-        // Set buttons varables
-        buttonGO.name = buttonName + " Button";
-        Text buttonText = buttonGO.GetComponentInChildren<Text>();
-        buttonText.text = buttonName;
-
-        // TODO...
-        // Provide instructions for what each button does
-    }
-
 
     void InitialEnemyPanelSetup()
     {
@@ -133,11 +104,53 @@ public class BattleUIController : MonoBehaviour {
         // Provide instructions for what each button does
     }
 
+    void ActionPanelSetup(GameObject character)
+    {
+        // TODO...
+        // to be dynamic for each characters abilities
 
+        // Clear existing panel
+
+
+        // Get that characters abilities
+        Attack[] abilities = character.GetComponent<Monster>().GetAbilities;
+
+        // Add panel for each ability
+        for (int i = 0; i < abilities.Length; i++)
+        {
+            AddToActionPanel(abilities[i].GetAttackName);
+        }
+
+        //AddToActionPanel("Attack");
+        //AddToActionPanel("Defend");
+        //AddToActionPanel("Heal");
+        //AddToActionPanel("Skip");
+
+    }
+
+    void AddToActionPanel(string buttonName)
+    {
+        // Instantiate button
+        GameObject buttonGO = Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
+        // Set buttons varables
+        buttonGO.name = buttonName + " Button";
+        Text buttonText = buttonGO.GetComponentInChildren<Text>();
+        buttonText.text = buttonName;
+
+        // TODO...
+        // Provide instructions for what each button does
+    }
 
     public void CharcterSelectbuttonPressed()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(buttonClicked);
+        buttonClicked = buttonClicked.Replace("_Button", "");
+        Debug.Log(buttonClicked);
+
+
+        // Create action panel for this character
+        ActionPanelSetup(CombatManager.Instance.GetPlayerCharacterByName(buttonClicked));
     }
 
     public void ActionSelectbuttonPressed()

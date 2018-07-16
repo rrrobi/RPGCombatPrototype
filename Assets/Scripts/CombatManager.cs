@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 public class CombatManager : MonoBehaviour {
 
-    // Later - unused
+    // Character lists, and function to maintain these lists
     Dictionary<string, GameObject> playerCharacters;
     Dictionary<string, GameObject> enemyCharacters;
 
@@ -127,9 +127,11 @@ public class CombatManager : MonoBehaviour {
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
             // Set Monster's ability
-            Attack attack = new Attack("Slash", 10);
-            Attack[] abilities = new Attack[1];
-            abilities[0] = attack;
+            Attack slash = new Attack("Slash", 10);
+            Attack stab = new Attack("Stab", 10);
+            Attack[] abilities = new Attack[2];
+            abilities[0] = slash;
+            abilities[1] = stab;
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // add to PlayerCharacterList
@@ -158,9 +160,11 @@ public class CombatManager : MonoBehaviour {
             // Set name of monsters, use sprite name and number (starts from 1)
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
             // Set Monster's ability
-            Attack attack = new Attack("Slash", 10);
-            Attack[] abilities = new Attack[1];
-            abilities[0] = attack;
+            Attack slash = new Attack("Slash", 10);
+            Attack stab = new Attack("Stab", 10);
+            Attack[] abilities = new Attack[2];
+            abilities[0] = slash;
+            abilities[1] = stab;
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // Add to EnemyCharacterList

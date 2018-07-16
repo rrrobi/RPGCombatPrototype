@@ -12,7 +12,7 @@ public class Monster : MonoBehaviour {
     float attackCD;
     [SerializeField]
     float attackTimer;
-    int numOfAbilities = 1;
+    int numOfAbilities = 2;
     Attack[] Abilities;
     public Attack[] GetAbilities { get { return Abilities; } }
 
