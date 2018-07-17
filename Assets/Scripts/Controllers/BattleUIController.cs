@@ -14,6 +14,12 @@ public class BattleUIController : MonoBehaviour {
     [SerializeField]
     GameObject EnemyPanel;
 
+    // for the GoBack button - not implemented yet
+    [SerializeField]
+    GameObject ActivePanel;
+    [SerializeField]
+    GameObject PreviousPanel;
+
     // Look into better way of doing this, 
     // I dont like having to have all these buttons added in this way
     [SerializeField]
@@ -110,7 +116,7 @@ public class BattleUIController : MonoBehaviour {
         // to be dynamic for each characters abilities
 
         // Clear existing panel
-
+        ClearActionPanel();
 
         // Get that characters abilities
         Attack[] abilities = character.GetComponent<Monster>().GetAbilities;
@@ -137,8 +143,16 @@ public class BattleUIController : MonoBehaviour {
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
         buttonText.text = buttonName;
 
-        // TODO...
         // Provide instructions for what each button does
+        buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
+    }
+
+    void ClearActionPanel()
+    {
+        foreach (Transform child in ActionPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     public void CharcterSelectbuttonPressed()
@@ -150,12 +164,19 @@ public class BattleUIController : MonoBehaviour {
 
 
         // Create action panel for this character
+        ActionPanel.SetActive(true);
         ActionPanelSetup(CombatManager.Instance.GetPlayerCharacterByName(buttonClicked));
     }
 
     public void ActionSelectbuttonPressed()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(buttonClicked);
+
+        // deactivate action panel
+        ActionPanel.SetActive(false);
+        // Activate Enemy panel
+        EnemyPanel.SetActive(true);
     }
 
     public void EnemySelectbuttonPressed()
