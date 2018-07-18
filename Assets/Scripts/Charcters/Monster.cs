@@ -13,8 +13,12 @@ public class Monster : MonoBehaviour {
     [SerializeField]
     float attackTimer;
     int numOfAbilities = 2;
-    Attack[] Abilities;
-    public Attack[] GetAbilities { get { return Abilities; } }
+    Dictionary <string, Attack> Abilities;
+    public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
+    public Attack GetAbilityByName(string name)
+    {
+        return Abilities[name];
+    }
 
     [SerializeField]
     Sprite monsterSprite;
@@ -32,13 +36,12 @@ public class Monster : MonoBehaviour {
     {
         return monsterSprite;
     }
-    public void SetMonsterAbilities(Attack[] abilities)
+    public void SetMonsterAbilities(List<Attack> abilities)
     {
-        Abilities = new Attack[abilities.Length];
-
-        for (int i = 0; i < abilities.Length; i++)
+        Abilities = new Dictionary<string, Attack>();
+        for (int i = 0; i < abilities.Count; i++)
         {
-            Abilities[i] = abilities[i];
+            Abilities.Add(abilities[i].GetAttackName, abilities[i]);
         }
     }
 

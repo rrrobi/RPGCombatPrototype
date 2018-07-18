@@ -29,6 +29,10 @@ public class BattleUIController : MonoBehaviour {
     [SerializeField]
     GameObject EnemyButtonTemplate;
 
+    // Selected action - may move this to Combatmanager
+    GameObject SelectedCharacter;
+    Attack SelectedAttack;
+
     void Awake()
     {
         Assert.IsNotNull(FriendlyPanel);
@@ -102,12 +106,12 @@ public class BattleUIController : MonoBehaviour {
         // Instantiate button
         GameObject buttonGO = Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.name + " Button";
+        buttonGO.name = character.name + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
         buttonText.text = character.name;
 
-        // TODO...
         // Provide instructions for what each button does
+        buttonGO.GetComponent<Button>().onClick.AddListener(EnemySelectbuttonPressed);
     }
 
     void ActionPanelSetup(GameObject character)
@@ -119,13 +123,17 @@ public class BattleUIController : MonoBehaviour {
         ClearActionPanel();
 
         // Get that characters abilities
-        Attack[] abilities = character.GetComponent<Monster>().GetAbilities;
+        Dictionary<string, Attack> abilities = character.GetComponent<Monster>().GetAbilities;
 
         // Add panel for each ability
-        for (int i = 0; i < abilities.Length; i++)
+        foreach (var kvp in abilities)
         {
-            AddToActionPanel(abilities[i].GetAttackName);
+            AddToActionPanel(kvp.Value.GetAttackName);
         }
+        //for (int i = 0; i < abilities.Length; i++)
+        //{
+        //    AddToActionPanel(abilities[i].GetAttackName);
+        //}
 
         //AddToActionPanel("Attack");
         //AddToActionPanel("Defend");
@@ -139,7 +147,7 @@ public class BattleUIController : MonoBehaviour {
         // Instantiate button
         GameObject buttonGO = Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = buttonName + " Button";
+        buttonGO.name = buttonName + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
         buttonText.text = buttonName;
 
@@ -162,16 +170,22 @@ public class BattleUIController : MonoBehaviour {
         buttonClicked = buttonClicked.Replace("_Button", "");
         Debug.Log(buttonClicked);
 
+        // record which freindly character has been selected
+        SelectedCharacter = CombatManager.Instance.GetPlayerCharacterByName(buttonClicked);
 
         // Create action panel for this character
         ActionPanel.SetActive(true);
-        ActionPanelSetup(CombatManager.Instance.GetPlayerCharacterByName(buttonClicked));
+        ActionPanelSetup(SelectedCharacter);
     }
 
     public void ActionSelectbuttonPressed()
     {
         string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(buttonClicked);
+        buttonClicked = buttonClicked.Replace("_Button", "");
+
+        // record which action has been chosen
+        SelectedAttack = SelectedCharacter.GetComponent<Monster>().GetAbilityByName(buttonClicked);
 
         // deactivate action panel
         ActionPanel.SetActive(false);
@@ -181,6 +195,16 @@ public class BattleUIController : MonoBehaviour {
 
     public void EnemySelectbuttonPressed()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log(buttonClicked);
+        buttonClicked = buttonClicked.Replace("_Button", "");
+        Debug.Log(buttonClicked);
+
+        // Currently this is only used to selct target for selected action
+        // Carry out selected action upon this target
+        GameObject enemy = CombatManager.Instance.GetPlayerCharacterByName(buttonClicked);//.GetComponent<Monster>().TakeAttack(SelectedAttack.GetDamage);
+
+        // Deactivate Enemy panel
+        EnemyPanel.SetActive(false);
     }
 }

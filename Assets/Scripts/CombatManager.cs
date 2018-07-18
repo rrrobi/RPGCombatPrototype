@@ -129,9 +129,9 @@ public class CombatManager : MonoBehaviour {
             // Set Monster's ability
             Attack slash = new Attack("Slash", 10);
             Attack stab = new Attack("Stab", 10);
-            Attack[] abilities = new Attack[2];
-            abilities[0] = slash;
-            abilities[1] = stab;
+            List<Attack> abilities = new List<Attack>();
+            abilities.Add(slash);
+            abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // add to PlayerCharacterList
@@ -162,9 +162,9 @@ public class CombatManager : MonoBehaviour {
             // Set Monster's ability
             Attack slash = new Attack("Slash", 10);
             Attack stab = new Attack("Stab", 10);
-            Attack[] abilities = new Attack[2];
-            abilities[0] = slash;
-            abilities[1] = stab;
+            List<Attack> abilities = new List<Attack>();
+            abilities.Add(slash);
+            abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
             // Add to EnemyCharacterList
