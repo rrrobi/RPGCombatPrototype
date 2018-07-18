@@ -128,7 +128,7 @@ public class CombatManager : MonoBehaviour {
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
             // Set Monster's ability
             Attack slash = new Attack("Slash", 10);
-            Attack stab = new Attack("Stab", 10);
+            Attack stab = new Attack("Stab", 15);
             List<Attack> abilities = new List<Attack>();
             abilities.Add(slash);
             abilities.Add(stab);
@@ -161,7 +161,7 @@ public class CombatManager : MonoBehaviour {
             monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
             // Set Monster's ability
             Attack slash = new Attack("Slash", 10);
-            Attack stab = new Attack("Stab", 10);
+            Attack stab = new Attack("Stab", 15);
             List<Attack> abilities = new List<Attack>();
             abilities.Add(slash);
             abilities.Add(stab);

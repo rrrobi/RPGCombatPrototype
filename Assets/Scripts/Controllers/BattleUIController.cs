@@ -29,6 +29,11 @@ public class BattleUIController : MonoBehaviour {
     [SerializeField]
     GameObject EnemyButtonTemplate;
 
+    // TODO... rethink this
+    // Holds whcih character button was pressed - I dont like this
+    // May change later
+    GameObject SelectedCharacterButton;
+
     // Selected action - may move this to Combatmanager
     GameObject SelectedCharacter;
     Attack SelectedAttack;
@@ -172,6 +177,7 @@ public class BattleUIController : MonoBehaviour {
 
         // record which freindly character has been selected
         SelectedCharacter = CombatManager.Instance.GetPlayerCharacterByName(buttonClicked);
+        SelectedCharacterButton = EventSystem.current.currentSelectedGameObject;
 
         // Create action panel for this character
         ActionPanel.SetActive(true);
@@ -202,9 +208,18 @@ public class BattleUIController : MonoBehaviour {
 
         // Currently this is only used to selct target for selected action
         // Carry out selected action upon this target
-        GameObject enemy = CombatManager.Instance.GetPlayerCharacterByName(buttonClicked);//.GetComponent<Monster>().TakeAttack(SelectedAttack.GetDamage);
-
+        SelectedCharacter.GetComponent<Monster>().UseAbilityOn(
+            SelectedAttack, 
+            CombatManager.Instance.GetEnemyCharacterByName(buttonClicked));
+        // Toggle the charcter button to non-interactable
+        ToggleButtonInteractable(SelectedCharacterButton, false);
+         
         // Deactivate Enemy panel
         EnemyPanel.SetActive(false);
+    }
+
+    private void ToggleButtonInteractable(GameObject button, bool setTo)
+    {
+        button.GetComponent<Button>().interactable = setTo;
     }
 }

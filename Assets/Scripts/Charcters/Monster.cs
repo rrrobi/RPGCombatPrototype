@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using System.Linq;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour {
 
@@ -131,7 +133,13 @@ public class Monster : MonoBehaviour {
         if (myTeam.tag == "EnemyTeam")
             MonsterAttack();
         else
+        {
+            // TODO... ReThink
+            // I HATE this
+            GameObject.Find(this.name + "_Button").GetComponent<Button>().interactable = true;
+
             CombatManager.Instance.AddToActionQueue(this.gameObject);
+        }
     }
 
     private void MonsterAttack()
@@ -148,10 +156,21 @@ public class Monster : MonoBehaviour {
         if (mobList.Count > 0)
         {
             int targetIndex = Random.Range(0, mobList.Count);
+            int abilityIndex = Random.Range(0, Abilities.Count);
 
-            Debug.Log(this.name + " Attacks " + mobList[targetIndex].name);
-            mobList[targetIndex].GetComponent<Monster>().TakeAttack(10);
+            UseAbilityOn(Abilities.ElementAt(abilityIndex).Value, mobList[targetIndex]);
+
+            //mobList[targetIndex].GetComponent<Monster>().TakeAttack(10);
         }
+
+        //attackTimer = attackCD;
+    }
+    
+    public void UseAbilityOn(Attack ability, GameObject target)
+    {
+        Debug.Log(this.gameObject.name + " Uses '" + ability.GetAttackName + "' On " + target.name);
+
+        target.GetComponent<Monster>().TakeAttack(ability.GetDamage);
 
         attackTimer = attackCD;
     }
