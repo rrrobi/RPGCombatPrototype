@@ -76,6 +76,7 @@ public class BattleUIController : MonoBehaviour {
         buttonGO.name = character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
 
+        buttonGO.GetComponent<Button>().interactable = false;
         buttonGO.GetComponent<Button>().onClick.AddListener(CharcterSelectbuttonPressed);
         foreach (var text in buttonTexts)
         {
