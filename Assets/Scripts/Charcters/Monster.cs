@@ -14,7 +14,10 @@ public class Monster : MonoBehaviour {
     float attackCD;
     [SerializeField]
     float attackTimer;
-    int numOfAbilities = 2;
+    [SerializeField]
+    int HP;
+    public int GetHP { get { return HP; } }
+   // int numOfAbilities = 2;
     Dictionary <string, Attack> Abilities;
     public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
     public Attack GetAbilityByName(string name)
