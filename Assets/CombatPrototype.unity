@@ -113,38 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &23445554
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 2124503865}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2124503866}
-  m_Layer: 0
-  m_Name: MonsterSlot (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &56225736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 721938626}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 721938627}
-  m_Layer: 0
-  m_Name: MonsterSlot (9)
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &164087925
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,38 +331,12 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 641943173}
   m_IsPrefabAsset: 0
---- !u!4 &208076125
+--- !u!4 &208076125 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 208076124}
-  m_GameObject: {fileID: 641943173}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.3, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1857731121}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &229277951
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 1518418570}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1518418571}
-  m_Layer: 0
-  m_Name: MonsterSlot (6)
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &238350832
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,38 +444,12 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 770052357}
   m_IsPrefabAsset: 0
---- !u!4 &349749979
+--- !u!4 &349749979 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 349749978}
-  m_GameObject: {fileID: 770052357}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.78, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1857731121}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &506112159
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 1305105085}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1305105086}
-  m_Layer: 0
-  m_Name: MonsterSlot (8)
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &538895730
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,22 +666,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &641943173
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 208076124}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 208076125}
-  m_Layer: 0
-  m_Name: MonsterSlot
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &721938626
 Prefab:
   m_ObjectHideFlags: 0
@@ -816,38 +716,12 @@ Prefab:
         type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 56225736}
   m_IsPrefabAsset: 0
---- !u!4 &721938627
+--- !u!4 &721938627 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 721938626}
-  m_GameObject: {fileID: 56225736}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.54, y: 2.02, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1009152381}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &770052357
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 349749978}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 349749979}
-  m_Layer: 0
-  m_Name: MonsterSlot (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &804244006
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,22 +815,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 804244006}
   m_CullTransparentMesh: 0
---- !u!1 &828477240
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 841256713}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 841256714}
-  m_Layer: 0
-  m_Name: MonsterSlot (7)
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &841256713
 Prefab:
   m_ObjectHideFlags: 0
@@ -1007,22 +865,12 @@ Prefab:
         type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 828477240}
   m_IsPrefabAsset: 0
---- !u!4 &841256714
+--- !u!4 &841256714 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 841256713}
-  m_GameObject: {fileID: 828477240}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.78, y: 2.02, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1009152381}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1009152380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,22 +904,6 @@ Transform:
   m_Father: {fileID: 1304842034}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1103169837
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 1322555616}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1322555617}
-  m_Layer: 0
-  m_Name: MonsterSlot (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &1197405649
 Prefab:
   m_ObjectHideFlags: 0
@@ -1117,38 +949,12 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 1492105735}
   m_IsPrefabAsset: 0
---- !u!4 &1197405650
+--- !u!4 &1197405650 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 1197405649}
-  m_GameObject: {fileID: 1492105735}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9, y: -4.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1857731121}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1220405148
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 1360290877}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1360290878}
-  m_Layer: 0
-  m_Name: MonsterSlot (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1276940482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,22 +1175,12 @@ Prefab:
         type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 506112159}
   m_IsPrefabAsset: 0
---- !u!4 &1305105086
+--- !u!4 &1305105086 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 1305105085}
-  m_GameObject: {fileID: 506112159}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.36, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1009152381}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1322555616
 Prefab:
   m_ObjectHideFlags: 0
@@ -1435,22 +1231,12 @@ Prefab:
         type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 1103169837}
   m_IsPrefabAsset: 0
---- !u!4 &1322555617
+--- !u!4 &1322555617 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 1322555616}
-  m_GameObject: {fileID: 1103169837}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.32, y: 4.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1009152381}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1360290877
 Prefab:
   m_ObjectHideFlags: 0
@@ -1496,38 +1282,12 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 1220405148}
   m_IsPrefabAsset: 0
---- !u!4 &1360290878
+--- !u!4 &1360290878 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 1360290877}
-  m_GameObject: {fileID: 1220405148}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.87, y: -4.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1857731121}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1492105735
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1369016264683098, guid: e51db02c62874f74caded89050491057,
-    type: 2}
-  m_PrefabInternal: {fileID: 1197405649}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1197405650}
-  m_Layer: 0
-  m_Name: MonsterSlot (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &1518418570
 Prefab:
   m_ObjectHideFlags: 0
@@ -1578,22 +1338,12 @@ Prefab:
         type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 229277951}
   m_IsPrefabAsset: 0
---- !u!4 &1518418571
+--- !u!4 &1518418571 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 1518418570}
-  m_GameObject: {fileID: 229277951}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.71, y: 4.26, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1009152381}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759051401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1405,46 @@ Transform:
   m_Father: {fileID: 1304842034}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1927337469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1927337471}
+  - component: {fileID: 1927337470}
+  m_Layer: 0
+  m_Name: CallbackEventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1927337470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1927337469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6450a6289eec7884b899a37f19a833d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1927337471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1927337469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 383.79184, y: 157.90508, z: 1.4909133}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2124503865
 Prefab:
   m_ObjectHideFlags: 0
@@ -1700,19 +1490,9 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51db02c62874f74caded89050491057, type: 2}
-  m_RootGameObject: {fileID: 23445554}
   m_IsPrefabAsset: 0
---- !u!4 &2124503866
+--- !u!4 &2124503866 stripped
 Transform:
-  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 4943802352466240, guid: e51db02c62874f74caded89050491057,
     type: 2}
   m_PrefabInternal: {fileID: 2124503865}
-  m_GameObject: {fileID: 23445554}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.36, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1857731121}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

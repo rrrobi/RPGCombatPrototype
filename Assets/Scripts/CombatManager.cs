@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using EventCallbacks;
 
 public class CombatManager : MonoBehaviour {
 
@@ -57,7 +58,7 @@ public class CombatManager : MonoBehaviour {
     GameObject MonsterGOTemplate;
     Dictionary<string, Sprite> monsterSprites;
 
-    // Battle Objects
+    // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
 
     void OnEnable()
@@ -98,7 +99,8 @@ public class CombatManager : MonoBehaviour {
         // Spawn Players Monsters
         AddPlayerMonsters();
 
-        
+        // Register Listeners
+        CallbackEventSystem.Current.RegisterListener(CallbackEventSystem.EVENT_TYPE.CHARACTER_DIED, OnUnitDied);
 
     }
 	
@@ -196,4 +198,37 @@ public class CombatManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    // may move this
+    #region EventCallbacks
+
+    void OnUnitDied(EventInfo eventInfo)
+    {
+        // Re-Cast the event into the correct type - look into alternatives
+        // TODO... not happy with this
+        DeathEventInfo deathEventInfo = (DeathEventInfo)eventInfo;
+        Debug.Log("Alerted to Character Death: " + deathEventInfo.UnitGO.name);
+
+        if (deathEventInfo.UnitGO.transform.parent.gameObject.tag == "FriendlyTeam")
+        {
+            // Dead character is freindly
+            // Update Dictionary of player charcters
+            RemoveFromPlayerCharacterList(deathEventInfo.UnitGO);
+            // Update UI
+            
+            // Remove object
+
+        }
+        else if (deathEventInfo.UnitGO.transform.parent.gameObject.tag == "EnemyTeam")
+        {
+            // Dead charcter in an enemy
+            // Update Dictionary of enemy charcters
+            RemoveFromEnemyCharacterList(deathEventInfo.UnitGO);
+            // Update UI
+
+            // Remove object
+        }
+    }
+
+    #endregion
 }

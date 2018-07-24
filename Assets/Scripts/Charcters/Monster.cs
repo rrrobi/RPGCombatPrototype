@@ -195,6 +195,15 @@ public class Monster : MonoBehaviour {
     {
         Debug.Log(this.name + " has died!");
 
+        EventCallbacks.DeathEventInfo dei = new EventCallbacks.DeathEventInfo();
+        dei.EventDescription = "Unit " + gameObject.name + " has died.";
+        dei.UnitGO = gameObject;
+
+        EventCallbacks.CallbackEventSystem.Current.FireEvent(
+            EventCallbacks.CallbackEventSystem.EVENT_TYPE.CHARACTER_DIED,
+            dei
+            );
+
         // Monster has died, and so needs to do the following
         // Play any death sounds
         // Play any death animation        

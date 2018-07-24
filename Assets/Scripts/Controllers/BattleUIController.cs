@@ -96,6 +96,12 @@ public class BattleUIController : MonoBehaviour {
     {
         // TODO... For when a charcter is killed and needs to be removed from a panel
         // May be reusable for the other panels
+        GameObject buttonGO = FriendlyPanel.transform.Find(charcter.name + "_Button").gameObject;
+
+        if (buttonGO != null)
+        {
+            Destroy(buttonGO);
+        }
     }
 
     void InitialEnemyPanelSetup()
@@ -118,6 +124,18 @@ public class BattleUIController : MonoBehaviour {
 
         // Provide instructions for what each button does
         buttonGO.GetComponent<Button>().onClick.AddListener(EnemySelectbuttonPressed);
+    }
+
+    void RemoveFromEnemyPanel(GameObject charcter)
+    {
+        // TODO... For when a charcter is killed and needs to be removed from a panel
+        // May be reusable for the other panels
+        GameObject buttonGO = EnemyPanel.transform.Find(charcter.name + "_Button").gameObject;
+
+        if (buttonGO != null)
+        {
+            Destroy(buttonGO);
+        }
     }
 
     void ActionPanelSetup(GameObject character)
