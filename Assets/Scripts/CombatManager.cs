@@ -133,6 +133,8 @@ public class CombatManager : MonoBehaviour {
             abilities.Add(slash);
             abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
+            // Set monster HP
+            monsterGO.GetComponent<Monster>().SetHP(50);
 
             // add to PlayerCharacterList
             playerCharacters.Add(monsterGO.name, monsterGO);
@@ -166,6 +168,8 @@ public class CombatManager : MonoBehaviour {
             abilities.Add(slash);
             abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
+            // Set monster HP
+            monsterGO.GetComponent<Monster>().SetHP(30);
 
             // Add to EnemyCharacterList
             enemyCharacters.Add(monsterGO.name, monsterGO);

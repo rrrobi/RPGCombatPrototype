@@ -15,8 +15,9 @@ public class Monster : MonoBehaviour {
     [SerializeField]
     float attackTimer;
     [SerializeField]
-    int HP;
-    public int GetHP { get { return HP; } }
+    int hP;
+    public void SetHP(int hp) { hP = hp; }
+    public int GetHP { get { return hP; } }
    // int numOfAbilities = 2;
     Dictionary <string, Attack> Abilities;
     public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
@@ -181,5 +182,24 @@ public class Monster : MonoBehaviour {
     public void TakeAttack(int damage)
     {
         Debug.Log(this.name + " got hit for " + damage);
+        hP -= damage;
+
+        // Update UI
+
+        // hceck for death
+        if (hP < 0)
+            MonsterDies();
+    }
+
+    private void MonsterDies()
+    {
+        Debug.Log(this.name + " has died!");
+
+        // Monster has died, and so needs to do the following
+        // Play any death sounds
+        // Play any death animation        
+        // update the Character list Maintained by Combat manager
+        // Update the UI, so buttons belonging to this character no longer exist
+        // Remove itself from the battlefield
     }
 }
