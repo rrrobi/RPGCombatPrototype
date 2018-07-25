@@ -46,4 +46,14 @@ namespace EventCallbacks
         public GameObject UnitGO;
         public string TeamName;
     }
+
+    public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>
+    {
+        // Info about the attack the character has just been the target of.
+        public int Damage;
+        public GameObject UnitGO;
+
+        // more info can go here
+        // eg. Who attacked
+    }
 }

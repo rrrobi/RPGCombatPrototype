@@ -140,7 +140,8 @@ public class CombatManager : MonoBehaviour {
             abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
             // Set monster HP
-            monsterGO.GetComponent<Monster>().SetHP(50);
+            monsterGO.GetComponent<Monster>().SetMaxHP(50);
+            monsterGO.GetComponent<Monster>().SetHP(50); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
             // add to PlayerCharacterList
             playerCharacters.Add(monsterGO.name, monsterGO);
@@ -175,7 +176,8 @@ public class CombatManager : MonoBehaviour {
             abilities.Add(stab);
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
             // Set monster HP
-            monsterGO.GetComponent<Monster>().SetHP(30);
+            monsterGO.GetComponent<Monster>().SetMaxHP(30);
+            monsterGO.GetComponent<Monster>().SetHP(30); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
             // Add to EnemyCharacterList
             enemyCharacters.Add(monsterGO.name, monsterGO);

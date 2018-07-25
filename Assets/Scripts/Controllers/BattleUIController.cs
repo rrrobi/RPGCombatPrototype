@@ -60,6 +60,7 @@ public class BattleUIController : MonoBehaviour {
 
     void RegisterEventCallbacks()
     {
+        TakeDamageEventInfo.RegisterListener(OnDamageTaken);
         DeathEventInfo.RegisterListener(OnUnitDied);
     }
 
@@ -94,7 +95,7 @@ public class BattleUIController : MonoBehaviour {
                     text.text = character.name.Replace("_", " ");
                     break;
                 case "HPText":
-                    text.text = "HP: 9999/10000";
+                    text.text = "HP : " + character.GetComponent<Monster>().GetHP + "/" + character.GetComponent<Monster>().GetMaxHP;
                     break;
             }
         }
@@ -148,9 +149,6 @@ public class BattleUIController : MonoBehaviour {
 
     void ActionPanelSetup(GameObject character)
     {
-        // TODO...
-        // to be dynamic for each characters abilities
-
         // Clear existing panel
         ClearActionPanel();
 
@@ -162,16 +160,6 @@ public class BattleUIController : MonoBehaviour {
         {
             AddToActionPanel(kvp.Value.GetAttackName);
         }
-        //for (int i = 0; i < abilities.Length; i++)
-        //{
-        //    AddToActionPanel(abilities[i].GetAttackName);
-        //}
-
-        //AddToActionPanel("Attack");
-        //AddToActionPanel("Defend");
-        //AddToActionPanel("Heal");
-        //AddToActionPanel("Skip");
-
     }
 
     void AddToActionPanel(string buttonName)
@@ -250,7 +238,31 @@ public class BattleUIController : MonoBehaviour {
         button.GetComponent<Button>().interactable = setTo;
     }
 
+    private void UpdateCharacterPanel(GameObject character)
+    {
+        // TODO.. Is there a better way of doing this, i dont like it
+        GameObject buttonGO = GameObject.Find(character.name + "_Button");
+        Text[] texts  = buttonGO.GetComponentsInChildren<Text>();
+        foreach (var text in texts)
+        {
+            if (text.name == "HPText")
+            {
+                text.text = "HP : " + character.GetComponent<Monster>().GetHP + "/" + character.GetComponent<Monster>().GetMaxHP;
+            }
+
+        }
+        
+    }
+
     #region EventCallbacks
+
+    void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
+    {
+        Debug.Log("BattleUIController Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
+
+        UpdateCharacterPanel(takeDamageEventInfo.UnitGO);
+    }
+
     void OnUnitDied(DeathEventInfo deathEventInfo)
     {
         Debug.Log("BattleUIController Alerted to Character Death: " + deathEventInfo.UnitGO.name);

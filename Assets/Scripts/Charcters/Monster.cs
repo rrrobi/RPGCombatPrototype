@@ -18,7 +18,10 @@ public class Monster : MonoBehaviour {
     int hP;
     public void SetHP(int hp) { hP = hp; }
     public int GetHP { get { return hP; } }
-   // int numOfAbilities = 2;
+    int maxHP;
+    public void SetMaxHP(int hp) { maxHP = hp; }
+    public int GetMaxHP { get { return maxHP; } }
+    // int numOfAbilities = 2;
     Dictionary <string, Attack> Abilities;
     public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
     public Attack GetAbilityByName(string name)
@@ -59,6 +62,7 @@ public class Monster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        hP = maxHP;
         attackTimer = attackCD;        
 
         // Set this monster's Sprite
@@ -170,32 +174,42 @@ public class Monster : MonoBehaviour {
     {
         Debug.Log(this.gameObject.name + " Uses '" + ability.GetAttackName + "' On " + target.name);
 
-        target.GetComponent<Monster>().TakeAttack(ability.GetDamage);
+        target.GetComponent<Monster>().TakeAttack(ability);
 
         attackTimer = attackCD;
     }
 
-    public void TakeAttack(int damage)
+    public void TakeAttack(Attack ability)
     {
-        Debug.Log(this.name + " got hit for " + damage);
-        hP -= damage;
-
-        // Update UI
+        TakeDamage(ability.GetDamage);
 
         // hceck for death
         if (hP < 0)
             MonsterDies();
     }
 
+    private void TakeDamage(int damage)
+    {
+        Debug.Log(this.name + " got hit for " + damage);
+        hP -= damage;
+
+        // Trigger Attacked Event callback
+        EventCallbacks.TakeDamageEventInfo tdei = new EventCallbacks.TakeDamageEventInfo();
+        tdei.EventDescription = "Unit " + gameObject.name + " Has taken " + damage + " damage";
+        tdei.Damage = damage;
+        tdei.UnitGO = gameObject;
+        tdei.FireEvent();
+    }
+
     private void MonsterDies()
     {
         Debug.Log(this.name + " has died!");
 
+        // Trigger Death Event callback
         EventCallbacks.DeathEventInfo dei = new EventCallbacks.DeathEventInfo();
         dei.EventDescription = "Unit " + gameObject.name + " has died.";
         dei.UnitGO = gameObject;
         dei.TeamName = myTeam.tag;
-
         dei.FireEvent();
 
         // Monster has died, and so needs to do the following
