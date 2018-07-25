@@ -4,22 +4,46 @@ using UnityEngine;
 
 namespace EventCallbacks
 {
-    public abstract class EventInfo
+    // Generic where <T> must be a 'decendent' of Event
+    public abstract class EventInfo<T> where T : EventInfo<T>
     {
-        // Base Event info
+        // Base Event class
         public string EventDescription;
+
+        public delegate void EventListener(T info);
+        // Static for generic, means _Listeners is NOT shared between all instances of EventInfo
+        // Rather a separate instance is shared between each set DIFFERENT decendent of EventInfo
+        // eg. All DeathEventInfo's share the same _Listeners, but all DebugEventInfo share a different _Listeners
+        private static event EventListener _Listeners;
+
+        public static void RegisterListener(EventListener listener)
+        {
+            _Listeners += listener;
+        }
+        public static void UnregisterListener(EventListener listener)
+        {
+            _Listeners -= listener;
+        }
+
+        // 'T' ensures the correct Type of eventInfo is used for the relevant listener
+        public void FireEvent()
+        {
+            if (_Listeners != null)
+                _Listeners(this as T);
+        }
 
     }
 
     // TODO.. look into making use of this
-    public class DebugEventInfo
+    public class DebugEventInfo : EventInfo<DebugEventInfo>
     {
         public int SeverityLevel;
     }
 
-    public class DeathEventInfo : EventInfo
+    public class DeathEventInfo : EventInfo<DeathEventInfo>
     {
         // Info about cause of death, killer, etc
         public GameObject UnitGO;
+        public string TeamName;
     }
 }

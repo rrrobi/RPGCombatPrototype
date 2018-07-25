@@ -163,11 +163,7 @@ public class Monster : MonoBehaviour {
             int abilityIndex = Random.Range(0, Abilities.Count);
 
             UseAbilityOn(Abilities.ElementAt(abilityIndex).Value, mobList[targetIndex]);
-
-            //mobList[targetIndex].GetComponent<Monster>().TakeAttack(10);
         }
-
-        //attackTimer = attackCD;
     }
     
     public void UseAbilityOn(Attack ability, GameObject target)
@@ -198,11 +194,9 @@ public class Monster : MonoBehaviour {
         EventCallbacks.DeathEventInfo dei = new EventCallbacks.DeathEventInfo();
         dei.EventDescription = "Unit " + gameObject.name + " has died.";
         dei.UnitGO = gameObject;
+        dei.TeamName = myTeam.tag;
 
-        EventCallbacks.CallbackEventSystem.Current.FireEvent(
-            EventCallbacks.CallbackEventSystem.EVENT_TYPE.CHARACTER_DIED,
-            dei
-            );
+        dei.FireEvent();
 
         // Monster has died, and so needs to do the following
         // Play any death sounds

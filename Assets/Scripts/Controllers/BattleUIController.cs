@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using EventCallbacks;
 
 public class BattleUIController : MonoBehaviour {
 
@@ -53,10 +54,17 @@ public class BattleUIController : MonoBehaviour {
         InitialFriendlyPanelSetup();
 
         InitialEnemyPanelSetup();
+
+        RegisterEventCallbacks();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void RegisterEventCallbacks()
+    {
+        DeathEventInfo.RegisterListener(OnUnitDied);
+    }
+
+    // Update is called once per frame
+    void Update () {
 	}
 
     void InitialFriendlyPanelSetup()
@@ -241,4 +249,15 @@ public class BattleUIController : MonoBehaviour {
     {
         button.GetComponent<Button>().interactable = setTo;
     }
-}
+
+    #region EventCallbacks
+    void OnUnitDied(DeathEventInfo deathEventInfo)
+    {
+        Debug.Log("BattleUIController Alerted to Character Death: " + deathEventInfo.UnitGO.name);
+        // Update UI
+        // TODO... ReThink
+        // I HATE this
+        Destroy(GameObject.Find(deathEventInfo.UnitGO.name + "_Button"));
+    }
+    #endregion
+ }

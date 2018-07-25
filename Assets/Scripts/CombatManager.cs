@@ -6,6 +6,9 @@ using EventCallbacks;
 
 public class CombatManager : MonoBehaviour {
 
+
+    public static CombatManager Instance { get; protected set; }
+
     // Character lists, and function to maintain these lists
     Dictionary<string, GameObject> playerCharacters;
     Dictionary<string, GameObject> enemyCharacters;
@@ -36,9 +39,6 @@ public class CombatManager : MonoBehaviour {
     {
         enemyCharacters.Remove(character.name);
     }
-
-
-    public static CombatManager Instance { get; protected set; }
 
     // Monster Setup Objects
     [SerializeField]
@@ -100,8 +100,12 @@ public class CombatManager : MonoBehaviour {
         AddPlayerMonsters();
 
         // Register Listeners
-        CallbackEventSystem.Current.RegisterListener(CallbackEventSystem.EVENT_TYPE.CHARACTER_DIED, OnUnitDied);
+        RegisterEventCallbacks();
+    }
 
+    void RegisterEventCallbacks()
+    {
+        DeathEventInfo.RegisterListener(OnUnitDied);
     }
 	
     void AddPlayerMonsters()
@@ -202,32 +206,25 @@ public class CombatManager : MonoBehaviour {
     // may move this
     #region EventCallbacks
 
-    void OnUnitDied(EventInfo eventInfo)
+    void OnUnitDied(DeathEventInfo deathEventInfo)
     {
-        // Re-Cast the event into the correct type - look into alternatives
-        // TODO... not happy with this
-        DeathEventInfo deathEventInfo = (DeathEventInfo)eventInfo;
-        Debug.Log("Alerted to Character Death: " + deathEventInfo.UnitGO.name);
+        Debug.Log("CombatManager Alerted to Character Death: " + deathEventInfo.UnitGO.name);
 
-        if (deathEventInfo.UnitGO.transform.parent.gameObject.tag == "FriendlyTeam")
+        if (deathEventInfo.TeamName == "FriendlyTeam")
         {
             // Dead character is freindly
             // Update Dictionary of player charcters
             RemoveFromPlayerCharacterList(deathEventInfo.UnitGO);
-            // Update UI
-            
-            // Remove object
-
         }
-        else if (deathEventInfo.UnitGO.transform.parent.gameObject.tag == "EnemyTeam")
+        else if (deathEventInfo.TeamName == "EnemyTeam")
         {
             // Dead charcter in an enemy
             // Update Dictionary of enemy charcters
-            RemoveFromEnemyCharacterList(deathEventInfo.UnitGO);
-            // Update UI
-
-            // Remove object
+            RemoveFromEnemyCharacterList(deathEventInfo.UnitGO);            
         }
+
+        // Remove object
+        Destroy(deathEventInfo.UnitGO);
     }
 
     #endregion
