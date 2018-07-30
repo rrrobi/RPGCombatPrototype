@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour {
     Dictionary<string, GameObject> playerCharacters;
     Dictionary<string, GameObject> enemyCharacters;
 
-    public Dictionary<string, GameObject> GetPlayerCharacterList { get{  return playerCharacters; }  }
+    public Dictionary<string, GameObject> GetPlayerCharacterList { get { return playerCharacters; } }
     public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }
     public GameObject GetPlayerCharacterByName(string name)
     {
