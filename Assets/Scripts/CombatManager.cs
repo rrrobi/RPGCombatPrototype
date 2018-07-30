@@ -61,7 +61,7 @@ public class CombatManager : MonoBehaviour {
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
 
-    MonsterDataWrapper monsterConfig = new MonsterDataWrapper();
+    MonsterDataReader monsterConfig = new MonsterDataReader();
 
     void OnEnable()
     {
