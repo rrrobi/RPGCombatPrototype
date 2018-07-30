@@ -61,6 +61,8 @@ public class CombatManager : MonoBehaviour {
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
 
+    MonsterDataWrapper monsterConfig = new MonsterDataWrapper();
+
     void OnEnable()
     {
         if (Instance != null)
@@ -101,6 +103,9 @@ public class CombatManager : MonoBehaviour {
 
         // Register Listeners
         RegisterEventCallbacks();
+
+        monsterConfig.SetUp();
+        monsterConfig.SaveData();
     }
 
     void RegisterEventCallbacks()

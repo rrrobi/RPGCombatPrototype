@@ -7,7 +7,7 @@ public class JsonData : MonoBehaviour {
     string filename = "data.json";
     string path;
 
-    GameData gameData = new GameData();
+    MonsterDataWrapper gameData = new MonsterDataWrapper();
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +19,10 @@ public class JsonData : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.S))
         {
-            gameData.date = System.DateTime.Now.ToShortDateString();
-            gameData.time = System.DateTime.Now.ToShortTimeString();
+            gameData.MonsterData.Date = System.DateTime.Now.ToShortDateString();
+            //gameData.time = System.DateTime.Now.ToShortTimeString();
 
-            MonsterData m1 = new MonsterData();
+            MonsterInfo m1 = new MonsterInfo();
             m1.index = 1;
             m1.MonsterName = "Demon";
             m1.FriendlySpriteName = "BlueDemon";
@@ -30,18 +30,18 @@ public class JsonData : MonoBehaviour {
             m1.MaxHP = 50;
             m1.Ability1 = "Slash";
             m1.Ability2 = "Stab";
-            gameData.MonsterList.Add(m1);
+            gameData.MonsterData.MonsterList.Add(m1);
 
-            MonsterData m2 = new MonsterData();
+            MonsterInfo m2 = new MonsterInfo();
             m2.index = 2;
             m2.MonsterName = "Demon Swarm";
             m2.FriendlySpriteName = "BlueDemonSwarm";
             m2.EnemySpriteName = "RedDemonSwarm";
             m2.MaxHP = 15;
             m2.Ability1 = "Tackle";
-            gameData.MonsterList.Add(m2);
+            gameData.MonsterData.MonsterList.Add(m2);
 
-            MonsterData m3 = new MonsterData();
+            MonsterInfo m3 = new MonsterInfo();
             m3.index = 3;
             m3.MonsterName = "Heavy Demon";
             m3.FriendlySpriteName = "HeavyBlueDemon";
@@ -50,13 +50,13 @@ public class JsonData : MonoBehaviour {
             m3.Ability1 = "Taunt";
             m3.Ability2 = "Bash";
             m3.Ability3 = "Guard";
-            gameData.MonsterList.Add(m3);
+            gameData.MonsterData.MonsterList.Add(m3);
 
-            SaveData();
+           // SaveData();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ReadData();
+           // ReadData();
         }
 	}
 
@@ -73,8 +73,8 @@ public class JsonData : MonoBehaviour {
             if (System.IO.File.Exists(path))
             {
                 string contents = System.IO.File.ReadAllText(path);
-                gameData = JsonUtility.FromJson<GameData>(contents);
-                Debug.Log(gameData.date + ", " + gameData.time);
+                gameData = JsonUtility.FromJson<MonsterDataWrapper>(contents);
+                Debug.Log(gameData.MonsterData.Date);
             }
             else
             {
