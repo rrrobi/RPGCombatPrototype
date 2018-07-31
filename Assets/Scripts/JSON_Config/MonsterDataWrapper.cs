@@ -21,8 +21,8 @@ public class MonsterDataReader
         MonsterInfo m1 = new MonsterInfo();
         m1.Index = 1;
         m1.MonsterName = "Demon";
-        m1.FriendlySpriteName = "BlueDemon";
-        m1.EnemySpriteName = "RedDemon";
+        m1.FriendlySpriteName = "SimpleMonsterBackBlue";
+        m1.EnemySpriteName = "SimpleMonsterRed";
         m1.MaxHP = 50;
         m1.Ability1 = "Slash";
         m1.Ability2 = "Stab";
@@ -78,6 +78,8 @@ public class MonsterDataReader
 
     public MonsterInfo GetMonsterFromIndex(int index)
     {
+        Debug.Log("MonsterList count: " + monsterWrapper.MonsterData.MonsterList.Count);
+        Debug.Log("MonsterList pos 1 index: " + monsterWrapper.MonsterData.MonsterList[0].Index);
         List<MonsterInfo> monsterInfoGroup = monsterWrapper.MonsterData.MonsterList.FindAll(s => s.Index == index);
 
         if (monsterInfoGroup.Count < 1)
