@@ -202,7 +202,7 @@ MonoBehaviour:
   SpeedBarGO: {fileID: 1669895655076344}
   attackCD: 10
   attackTimer: 0
-  HP: 0
+  hP: 0
   monsterSprite: {fileID: 21300000, guid: 2ccbc021175b6154ab3727ff51eb080b, type: 3}
 --- !u!136 &136273733155612636
 CapsuleCollider:
