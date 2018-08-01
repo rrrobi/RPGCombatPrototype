@@ -151,8 +151,8 @@ public class CombatManager : MonoBehaviour {
             //// Set monster HP
             //monsterGO.GetComponent<Monster>().SetMaxHP(50);
             //monsterGO.GetComponent<Monster>().SetHP(50); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
-            GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Friendly);
-            Instantiate(monsterGO, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform);
+            GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
+            //Instantiate(monsterGO, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform);
 
             // add to PlayerCharacterList
             playerCharacters.Add(monsterGO.name, monsterGO);
@@ -175,21 +175,22 @@ public class CombatManager : MonoBehaviour {
 
         for (int i = 0; i < numToSpawn; i++)
         {
-            GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
-            monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
-            // Set name of monsters, use sprite name and number (starts from 1)
-            monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
-            // Set Monster's ability
-            Attack slash = new Attack("Slash", 10);
-            Attack stab = new Attack("Stab", 15);
-            List<Attack> abilities = new List<Attack>();
-            abilities.Add(slash);
-            abilities.Add(stab);
-            monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
-            // Set monster HP
-            monsterGO.GetComponent<Monster>().SetMaxHP(30);
-            monsterGO.GetComponent<Monster>().SetHP(30); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            //GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
+            //monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
+            //// Set name of monsters, use sprite name and number (starts from 1)
+            //monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
+            //// Set Monster's ability
+            //Attack slash = new Attack("Slash", 10);
+            //Attack stab = new Attack("Stab", 15);
+            //List<Attack> abilities = new List<Attack>();
+            //abilities.Add(slash);
+            //abilities.Add(stab);
+            //monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
+            //// Set monster HP
+            //monsterGO.GetComponent<Monster>().SetMaxHP(30);
+            //monsterGO.GetComponent<Monster>().SetHP(30); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
+            GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Enemy, EnemyTeamGO, slotList[i].transform.position);
             // Add to EnemyCharacterList
             enemyCharacters.Add(monsterGO.name, monsterGO);
         }

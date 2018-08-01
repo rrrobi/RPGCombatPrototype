@@ -78,8 +78,6 @@ public class MonsterDataReader
 
     public MonsterInfo GetMonsterFromIndex(int index)
     {
-        Debug.Log("MonsterList count: " + monsterWrapper.MonsterData.MonsterList.Count);
-        Debug.Log("MonsterList pos 1 index: " + monsterWrapper.MonsterData.MonsterList[0].Index);
         List<MonsterInfo> monsterInfoGroup = monsterWrapper.MonsterData.MonsterList.FindAll(s => s.Index == index);
 
         if (monsterInfoGroup.Count < 1)

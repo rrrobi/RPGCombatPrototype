@@ -32,27 +32,18 @@ public class MonsterSpawner
 
         // Read in monster data, ready for spawning specific monsters from the config file
         monsterData.SetUp();
+        monsterData.SaveData();
         monsterData.ReadData();
     }
 
-    public GameObject SpawnMonster(int index, TeamName team)
+    public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, Vector3 pos)
     {
         // Get monster data from index
         MonsterInfo monsterInfo = monsterData.GetMonsterFromIndex(index);
+        // Keep track of count of each monster type in this fight
+        TrackMonsterCount(monsterInfo, team);
 
-        // Keep track and increment number of each Monster type in this battle,
-        // This is for the Naming convenntion, to ensure no two names are the same
-        if (monsterCounts != null)
-        {
-            if (!monsterCounts.ContainsKey(team + monsterInfo.MonsterName))
-            {
-                monsterCounts.Add(team + monsterInfo.MonsterName, 1);
-            }
-            else
-                monsterCounts[team + monsterInfo.MonsterName]++;
-        }
-
-        GameObject monsterGO = monsterTemplateGO;
+        GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, pos, Quaternion.identity, teamGroup.transform) as GameObject;
         monsterGO.name = monsterInfo.MonsterName + " " + monsterCounts[team + monsterInfo.MonsterName];
         if (team == TeamName.Friendly)
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.FriendlySpriteName]);
@@ -73,6 +64,21 @@ public class MonsterSpawner
         monsterGO.GetComponent<Monster>().SetHP(monsterInfo.MaxHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
         return monsterGO;
+    }
+
+    void TrackMonsterCount(MonsterInfo monsterInfo, TeamName team)
+    {
+        // Keep track and increment number of each Monster type in this battle,
+        // This is for the Naming convenntion, to ensure no two names are the same
+        if (monsterCounts != null)
+        {
+            if (!monsterCounts.ContainsKey(team + monsterInfo.MonsterName))
+            {
+                monsterCounts.Add(team + monsterInfo.MonsterName, 1);
+            }
+            else
+                monsterCounts[team + monsterInfo.MonsterName]++;
+        }
     }
 
 }
