@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Attack
 {
-    // Ideas - unused
-    enum Attack_Type
-    {
-        Direct,
-        Cleave,
-        Pierce
-    }
 
     int Damage;
     public int GetDamage { get { return Damage; } }

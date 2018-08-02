@@ -13,7 +13,7 @@ public class MonsterDataReader
     public void SetUp()
     {
         path = Application.persistentDataPath + "/" + filename;
-        Debug.Log(path);
+        Debug.Log("MonsterData Path: " + path);
 
         // Temp - this will be removed
         monsterWrapper.MonsterData.Date = System.DateTime.Now.ToShortDateString();

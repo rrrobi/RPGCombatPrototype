@@ -11,6 +11,7 @@ public enum TeamName
 public class MonsterSpawner
 {
     MonsterDataReader monsterData = new MonsterDataReader();
+    AbilityDataReader abilityData = new AbilityDataReader();
 
     Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
 
@@ -34,6 +35,10 @@ public class MonsterSpawner
         monsterData.SetUp();
         monsterData.SaveData();
         monsterData.ReadData();
+
+        abilityData.SetUp();
+        abilityData.SaveData();
+        abilityData.ReadData();
     }
 
     public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, Vector3 pos)
@@ -52,18 +57,31 @@ public class MonsterSpawner
         else
             Debug.Log("TEAM name not correct!!!!");
         // Set Monster's ability
-        // TODO... REwork this to use Ability Config
-        Attack slash = new Attack("Slash", 10);
-        Attack stab = new Attack("Stab", 15);
         List<Attack> abilities = new List<Attack>();
-        abilities.Add(slash);
-        abilities.Add(stab);
+        if (!string.IsNullOrEmpty(monsterInfo.Ability1))
+            abilities.Add(CreateAbilityFromData(monsterInfo.Ability1));
+        if (!string.IsNullOrEmpty(monsterInfo.Ability2))
+            abilities.Add(CreateAbilityFromData(monsterInfo.Ability2));
+        if (!string.IsNullOrEmpty(monsterInfo.Ability3))
+            abilities.Add(CreateAbilityFromData(monsterInfo.Ability3));
+        if (!string.IsNullOrEmpty(monsterInfo.Ability4))
+            abilities.Add(CreateAbilityFromData(monsterInfo.Ability4));
+        // TODO... what if no abilities?!?
         monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
+
         // Set monster HP
         monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
         monsterGO.GetComponent<Monster>().SetHP(monsterInfo.MaxHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
         return monsterGO;
+    }
+
+    Attack CreateAbilityFromData(string abilityName)
+    {
+        AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
+
+        Attack ability = new Attack(abilityInfo.Name, abilityInfo.BaseAbilityStrength);
+        return ability;
     }
 
     void TrackMonsterCount(MonsterInfo monsterInfo, TeamName team)
