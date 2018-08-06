@@ -62,8 +62,6 @@ public class CombatManager : MonoBehaviour {
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
 
-    //MonsterDataReader monsterConfig = new MonsterDataReader();
-
     void OnEnable()
     {
         if (Instance != null)
@@ -107,9 +105,6 @@ public class CombatManager : MonoBehaviour {
 
         // Register Listeners
         RegisterEventCallbacks();
-
-       // monsterConfig.SetUp();
-       // monsterConfig.SaveData();
     }
 
     void RegisterEventCallbacks()
@@ -151,6 +146,7 @@ public class CombatManager : MonoBehaviour {
             //// Set monster HP
             //monsterGO.GetComponent<Monster>().SetMaxHP(50);
             //monsterGO.GetComponent<Monster>().SetHP(50); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+
             GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
             //Instantiate(monsterGO, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform);
 
@@ -224,13 +220,13 @@ public class CombatManager : MonoBehaviour {
     {
         Debug.Log("CombatManager Alerted to Character Death: " + deathEventInfo.UnitGO.name);
 
-        if (deathEventInfo.TeamName == "FriendlyTeam")
+        if (deathEventInfo.TeamName == TeamName.Friendly)
         {
             // Dead character is freindly
             // Update Dictionary of player charcters
             RemoveFromPlayerCharacterList(deathEventInfo.UnitGO);
         }
-        else if (deathEventInfo.TeamName == "EnemyTeam")
+        else if (deathEventInfo.TeamName == TeamName.Enemy)
         {
             // Dead charcter in an enemy
             // Update Dictionary of enemy charcters

@@ -31,7 +31,9 @@ public class Monster : MonoBehaviour {
 
     [SerializeField]
     Sprite monsterSprite;
-
+    TeamName team;
+    public void SetTeam(TeamName teamName) { team = teamName; }
+    public TeamName GetTeam { get { return team; } }
     GameObject myTeam;
     GameObject enemyTeam;
 
@@ -92,12 +94,12 @@ public class Monster : MonoBehaviour {
         // get team this monster is on
         myTeam = this.gameObject.transform.parent.gameObject;
         // get opposing team
-        switch (myTeam.tag)
+        switch (team)
         {
-            case "FriendlyTeam":
+            case TeamName.Friendly:
                 enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
                 break;
-            case "EnemyTeam":
+            case TeamName.Enemy:
                 enemyTeam = GameObject.FindGameObjectWithTag("FriendlyTeam");
                 break;
             default:
@@ -138,13 +140,13 @@ public class Monster : MonoBehaviour {
     // Split AI/Player attack code
     private void TakeTurn()
     {
-        if (myTeam.tag == "EnemyTeam")
+        if (team == TeamName.Enemy)
             MonsterAttack();
         else
         {
             // TODO... ReThink
             // I HATE this
-            GameObject.Find(this.name + "_Button").GetComponent<Button>().interactable = true;
+            GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
 
             CombatManager.Instance.AddToActionQueue(this.gameObject);
         }
@@ -209,7 +211,7 @@ public class Monster : MonoBehaviour {
         EventCallbacks.DeathEventInfo dei = new EventCallbacks.DeathEventInfo();
         dei.EventDescription = "Unit " + gameObject.name + " has died.";
         dei.UnitGO = gameObject;
-        dei.TeamName = myTeam.tag;
+        dei.TeamName = team;
         dei.FireEvent();
 
         // Monster has died, and so needs to do the following

@@ -44,7 +44,7 @@ namespace EventCallbacks
     {
         // Info about cause of death, killer, etc
         public GameObject UnitGO;
-        public string TeamName;
+        public TeamName TeamName;
     }
 
     public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>

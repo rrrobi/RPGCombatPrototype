@@ -82,7 +82,7 @@ public class BattleUIController : MonoBehaviour {
         // Instantiate button
         GameObject buttonGO = Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.name + "_Button";
+        buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
 
         buttonGO.GetComponent<Button>().interactable = false;
@@ -127,7 +127,7 @@ public class BattleUIController : MonoBehaviour {
         // Instantiate button
         GameObject buttonGO = Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.name + "_Button";
+        buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
         buttonText.text = character.name;
 
@@ -187,11 +187,12 @@ public class BattleUIController : MonoBehaviour {
     {
         string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(buttonClicked);
+        string[] buttonNameParts = buttonClicked.Split('_');
         buttonClicked = buttonClicked.Replace("_Button", "");
-        Debug.Log(buttonClicked);
+        Debug.Log(buttonNameParts[1]);
 
         // record which freindly character has been selected
-        SelectedCharacter = CombatManager.Instance.GetPlayerCharacterByName(buttonClicked);
+        SelectedCharacter = CombatManager.Instance.GetPlayerCharacterByName(buttonNameParts[1]);//buttonClicked);
         SelectedCharacterButton = EventSystem.current.currentSelectedGameObject;
 
         // Create action panel for this character
@@ -219,13 +220,14 @@ public class BattleUIController : MonoBehaviour {
         string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(buttonClicked);
         buttonClicked = buttonClicked.Replace("_Button", "");
-        Debug.Log(buttonClicked);
+        string[] buttonNameParts = buttonClicked.Split('_');
+        Debug.Log(buttonNameParts[1]);
 
         // Currently this is only used to selct target for selected action
         // Carry out selected action upon this target
         SelectedCharacter.GetComponent<Monster>().UseAbilityOn(
-            SelectedAttack, 
-            CombatManager.Instance.GetEnemyCharacterByName(buttonClicked));
+            SelectedAttack,
+            CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
         // Toggle the charcter button to non-interactable
         ToggleButtonInteractable(SelectedCharacterButton, false);
          
@@ -241,7 +243,7 @@ public class BattleUIController : MonoBehaviour {
     private void UpdateCharacterPanel(GameObject character)
     {
         // TODO.. Is there a better way of doing this, i dont like it
-        GameObject buttonGO = GameObject.Find(character.name + "_Button");
+        GameObject buttonGO = GameObject.Find(character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button");
         Text[] texts  = buttonGO.GetComponentsInChildren<Text>();
         foreach (var text in texts)
         {
@@ -269,7 +271,7 @@ public class BattleUIController : MonoBehaviour {
         // Update UI
         // TODO... ReThink
         // I HATE this
-        Destroy(GameObject.Find(deathEventInfo.UnitGO.name + "_Button"));
+        Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
     }
     #endregion
  }

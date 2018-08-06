@@ -56,6 +56,7 @@ public class MonsterSpawner
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.EnemySpriteName]);
         else
             Debug.Log("TEAM name not correct!!!!");
+        monsterGO.GetComponent<Monster>().SetTeam(team);
         // Set Monster's ability
         List<Attack> abilities = new List<Attack>();
         if (!string.IsNullOrEmpty(monsterInfo.Ability1))
