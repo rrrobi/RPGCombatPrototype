@@ -38,7 +38,7 @@ namespace EventCallbacks
     public class DebugEventInfo : EventInfo<DebugEventInfo>
     {
         public int SeverityLevel;
-    }
+    }    
 
     public class DeathEventInfo : EventInfo<DeathEventInfo>
     {
@@ -55,5 +55,10 @@ namespace EventCallbacks
 
         // more info can go here
         // eg. Who attacked
+    }
+
+    public class UnitSpawnEventInfo : EventInfo<UnitSpawnEventInfo>
+    {
+        public GameObject UnitGO;
     }
 }

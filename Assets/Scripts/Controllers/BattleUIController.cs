@@ -58,12 +58,6 @@ public class BattleUIController : MonoBehaviour {
         RegisterEventCallbacks();
     }
 
-    void RegisterEventCallbacks()
-    {
-        TakeDamageEventInfo.RegisterListener(OnDamageTaken);
-        DeathEventInfo.RegisterListener(OnUnitDied);
-    }
-
     // Update is called once per frame
     void Update () {
 	}
@@ -258,6 +252,13 @@ public class BattleUIController : MonoBehaviour {
 
     #region EventCallbacks
 
+    void RegisterEventCallbacks()
+    {
+        TakeDamageEventInfo.RegisterListener(OnDamageTaken);
+        DeathEventInfo.RegisterListener(OnUnitDied);
+        UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
+    }
+
     void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
     {
         Debug.Log("BattleUIController Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
@@ -272,6 +273,11 @@ public class BattleUIController : MonoBehaviour {
         // TODO... ReThink
         // I HATE this
         Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
+    }
+
+    void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
+    {
+        Debug.Log("BattleUIController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
     }
     #endregion
  }
