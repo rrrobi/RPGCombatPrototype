@@ -9,6 +9,7 @@ public class CombatManager : MonoBehaviour {
 
     public static CombatManager Instance { get; protected set; }
     MonsterSpawner monsterSpawner = new MonsterSpawner();
+    BattleUIController battleUIController = new BattleUIController();
 
     // Character lists, and function to maintain these lists
     Dictionary<string, GameObject> playerCharacters;
@@ -55,10 +56,6 @@ public class CombatManager : MonoBehaviour {
     [SerializeField]
     private GameObject EnemyMonsterSlots;
 
-    [SerializeField]
-    GameObject MonsterGOTemplate;
-    Dictionary<string, Sprite> monsterSprites;
-
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
 
@@ -75,27 +72,17 @@ public class CombatManager : MonoBehaviour {
         Assert.IsNotNull(FriendlyMonsterSlots);
         Assert.IsNotNull(EnemyTeamGO);
         Assert.IsNotNull(EnemyMonsterSlots);
-        Assert.IsNotNull(MonsterGOTemplate);
     }
 
     // Use this for initialization
     void Start () {
+        // Initial setup of UI controller
+        battleUIController.Setup();
         // Initial Setup of MonsterSpawner
         monsterSpawner.Setup();
 
         playerCharacters = new Dictionary<string, GameObject>();
         enemyCharacters = new Dictionary<string, GameObject>();
-
-        // Load Monster Sprites
-        monsterSprites = new Dictionary<string, Sprite>();
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Monsters/");
-        Debug.Log("LOADED RESOURCE: ");
-        foreach (Sprite s in sprites)
-        {
-            Debug.Log(s);
-            monsterSprites.Add(s.name, s);
-        }
-
 
         // Spawn Enemy monsters
         AddEnemyMonsters();
@@ -131,24 +118,8 @@ public class CombatManager : MonoBehaviour {
         // for each Monster 
         for (int i = 0; i < numToSpawn; i++)
         {
-            //// Instaniate GO, Assign location of next available monster slot
-            //GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform) as GameObject;
-            //monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterBackBlue"]);
-            //// Set name of monsters, use sprite name and number (starts from 1)
-            //monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i+1);
-            //// Set Monster's ability
-            //Attack slash = new Attack("Slash", 10);
-            //Attack stab = new Attack("Stab", 15);
-            //List<Attack> abilities = new List<Attack>();
-            //abilities.Add(slash);
-            //abilities.Add(stab);
-            //monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
-            //// Set monster HP
-            //monsterGO.GetComponent<Monster>().SetMaxHP(50);
-            //monsterGO.GetComponent<Monster>().SetHP(50); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
-
-            GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
-            //Instantiate(monsterGO, slotList[i].transform.position, Quaternion.identity, FriendlyTeamGO.transform);
+            int randIndex = Random.Range(1, 4);
+            GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
 
             // add to PlayerCharacterList
             playerCharacters.Add(monsterGO.name, monsterGO);
@@ -171,22 +142,8 @@ public class CombatManager : MonoBehaviour {
 
         for (int i = 0; i < numToSpawn; i++)
         {
-            //GameObject monsterGO = Instantiate(MonsterGOTemplate, slotList[i].transform.position, Quaternion.identity, EnemyTeamGO.transform) as GameObject;
-            //monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites["SimpleMonsterRed"]);
-            //// Set name of monsters, use sprite name and number (starts from 1)
-            //monsterGO.name = monsterGO.GetComponent<Monster>().GetMonsterSprite().name + "_" + (i + 1);
-            //// Set Monster's ability
-            //Attack slash = new Attack("Slash", 10);
-            //Attack stab = new Attack("Stab", 15);
-            //List<Attack> abilities = new List<Attack>();
-            //abilities.Add(slash);
-            //abilities.Add(stab);
-            //monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
-            //// Set monster HP
-            //monsterGO.GetComponent<Monster>().SetMaxHP(30);
-            //monsterGO.GetComponent<Monster>().SetHP(30); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
-
-            GameObject monsterGO = monsterSpawner.SpawnMonster(1, TeamName.Enemy, EnemyTeamGO, slotList[i].transform.position);
+            int randIndex = Random.Range(1, 4);
+            GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex, TeamName.Enemy, EnemyTeamGO, slotList[i].transform.position);
             // Add to EnemyCharacterList
             enemyCharacters.Add(monsterGO.name, monsterGO);
         }

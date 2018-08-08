@@ -130,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &164087926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 168102440}
   - component: {fileID: 168102439}
   - component: {fileID: 168102441}
-  - component: {fileID: 168102442}
   m_Layer: 0
   m_Name: _SCRIPTS_
   m_TagString: Untagged
@@ -240,8 +239,6 @@ MonoBehaviour:
   EnemyMonstersNum: 3
   EnemyTeamGO: {fileID: 1759051401}
   EnemyMonsterSlots: {fileID: 1009152380}
-  MonsterGOTemplate: {fileID: 1515610133252890, guid: cf1d45509ba864d4587a3526eae9b292,
-    type: 2}
 --- !u!4 &168102440
 Transform:
   m_ObjectHideFlags: 0
@@ -267,28 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectCursor: {fileID: 1544049125871182, guid: ba0e8173cda626e41a8f1043a53c2c01,
-    type: 2}
---- !u!114 &168102442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 168102438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4084077086d4aad4e88c525958983512, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FriendlyPanel: {fileID: 545541216}
-  ActionPanel: {fileID: 804244006}
-  EnemyPanel: {fileID: 164087925}
-  ActivePanel: {fileID: 0}
-  PreviousPanel: {fileID: 0}
-  FriendlyButtonTemplate: {fileID: 1817794935848076, guid: b0123ef82bf508247a7179c9b1cdd36e,
-    type: 2}
-  ActionButtonTemplate: {fileID: 1290456007642546, guid: 56c1d16838d20fe4e926e461a1caa79f,
-    type: 2}
-  EnemyButtonTemplate: {fileID: 1165531577110498, guid: 10102a3b88823684887621bb1e218633,
     type: 2}
 --- !u!1001 &208076124
 Prefab:
@@ -742,7 +717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &804244007
 RectTransform:
   m_ObjectHideFlags: 0

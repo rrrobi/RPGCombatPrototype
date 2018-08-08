@@ -6,28 +6,29 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 using EventCallbacks;
 
-public class BattleUIController : MonoBehaviour {
+public class BattleUIController //: MonoBehaviour 
+{
 
-    [SerializeField]
+ //   [SerializeField]
     GameObject FriendlyPanel;
-    [SerializeField]
+ //   [SerializeField]
     GameObject ActionPanel;
-    [SerializeField]
+ //   [SerializeField]
     GameObject EnemyPanel;
 
     // for the GoBack button - not implemented yet
-    [SerializeField]
+//    [SerializeField]
     GameObject ActivePanel;
-    [SerializeField]
+//    [SerializeField]
     GameObject PreviousPanel;
 
     // Look into better way of doing this, 
     // I dont like having to have all these buttons added in this way
-    [SerializeField]
+ //   [SerializeField]
     GameObject FriendlyButtonTemplate;
-    [SerializeField]
+ //   [SerializeField]
     GameObject ActionButtonTemplate;
-    [SerializeField]
+ //   [SerializeField]
     GameObject EnemyButtonTemplate;
 
     // TODO... rethink this
@@ -39,28 +40,42 @@ public class BattleUIController : MonoBehaviour {
     GameObject SelectedCharacter;
     Attack SelectedAttack;
 
-    void Awake()
-    {
-        Assert.IsNotNull(FriendlyPanel);
-        Assert.IsNotNull(ActionPanel);
-        Assert.IsNotNull(EnemyPanel);
-        Assert.IsNotNull(FriendlyButtonTemplate);
-        Assert.IsNotNull(ActionButtonTemplate);
-        Assert.IsNotNull(EnemyButtonTemplate);
-    }
+    //void Awake()
+    //{
+    //    //Assert.IsNotNull(FriendlyPanel);
+    //    //Assert.IsNotNull(ActionPanel);
+    //    //Assert.IsNotNull(EnemyPanel);
+    //    //Assert.IsNotNull(FriendlyButtonTemplate);
+    //    //Assert.IsNotNull(ActionButtonTemplate);
+    //    //Assert.IsNotNull(EnemyButtonTemplate);
+    //}
 
     // Use this for initialization
-    void Start () {
-        InitialFriendlyPanelSetup();
+    public void Setup() {//Start () {
+        // Read in GO templates from Resources
+        FriendlyButtonTemplate = Resources.Load("Prefabs/UI/MonsterPanel") as GameObject;
+        ActionButtonTemplate = Resources.Load("Prefabs/UI/ActionButton") as GameObject;
+        EnemyButtonTemplate = Resources.Load("Prefabs/UI/EnemyButton") as GameObject;
 
-        InitialEnemyPanelSetup();
+        // Get UI Panel Gameobjects to use later
+        // TODO... ReThink
+        // I HATE this
+        FriendlyPanel = GameObject.Find("FriendlyPanel");        
+        ActionPanel = GameObject.Find("ActionPanel");
+        EnemyPanel = GameObject.Find("EnemyPanel");
+        ActionPanel.SetActive(false);
+        EnemyPanel.SetActive(false);
+
+ //       InitialFriendlyPanelSetup();
+
+//        InitialEnemyPanelSetup();
 
         RegisterEventCallbacks();
     }
 
-    // Update is called once per frame
-    void Update () {
-	}
+ //   // Update is called once per frame
+ //   void Update () {
+	//}
 
     void InitialFriendlyPanelSetup()
     {
@@ -74,7 +89,7 @@ public class BattleUIController : MonoBehaviour {
     void AddToFriendlyPanel(GameObject character)
     {
         // Instantiate button
-        GameObject buttonGO = Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
+        GameObject buttonGO = GameObject.Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
         // Set buttons varables
         buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
@@ -103,7 +118,7 @@ public class BattleUIController : MonoBehaviour {
 
         if (buttonGO != null)
         {
-            Destroy(buttonGO);
+            GameObject.Destroy(buttonGO);
         }
     }
 
@@ -119,7 +134,7 @@ public class BattleUIController : MonoBehaviour {
     void AddToEnemyPanel(GameObject character)
     {
         // Instantiate button
-        GameObject buttonGO = Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+        GameObject buttonGO = GameObject.Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
         // Set buttons varables
         buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
@@ -137,7 +152,7 @@ public class BattleUIController : MonoBehaviour {
 
         if (buttonGO != null)
         {
-            Destroy(buttonGO);
+            GameObject.Destroy(buttonGO);
         }
     }
 
@@ -159,7 +174,7 @@ public class BattleUIController : MonoBehaviour {
     void AddToActionPanel(string buttonName)
     {
         // Instantiate button
-        GameObject buttonGO = Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
+        GameObject buttonGO = GameObject.Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
         // Set buttons varables
         buttonGO.name = buttonName + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
@@ -173,7 +188,7 @@ public class BattleUIController : MonoBehaviour {
     {
         foreach (Transform child in ActionPanel.transform)
         {
-            Destroy(child.gameObject);
+            GameObject.Destroy(child.gameObject);
         }
     }
 
@@ -272,12 +287,19 @@ public class BattleUIController : MonoBehaviour {
         // Update UI
         // TODO... ReThink
         // I HATE this
-        Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
+        GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
     }
 
     void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
     {
         Debug.Log("BattleUIController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
+        if (unitSpawnEventInfo.UnitGO.GetComponent<Monster>().GetTeam == TeamName.Friendly)
+            AddToFriendlyPanel(unitSpawnEventInfo.UnitGO);
+        else if (unitSpawnEventInfo.UnitGO.GetComponent<Monster>().GetTeam == TeamName.Enemy)
+            AddToEnemyPanel(unitSpawnEventInfo.UnitGO);
+        else
+            // TODO.. improve error handling
+            Debug.Log("Something has gone very wrong here");
     }
     #endregion
  }

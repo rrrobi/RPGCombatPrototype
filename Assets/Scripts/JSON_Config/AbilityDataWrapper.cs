@@ -62,6 +62,43 @@ public class AbilityDataReader
         ability2.AbilityCD = 10f;
         abilityWrapper.AbilityData.AbilityList.Add(ability2);
 
+        AbilityInfo ability3 = new AbilityInfo();
+        ability3.Name = "Tackle";
+        ability3.abilityType = AbilityType.Damage;
+        ability3.abilityEffectType = AbilityEffectType.Direct;
+        ability3.abilityDamageType = AbilityDamageType.Physical;
+        ability3.BaseAbilityStrength = 10;
+        ability3.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability3);
+
+        AbilityInfo ability4 = new AbilityInfo();
+        ability4.Name = "Bash";
+        ability4.abilityType = AbilityType.Damage;
+        ability4.abilityEffectType = AbilityEffectType.Direct;
+        ability4.abilityDamageType = AbilityDamageType.Physical;
+        ability4.BaseAbilityStrength = 25;
+        ability4.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability4);
+
+        // TODO.. Add tech ability functionality
+        AbilityInfo ability5 = new AbilityInfo();
+        ability5.Name = "Taunt";
+        ability5.abilityType = AbilityType.Damage;
+        ability5.abilityEffectType = AbilityEffectType.Direct;
+        ability5.abilityDamageType = AbilityDamageType.Physical;
+        ability5.BaseAbilityStrength = 0;
+        ability5.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability5);
+
+        // TODO.. Add tech ability functionality
+        AbilityInfo ability6 = new AbilityInfo();
+        ability6.Name = "Guard";
+        ability6.abilityType = AbilityType.Damage;
+        ability6.abilityEffectType = AbilityEffectType.Direct;
+        ability6.abilityDamageType = AbilityDamageType.Physical;
+        ability6.BaseAbilityStrength = 0;
+        ability6.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability6);
     }
 
     public void SaveData()

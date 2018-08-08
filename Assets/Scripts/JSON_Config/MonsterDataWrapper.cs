@@ -31,8 +31,8 @@ public class MonsterDataReader
         MonsterInfo m2 = new MonsterInfo();
         m2.Index = 2;
         m2.MonsterName = "Demon Swarm";
-        m2.FriendlySpriteName = "BlueDemonSwarm";
-        m2.EnemySpriteName = "RedDemonSwarm";
+        m2.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
+        m2.EnemySpriteName = "SimpleMonsterSwarmRed";
         m2.MaxHP = 15;
         m2.Ability1 = "Tackle";
         monsterWrapper.MonsterData.MonsterList.Add(m2);
@@ -40,11 +40,11 @@ public class MonsterDataReader
         MonsterInfo m3 = new MonsterInfo();
         m3.Index = 3;
         m3.MonsterName = "Heavy Demon";
-        m3.FriendlySpriteName = "HeavyBlueDemon";
-        m3.EnemySpriteName = "HeavyRedDemon";
+        m3.FriendlySpriteName = "SimpleTankMonsterBackBlue";
+        m3.EnemySpriteName = "SimpleTankMonsterRed";
         m3.MaxHP = 75;
-        m3.Ability1 = "Taunt";
-        m3.Ability2 = "Bash";
+        m3.Ability1 = "Bash";
+        m3.Ability2 = "Taunt";
         m3.Ability3 = "Guard";
         monsterWrapper.MonsterData.MonsterList.Add(m3);
     }
