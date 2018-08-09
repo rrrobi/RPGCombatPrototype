@@ -21,7 +21,6 @@ public class Monster : MonoBehaviour {
     int maxHP;
     public void SetMaxHP(int hp) { maxHP = hp; }
     public int GetMaxHP { get { return maxHP; } }
-    // int numOfAbilities = 2;
     Dictionary <string, Attack> Abilities;
     public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
     public Attack GetAbilityByName(string name)
@@ -29,15 +28,12 @@ public class Monster : MonoBehaviour {
         return Abilities[name];
     }
 
-    [SerializeField]
     Sprite monsterSprite;
     TeamName team;
     public void SetTeam(TeamName teamName) { team = teamName; }
     public TeamName GetTeam { get { return team; } }
     GameObject myTeam;
     GameObject enemyTeam;
-
-    private SpriteRenderer MonsterSprite;
 
     public void SetMonsterSprite(Sprite sprite)
     {
@@ -59,7 +55,6 @@ public class Monster : MonoBehaviour {
     void Awake()
     {
         Assert.IsNotNull(SpeedBarGO);
-        Assert.IsNotNull(monsterSprite);
     }
 
 	// Use this for initialization
@@ -80,7 +75,7 @@ public class Monster : MonoBehaviour {
 
     void AssignSprite()
     {
-        MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
+        SpriteRenderer MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
         // Set Correct Monster sprite
         MonsterSprite.sprite = monsterSprite;
         MonsterSprite.sortingLayerName = "Characters";
