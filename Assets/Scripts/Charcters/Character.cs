@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 public class Character : MonoBehaviour {
 
     // Will be changed to be Ability specific
-    protected float attackCD;
+    protected float attackCD = 10;
     protected float attackTimer;
 
     [SerializeField]
@@ -22,6 +22,9 @@ public class Character : MonoBehaviour {
     protected TeamName team;
     public void SetTeam(TeamName teamName) { team = teamName; }
     public TeamName GetTeam { get { return team; } }
+    protected GameObject myTeam;
+    protected GameObject enemyTeam;
+
     protected Sprite monsterSprite;
     public void SetMonsterSprite(Sprite sprite) { monsterSprite = sprite; }
     public Sprite GetMonsterSprite() { return monsterSprite; }
@@ -31,10 +34,25 @@ public class Character : MonoBehaviour {
         Assert.IsNotNull(SpeedBarGO);
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
+    protected virtual void Start()
+    {
+        Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
+
+        hP = maxHP;
+        attackTimer = attackCD;
+
+        // Set this monster's Sprite
+        AssignSprite();
+
+        // Set monster's colider, (Make it clickable)
+        CircleCollider2D col = this.gameObject.AddComponent<CircleCollider2D>();
+        col.radius = 1.0f;
+
+        // Discove whcih teams are friend or foe
+        DiscoverTeams();
+    }
+
+    // base class does not use Update()......atm
 
     protected void AssignSprite()
     {
@@ -44,10 +62,28 @@ public class Character : MonoBehaviour {
         MonsterSprite.sortingLayerName = "Characters";
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    protected void DiscoverTeams()
+    {
+        // TODO... refactor i don't like how this decides which team its on, and how it selects its target
+        // should use setup from Combat manager instead
+
+        // get team this monster is on
+        myTeam = this.gameObject.transform.parent.gameObject;
+        // get opposing team
+        switch (team)
+        {
+            case TeamName.Friendly:
+                enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
+                break;
+            case TeamName.Enemy:
+                enemyTeam = GameObject.FindGameObjectWithTag("FriendlyTeam");
+                break;
+            default:
+                enemyTeam = myTeam;
+                Debug.LogError("Issue with team tags, this shouldn't happen!");
+                break;
+        }
+    }
 
     protected void ScaleSpeedBar()
     {
