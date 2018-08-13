@@ -115,8 +115,13 @@ public class CombatManager : MonoBehaviour {
         if (FriendlyMonstersNum <= slotList.Count)
             numToSpawn = FriendlyMonstersNum;
 
+        // add hero
+        GameObject heroGO = monsterSpawner.SpawnMonster(0, TeamName.Friendly, FriendlyTeamGO, slotList[0].transform.position);
+        // add to PlayerCharacterList
+        playerCharacters.Add(heroGO.name, heroGO);
+
         // for each Monster 
-        for (int i = 0; i < numToSpawn; i++)
+        for (int i = 1; i < numToSpawn; i++)
         {
             int randIndex = Random.Range(1, 4);
             GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
