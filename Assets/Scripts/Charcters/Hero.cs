@@ -5,12 +5,13 @@ using UnityEngine;
 public class Hero : Character {
 
 	// Use this for initialization
-	void Start () {
-		
-	}
+	protected override void Start () {
+        Debug.Log("Hero, start method for: " + team.ToString() + "_" + this.name);
+        base.Start();
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		
+	protected override void Update () {
+        base.Update();
 	}
 }
