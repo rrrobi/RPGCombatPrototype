@@ -48,14 +48,10 @@ public class CombatManager : MonoBehaviour {
     private int FriendlyMonstersNum;
     [SerializeField]
     private GameObject FriendlyTeamGO;
-    //[SerializeField]
-    //private GameObject FriendlyMonsterSlots;
     [SerializeField]    
     private int EnemyMonstersNum;
     [SerializeField]
     private GameObject EnemyTeamGO;
-    //[SerializeField]
-    //private GameObject EnemyMonsterSlots;
 
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
@@ -70,9 +66,7 @@ public class CombatManager : MonoBehaviour {
     void Awake()
     {
         Assert.IsNotNull(FriendlyTeamGO);
-        //Assert.IsNotNull(FriendlyMonsterSlots);
         Assert.IsNotNull(EnemyTeamGO);
-       // Assert.IsNotNull(EnemyMonsterSlots);
     }
 
     // Use this for initialization
