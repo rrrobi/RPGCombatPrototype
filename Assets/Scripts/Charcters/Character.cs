@@ -164,7 +164,7 @@ public class Character : MonoBehaviour {
     {
         Debug.Log(this.gameObject.name + " Uses '" + ability.GetAttackName + "' On " + target.name);
 
-        target.GetComponent<Monster>().TakeAttack(ability);
+        target.GetComponent<Character>().TakeAttack(ability);
 
         attackTimer = attackCD;
     }

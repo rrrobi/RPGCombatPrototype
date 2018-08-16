@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00c58548d356ba46bf218a0be90ccc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedBarGO: {fileID: 1358188573207766}
+  SpeedBarGO: {fileID: 1816933948208330}
 --- !u!136 &136783473780317378
 CapsuleCollider:
   m_ObjectHideFlags: 1

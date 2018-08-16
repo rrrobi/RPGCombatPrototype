@@ -197,7 +197,40 @@ public class BattlefieldController
         return null;
     }
 
-        #region Event Callbacks
+    public GameObject FindSlotFromCharacter(GameObject character)
+    {
+        if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
+        {
+            // for each unit slot
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    if (FriendlySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
+                        if (FriendlySlots[x, y].GetComponent<UnitSlot>().GetOccupyingCharacter() == character)
+                            return FriendlySlots[x, y];
+                }
+            }
+        }
+        else if (character.GetComponent<Character>().GetTeam == TeamName.Enemy)
+        {
+            // for each unit slot
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    if (EnemySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
+                        if (EnemySlots[x, y].GetComponent<UnitSlot>().GetOccupyingCharacter() == character)
+                            return EnemySlots[x, y];
+                }
+            }
+        }
+
+        // If no matches are found return null
+        return null;
+    }
+
+    #region Event Callbacks
 
         void RegisterEventCallbacks()
     {
@@ -216,9 +249,11 @@ public class BattlefieldController
     void OnUnitDied(DeathEventInfo deathEventInfo)
     {
         Debug.Log("BattlefieldController Alerted to Character Death: " + deathEventInfo.UnitGO.name);
-        
-        // TODO.. find UnitSlot by CharacterGO, 
+
+        // Find UnitSlot by CharacterGO, 
         // Reset slot back to unoccupied
+        FindSlotFromCharacter(deathEventInfo.UnitGO).GetComponent<UnitSlot>().SetIsOccupied(false);        
+
     }
 
     #endregion

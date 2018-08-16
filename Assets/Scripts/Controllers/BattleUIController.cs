@@ -12,6 +12,7 @@ public class BattleUIController
     GameObject ActionPanel;
     GameObject EnemyPanel;
     GameObject GameOverPanel;
+    GameObject VictoryPanel;
 
     // for the GoBack button - not implemented yet
     GameObject ActivePanel;
@@ -46,9 +47,11 @@ public class BattleUIController
         ActionPanel = GameObject.Find("ActionPanel");
         EnemyPanel = GameObject.Find("EnemyPanel");
         GameOverPanel = GameObject.Find("GameOverPanel");
+        VictoryPanel = GameObject.Find("VictoryPanel");
         ActionPanel.SetActive(false);
         EnemyPanel.SetActive(false);
         GameOverPanel.SetActive(false);
+        VictoryPanel.SetActive(false);
 
         RegisterEventCallbacks();
     }  
@@ -58,7 +61,7 @@ public class BattleUIController
         // Instantiate button
         GameObject buttonGO = GameObject.Instantiate(FriendlyButtonTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
+        buttonGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text[] buttonTexts = buttonGO.GetComponentsInChildren<Text>();
 
         buttonGO.GetComponent<Button>().interactable = false;
@@ -71,7 +74,7 @@ public class BattleUIController
                     text.text = character.name.Replace("_", " ");
                     break;
                 case "HPText":
-                    text.text = "HP : " + character.GetComponent<Monster>().GetHP + "/" + character.GetComponent<Monster>().GetMaxHP;
+                    text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
                     break;
             }
         }
@@ -94,7 +97,7 @@ public class BattleUIController
         // Instantiate button
         GameObject buttonGO = GameObject.Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button";
+        buttonGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
         buttonText.text = character.name;
 
@@ -120,7 +123,7 @@ public class BattleUIController
         ClearActionPanel();
 
         // Get that characters abilities
-        Dictionary<string, Attack> abilities = character.GetComponent<Monster>().GetAbilities;
+        Dictionary<string, Attack> abilities = character.GetComponent<Character>().GetAbilities;
 
         // Add panel for each ability
         foreach (var kvp in abilities)
@@ -174,7 +177,7 @@ public class BattleUIController
         buttonClicked = buttonClicked.Replace("_Button", "");
 
         // record which action has been chosen
-        SelectedAttack = SelectedCharacter.GetComponent<Monster>().GetAbilityByName(buttonClicked);
+        SelectedAttack = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
 
         // deactivate action panel
         ActionPanel.SetActive(false);
@@ -192,7 +195,7 @@ public class BattleUIController
 
         // Currently this is only used to selct target for selected action
         // Carry out selected action upon this target
-        SelectedCharacter.GetComponent<Monster>().UseAbilityOn(
+        SelectedCharacter.GetComponent<Character>().UseAbilityOn(
             SelectedAttack,
             CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
         // Toggle the charcter button to non-interactable
@@ -200,6 +203,20 @@ public class BattleUIController
          
         // Deactivate Enemy panel
         EnemyPanel.SetActive(false);
+    }
+
+    public void GameOverButtonPressed()
+    {
+        Debug.Log("Game over clicked!");
+        // Temp - Quit game from editor - this will NOT be in the game at all later
+        UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    public void VictoryButtonPressed()
+    {
+        Debug.Log("Victory clicked!");
+        // Temp - Quit game from editor - this will NOT be in the game at all later
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 
     private void ToggleButtonInteractable(GameObject button, bool setTo)
@@ -210,13 +227,13 @@ public class BattleUIController
     private void UpdateCharacterPanel(GameObject character)
     {
         // TODO.. Is there a better way of doing this, i dont like it
-        GameObject buttonGO = GameObject.Find(character.GetComponent<Monster>().GetTeam.ToString() + "_" + character.name + "_Button");
+        GameObject buttonGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button");
         Text[] texts  = buttonGO.GetComponentsInChildren<Text>();
         foreach (var text in texts)
         {
             if (text.name == "HPText")
             {
-                text.text = "HP : " + character.GetComponent<Monster>().GetHP + "/" + character.GetComponent<Monster>().GetMaxHP;
+                text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
             }
 
         }
@@ -259,14 +276,16 @@ public class BattleUIController
         EnemyPanel.SetActive(false);
         // Open GameOver Window
         GameOverPanel.SetActive(true);
+
+        GameOverPanel.GetComponentInChildren<Button>().onClick.AddListener(GameOverButtonPressed);
     }
 
     void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
     {
         Debug.Log("BattleUIController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
-        if (unitSpawnEventInfo.UnitGO.GetComponent<Monster>().GetTeam == TeamName.Friendly)
+        if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
             AddToFriendlyPanel(unitSpawnEventInfo.UnitGO);
-        else if (unitSpawnEventInfo.UnitGO.GetComponent<Monster>().GetTeam == TeamName.Enemy)
+        else if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Enemy)
             AddToEnemyPanel(unitSpawnEventInfo.UnitGO);
         else
             // TODO.. improve error handling
