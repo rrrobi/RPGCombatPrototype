@@ -52,7 +52,6 @@ namespace EventCallbacks
         // Info about the attack the character has just been the target of.
         public int Damage;
         public GameObject UnitGO;
-
         // more info can go here
         // eg. Who attacked
     }
@@ -60,5 +59,6 @@ namespace EventCallbacks
     public class UnitSpawnEventInfo : EventInfo<UnitSpawnEventInfo>
     {
         public GameObject UnitGO;
+        public GameObject UnitSlotGO;
     }
 }

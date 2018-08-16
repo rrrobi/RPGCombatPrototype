@@ -10,6 +10,7 @@ public class CombatManager : MonoBehaviour {
     public static CombatManager Instance { get; protected set; }
     MonsterSpawner monsterSpawner = new MonsterSpawner();
     BattleUIController battleUIController = new BattleUIController();
+    BattlefieldController battlefieldController = new BattlefieldController();
 
     // Character lists, and function to maintain these lists
     Dictionary<string, GameObject> playerCharacters;
@@ -47,14 +48,14 @@ public class CombatManager : MonoBehaviour {
     private int FriendlyMonstersNum;
     [SerializeField]
     private GameObject FriendlyTeamGO;
-    [SerializeField]
-    private GameObject FriendlyMonsterSlots;
+    //[SerializeField]
+    //private GameObject FriendlyMonsterSlots;
     [SerializeField]    
     private int EnemyMonstersNum;
     [SerializeField]
     private GameObject EnemyTeamGO;
-    [SerializeField]
-    private GameObject EnemyMonsterSlots;
+    //[SerializeField]
+    //private GameObject EnemyMonsterSlots;
 
     // Battle Objects - unused
     Queue<GameObject> actionQueue = new Queue<GameObject>();
@@ -69,13 +70,15 @@ public class CombatManager : MonoBehaviour {
     void Awake()
     {
         Assert.IsNotNull(FriendlyTeamGO);
-        Assert.IsNotNull(FriendlyMonsterSlots);
+        //Assert.IsNotNull(FriendlyMonsterSlots);
         Assert.IsNotNull(EnemyTeamGO);
-        Assert.IsNotNull(EnemyMonsterSlots);
+       // Assert.IsNotNull(EnemyMonsterSlots);
     }
 
     // Use this for initialization
     void Start () {
+        // Ititial setup of battlefield
+        battlefieldController.Setup();
         // Initial setup of UI controller
         battleUIController.Setup();
         // Initial Setup of MonsterSpawner
@@ -102,55 +105,65 @@ public class CombatManager : MonoBehaviour {
     void AddPlayerMonsters()
     {
         // get number of Monster slots available
-        List<GameObject> slotList = new List<GameObject>();
-        foreach (Transform child in FriendlyMonsterSlots.transform)
-        {
-            slotList.Add(child.gameObject);
-        }
-
+        int availableSlotCount = battlefieldController.FindUnoccupiedFriendlySlotCount();
+                
         // get number of monsters on this team
         // Check theres room for all of them
         // spawn each monster, unless there are more monsters than available slots.
-        int numToSpawn = slotList.Count;
-        if (FriendlyMonstersNum <= slotList.Count)
+        int numToSpawn = availableSlotCount;
+        if (FriendlyMonstersNum <= availableSlotCount)
             numToSpawn = FriendlyMonstersNum;
 
         // add hero
-        GameObject heroGO = monsterSpawner.SpawnMonster(0, TeamName.Friendly, FriendlyTeamGO, slotList[0].transform.position);
+        GameObject heroGO = monsterSpawner.SpawnMonster(0, 
+            TeamName.Friendly, 
+            FriendlyTeamGO, 
+            battlefieldController.GetFriendlySlot(1, 1));
         // add to PlayerCharacterList
         playerCharacters.Add(heroGO.name, heroGO);
 
         // for each Monster 
-        for (int i = 1; i < numToSpawn; i++)
+        for (int i = 0; i < numToSpawn; i++)
         {
-            int randIndex = Random.Range(1, 4);
-            GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex, TeamName.Friendly, FriendlyTeamGO, slotList[i].transform.position);
+            GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedFriendlySlot();
+            if (nextAvailableSlot != null)
+            {
 
-            // add to PlayerCharacterList
-            playerCharacters.Add(monsterGO.name, monsterGO);
+                int randIndex = Random.Range(1, 4);
+                GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex,
+                    TeamName.Friendly,
+                    FriendlyTeamGO,
+                    nextAvailableSlot);
+                // add to PlayerCharacterList
+                playerCharacters.Add(monsterGO.name, monsterGO);
+            }
         }
         
     }
 
     void AddEnemyMonsters()
     {
-        List<GameObject> slotList = new List<GameObject>();
-        foreach (Transform child in EnemyMonsterSlots.transform)
-        {
-            slotList.Add(child.gameObject);
-        }
+        // get number of Monster slots available
+        int availableSlotCount = battlefieldController.FindUnoccupiedEnemySlotCount();
 
         // spawn each monster, unless there are more monsters than available slots.
-        int numToSpawn = slotList.Count;
-        if (EnemyMonstersNum <= slotList.Count)
+        int numToSpawn = availableSlotCount;
+        if (EnemyMonstersNum <= availableSlotCount)
             numToSpawn = EnemyMonstersNum;
 
         for (int i = 0; i < numToSpawn; i++)
         {
-            int randIndex = Random.Range(1, 4);
-            GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex, TeamName.Enemy, EnemyTeamGO, slotList[i].transform.position);
-            // Add to EnemyCharacterList
-            enemyCharacters.Add(monsterGO.name, monsterGO);
+            GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedEnemySlot();
+            if (nextAvailableSlot != null)
+            {
+                int randIndex = Random.Range(1, 4);
+                GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex,
+                    TeamName.Enemy,
+                    EnemyTeamGO,
+                    nextAvailableSlot);
+                // Add to EnemyCharacterList
+                enemyCharacters.Add(monsterGO.name, monsterGO);
+            }
         }
     }
 

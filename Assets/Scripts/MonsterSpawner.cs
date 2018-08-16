@@ -41,14 +41,14 @@ public class MonsterSpawner
         abilityData.ReadData();
     }
 
-    public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, Vector3 pos)
+    public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, GameObject unitSlot)
     {
         // Get monster data from index
         MonsterInfo monsterInfo = monsterData.GetMonsterFromIndex(index);
         // Keep track of count of each monster type in this fight
         TrackMonsterCount(monsterInfo, team);
 
-        GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, pos, Quaternion.identity, teamGroup.transform) as GameObject;
+        GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
         monsterGO.name = monsterInfo.MonsterName + " " + monsterCounts[team + monsterInfo.MonsterName];
         if (team == TeamName.Friendly)
             monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.FriendlySpriteName]);
@@ -78,6 +78,7 @@ public class MonsterSpawner
         EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
         usei.EventDescription = "Unit " + monsterGO.name + " has spawned.";
         usei.UnitGO = monsterGO;
+        usei.UnitSlotGO = unitSlot;
         usei.FireEvent();
 
         return monsterGO;
