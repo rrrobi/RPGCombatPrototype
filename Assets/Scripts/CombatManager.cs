@@ -109,7 +109,7 @@ public class CombatManager : MonoBehaviour {
             numToSpawn = FriendlyMonstersNum;
 
         // add hero
-        GameObject heroGO = monsterSpawner.SpawnMonster(0, 
+        GameObject heroGO = monsterSpawner.SpawnHero(0, 
             TeamName.Friendly, 
             FriendlyTeamGO, 
             battlefieldController.GetFriendlySlot(1, 1));

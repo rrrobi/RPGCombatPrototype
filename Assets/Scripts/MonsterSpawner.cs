@@ -16,12 +16,14 @@ public class MonsterSpawner
     Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
 
     GameObject monsterTemplateGO;
+    GameObject heroTemplateGO;
     Dictionary<string, Sprite> monsterSprites = new Dictionary<string, Sprite>();
 
     public void Setup()
     {
         // Read in MonsterGO template for to use when spawning monsters
         monsterTemplateGO = Resources.Load("Prefabs/Monster") as GameObject;
+        heroTemplateGO = Resources.Load("Prefabs/Hero") as GameObject;
         // Read in Monster sprites ready to assign to New monsters
         Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Monsters/");
         Debug.Log("LOADED RESOURCE: ");
@@ -41,12 +43,55 @@ public class MonsterSpawner
         abilityData.ReadData();
     }
 
+    public GameObject SpawnHero(int index, TeamName team, GameObject teamGroup, GameObject unitSlot)
+    {
+        // Get monster data from index
+        MonsterInfo HeroInfo = monsterData.GetMonsterFromIndex(index);
+        // Keep track of count of each monster type in this fight
+        TrackCharacterCount(HeroInfo, team);
+
+        GameObject heroGO = GameObject.Instantiate(heroTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
+        heroGO.name = HeroInfo.MonsterName + " " + monsterCounts[team + HeroInfo.MonsterName];
+        if (team == TeamName.Friendly)
+            heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.FriendlySpriteName]);
+        else if (team == TeamName.Enemy)
+            heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.EnemySpriteName]);
+        else
+            Debug.Log("TEAM name not correct!!!!");
+        heroGO.GetComponent<Hero>().SetTeam(team);
+        // Set Monster's ability
+        List<Attack> abilities = new List<Attack>();
+        if (!string.IsNullOrEmpty(HeroInfo.Ability1))
+            abilities.Add(CreateAbilityFromData(HeroInfo.Ability1));
+        if (!string.IsNullOrEmpty(HeroInfo.Ability2))
+            abilities.Add(CreateAbilityFromData(HeroInfo.Ability2));
+        if (!string.IsNullOrEmpty(HeroInfo.Ability3))
+            abilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
+        if (!string.IsNullOrEmpty(HeroInfo.Ability4))
+            abilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
+        // TODO... what if no abilities?!?
+        heroGO.GetComponent<Hero>().SetMonsterAbilities(abilities);
+
+        // Set monster HP
+        heroGO.GetComponent<Hero>().SetMaxHP(HeroInfo.MaxHP);
+        heroGO.GetComponent<Hero>().SetHP(HeroInfo.MaxHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+
+        // Trigger Unit Spawn Event Callback
+        EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
+        usei.EventDescription = "Unit " + heroGO.name + " has spawned.";
+        usei.UnitGO = heroGO;
+        usei.UnitSlotGO = unitSlot;
+        usei.FireEvent();
+
+        return heroGO;
+    }
+
     public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, GameObject unitSlot)
     {
         // Get monster data from index
         MonsterInfo monsterInfo = monsterData.GetMonsterFromIndex(index);
         // Keep track of count of each monster type in this fight
-        TrackMonsterCount(monsterInfo, team);
+        TrackCharacterCount(monsterInfo, team);
 
         GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
         monsterGO.name = monsterInfo.MonsterName + " " + monsterCounts[team + monsterInfo.MonsterName];
@@ -92,7 +137,7 @@ public class MonsterSpawner
         return ability;
     }
 
-    void TrackMonsterCount(MonsterInfo monsterInfo, TeamName team)
+    void TrackCharacterCount(MonsterInfo monsterInfo, TeamName team)
     {
         // Keep track and increment number of each Monster type in this battle,
         // This is for the Naming convenntion, to ensure no two names are the same

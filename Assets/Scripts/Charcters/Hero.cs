@@ -14,4 +14,14 @@ public class Hero : Character {
 	protected override void Update () {
         base.Update();
 	}
+
+    protected override void CharacterDies()
+    {
+        Debug.Log(this.name + " has died!");
+
+        // Trigger Death Event callback
+        EventCallbacks.HeroDeathEventInfo hdei = new EventCallbacks.HeroDeathEventInfo();
+        hdei.EventDescription = "Hero has died!";
+        hdei.FireEvent();
+    }
 }

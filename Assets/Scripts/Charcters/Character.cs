@@ -175,7 +175,7 @@ public class Character : MonoBehaviour {
 
         // hceck for death
         if (hP < 0)
-            MonsterDies();
+            CharacterDies();
     }
 
     protected void TakeDamage(int damage)
@@ -191,7 +191,7 @@ public class Character : MonoBehaviour {
         tdei.FireEvent();
     }
 
-    protected void MonsterDies()
+    protected virtual void CharacterDies()
     {
         Debug.Log(this.name + " has died!");
 

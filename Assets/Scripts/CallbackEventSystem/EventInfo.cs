@@ -47,6 +47,13 @@ namespace EventCallbacks
         public TeamName TeamName;
     }
 
+    public class HeroDeathEventInfo : EventInfo<HeroDeathEventInfo>
+    {
+        // Battle is lost if this happens
+        // Battle is all there is atm so information required here will 
+        // be filled out later
+    }
+
     public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>
     {
         // Info about the attack the character has just been the target of.

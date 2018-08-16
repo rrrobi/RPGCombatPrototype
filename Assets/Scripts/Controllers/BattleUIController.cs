@@ -6,29 +6,21 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 using EventCallbacks;
 
-public class BattleUIController //: MonoBehaviour 
+public class BattleUIController 
 {
-
- //   [SerializeField]
     GameObject FriendlyPanel;
- //   [SerializeField]
     GameObject ActionPanel;
- //   [SerializeField]
     GameObject EnemyPanel;
+    GameObject GameOverPanel;
 
     // for the GoBack button - not implemented yet
-//    [SerializeField]
     GameObject ActivePanel;
-//    [SerializeField]
     GameObject PreviousPanel;
 
     // Look into better way of doing this, 
     // I dont like having to have all these buttons added in this way
- //   [SerializeField]
     GameObject FriendlyButtonTemplate;
- //   [SerializeField]
     GameObject ActionButtonTemplate;
- //   [SerializeField]
     GameObject EnemyButtonTemplate;
 
     // TODO... rethink this
@@ -39,16 +31,6 @@ public class BattleUIController //: MonoBehaviour
     // Selected action - may move this to Combatmanager
     GameObject SelectedCharacter;
     Attack SelectedAttack;
-
-    //void Awake()
-    //{
-    //    //Assert.IsNotNull(FriendlyPanel);
-    //    //Assert.IsNotNull(ActionPanel);
-    //    //Assert.IsNotNull(EnemyPanel);
-    //    //Assert.IsNotNull(FriendlyButtonTemplate);
-    //    //Assert.IsNotNull(ActionButtonTemplate);
-    //    //Assert.IsNotNull(EnemyButtonTemplate);
-    //}
 
     // Use this for initialization
     public void Setup() {//Start () {
@@ -63,28 +45,13 @@ public class BattleUIController //: MonoBehaviour
         FriendlyPanel = GameObject.Find("FriendlyPanel");        
         ActionPanel = GameObject.Find("ActionPanel");
         EnemyPanel = GameObject.Find("EnemyPanel");
+        GameOverPanel = GameObject.Find("GameOverPanel");
         ActionPanel.SetActive(false);
         EnemyPanel.SetActive(false);
-
- //       InitialFriendlyPanelSetup();
-
-//        InitialEnemyPanelSetup();
+        GameOverPanel.SetActive(false);
 
         RegisterEventCallbacks();
-    }
-
- //   // Update is called once per frame
- //   void Update () {
-	//}
-
-    void InitialFriendlyPanelSetup()
-    {
-        // foreach Character on the friendly side
-        foreach (var characterKVP in CombatManager.Instance.GetPlayerCharacterList)
-        {
-            AddToFriendlyPanel(characterKVP.Value);
-        }
-    }    
+    }  
 
     void AddToFriendlyPanel(GameObject character)
     {
@@ -119,15 +86,6 @@ public class BattleUIController //: MonoBehaviour
         if (buttonGO != null)
         {
             GameObject.Destroy(buttonGO);
-        }
-    }
-
-    void InitialEnemyPanelSetup()
-    {
-        // foreach Character on the Enemy side
-        foreach (var characterKVP in CombatManager.Instance.GetEnemyCharacterList)
-        {
-            AddToEnemyPanel(characterKVP.Value);
         }
     }
 
@@ -270,6 +228,7 @@ public class BattleUIController //: MonoBehaviour
     void RegisterEventCallbacks()
     {
         TakeDamageEventInfo.RegisterListener(OnDamageTaken);
+        HeroDeathEventInfo.RegisterListener(OnHeroDeath);
         DeathEventInfo.RegisterListener(OnUnitDied);
         UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
     }
@@ -288,6 +247,18 @@ public class BattleUIController //: MonoBehaviour
         // TODO... ReThink
         // I HATE this
         GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
+    }
+
+    void OnHeroDeath(HeroDeathEventInfo heroDeathEventInfo)
+    {
+        Debug.Log("BattleUIController Alerted to Hero Death!");
+
+        // Close all existing windows
+        FriendlyPanel.SetActive(false);
+        ActionPanel.SetActive(false);
+        EnemyPanel.SetActive(false);
+        // Open GameOver Window
+        GameOverPanel.SetActive(true);
     }
 
     void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
