@@ -207,7 +207,7 @@ public class BattleUIController
 
     public void GameOverButtonPressed()
     {
-        Debug.Log("Game over clicked!");
+        Debug.Log("Game over/victory clicked!");
         // Temp - Quit game from editor - this will NOT be in the game at all later
         UnityEditor.EditorApplication.isPlaying = false;
     }
@@ -244,10 +244,25 @@ public class BattleUIController
 
     void RegisterEventCallbacks()
     {
+        BattleWonEventInfo.RegisterListener(OnBattleWon);
         TakeDamageEventInfo.RegisterListener(OnDamageTaken);
         HeroDeathEventInfo.RegisterListener(OnHeroDeath);
         DeathEventInfo.RegisterListener(OnUnitDied);
         UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
+    }
+
+    void OnBattleWon(BattleWonEventInfo battleWonEventInfo)
+    {
+        Debug.Log("BattleUIController Alerted to Hero Death!");
+
+        // Close all existing windows
+        FriendlyPanel.SetActive(false);
+        ActionPanel.SetActive(false);
+        EnemyPanel.SetActive(false);
+        // Open Victory Window
+        VictoryPanel.SetActive(true);
+
+        VictoryPanel.GetComponentInChildren<Button>().onClick.AddListener(GameOverButtonPressed);
     }
 
     void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)

@@ -18,16 +18,6 @@ public class MonsterDataReader
         // Temp - this will be removed
         monsterWrapper.MonsterData.Date = System.DateTime.Now.ToShortDateString();
 
-        MonsterInfo m0 = new MonsterInfo();
-        m0.Index = 0;
-        m0.MonsterName = "Hero";
-        m0.FriendlySpriteName = "SimpleHeroBackBlue";
-        m0.EnemySpriteName = " ";
-        m0.MaxHP = 100;
-        m0.Ability1 = "Slash";
-        m0.Ability2 = "Stab";
-        monsterWrapper.MonsterData.MonsterList.Add(m0);
-
         MonsterInfo m1 = new MonsterInfo();
         m1.Index = 1;
         m1.MonsterName = "Demon";

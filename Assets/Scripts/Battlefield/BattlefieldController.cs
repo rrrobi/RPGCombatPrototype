@@ -252,8 +252,21 @@ public class BattlefieldController
 
         // Find UnitSlot by CharacterGO, 
         // Reset slot back to unoccupied
-        FindSlotFromCharacter(deathEventInfo.UnitGO).GetComponent<UnitSlot>().SetIsOccupied(false);        
+        GameObject unitSlot = FindSlotFromCharacter(deathEventInfo.UnitGO);
+        if (unitSlot != null)
+            unitSlot.GetComponent<UnitSlot>().SetIsOccupied(false);
 
+        // If dead unit was an enemy, check how many enemies are left(unoccupied slots), if none we win 
+        if (deathEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Enemy)
+        {
+            if (FindUnoccupiedEnemySlotCount() >= (rows * columns))
+            {
+                // All enemies are dead, the player has won the battle
+                BattleWonEventInfo bwei = new BattleWonEventInfo();
+                bwei.EventDescription = "The player has won the battle";
+                bwei.FireEvent();
+            }
+        }
     }
 
     #endregion

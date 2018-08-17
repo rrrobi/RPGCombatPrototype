@@ -33,6 +33,11 @@ namespace EventCallbacks
         }
 
     }
+    public class BattleWonEventInfo : EventInfo<BattleWonEventInfo>
+    {
+        // info about what has been earned
+        // bounty, xp, items... etc
+    }
 
     // TODO.. look into making use of this
     public class DebugEventInfo : EventInfo<DebugEventInfo>

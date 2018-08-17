@@ -10,6 +10,7 @@ public enum TeamName
 
 public class MonsterSpawner
 {
+    HeroDataReader heroData = new HeroDataReader();
     MonsterDataReader monsterData = new MonsterDataReader();
     AbilityDataReader abilityData = new AbilityDataReader();
 
@@ -34,6 +35,10 @@ public class MonsterSpawner
         }
 
         // Read in monster data, ready for spawning specific monsters from the config file
+        heroData.Setup();
+        heroData.SaveData();
+        heroData.ReadData();
+
         monsterData.SetUp();
         monsterData.SaveData();
         monsterData.ReadData();
@@ -43,19 +48,17 @@ public class MonsterSpawner
         abilityData.ReadData();
     }
 
-    public GameObject SpawnHero(int index, TeamName team, GameObject teamGroup, GameObject unitSlot)
+    public GameObject SpawnHero(TeamName team, GameObject teamGroup, GameObject unitSlot)
     {
         // Get monster data from index
-        MonsterInfo HeroInfo = monsterData.GetMonsterFromIndex(index);
+        HeroInfo HeroInfo = heroData.heroWrapper.HeroData.HeroInfo;
         // Keep track of count of each monster type in this fight
-        TrackCharacterCount(HeroInfo, team);
+     //   TrackCharacterCount(HeroInfo, team);
 
         GameObject heroGO = GameObject.Instantiate(heroTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
-        heroGO.name = HeroInfo.MonsterName + " " + monsterCounts[team + HeroInfo.MonsterName];
+        heroGO.name = HeroInfo.PlayerName;// + " " + monsterCounts[team + HeroInfo.MonsterName];
         if (team == TeamName.Friendly)
             heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.FriendlySpriteName]);
-        else if (team == TeamName.Enemy)
-            heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.EnemySpriteName]);
         else
             Debug.Log("TEAM name not correct!!!!");
         heroGO.GetComponent<Hero>().SetTeam(team);
