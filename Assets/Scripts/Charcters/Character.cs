@@ -32,7 +32,7 @@ public class Character : MonoBehaviour {
         Abilities = new Dictionary<string, Attack>();
         for (int i = 0; i < abilities.Count; i++)
         {
-            Abilities.Add(abilities[i].GetAttackName, abilities[i]);
+            Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
         }
     }
 
@@ -162,7 +162,7 @@ public class Character : MonoBehaviour {
 
     public void UseAbilityOn(Attack ability, GameObject target)
     {
-        Debug.Log(this.gameObject.name + " Uses '" + ability.GetAttackName + "' On " + target.name);
+        Debug.Log(this.gameObject.name + " Uses '" + ability.GetAbilityName + "' On " + target.name);
 
         target.GetComponent<Character>().TakeAttack(ability);
 

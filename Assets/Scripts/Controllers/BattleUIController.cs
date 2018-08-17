@@ -128,7 +128,7 @@ public class BattleUIController
         // Add panel for each ability
         foreach (var kvp in abilities)
         {
-            AddToActionPanel(kvp.Value.GetAttackName);
+            AddToActionPanel(kvp.Value.GetAbilityName);
         }
     }
 

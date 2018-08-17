@@ -8,7 +8,8 @@ public enum AbilityType
     Damage,
     Heal,
     Buff,
-    Debuff
+    Debuff,
+    Summon
 }
 
 public enum AbilityEffectType
@@ -99,6 +100,16 @@ public class AbilityDataReader
         ability6.BaseAbilityStrength = 0;
         ability6.AbilityCD = 10f;
         abilityWrapper.AbilityData.AbilityList.Add(ability6);
+
+        // TODO.. Add tech ability functionality
+        AbilityInfo ability7 = new AbilityInfo();
+        ability7.Name = "Summon Demon";
+        ability7.abilityType = AbilityType.Summon;
+        ability7.abilityEffectType = AbilityEffectType.Direct;
+        ability7.abilityDamageType = AbilityDamageType.None;
+        ability7.BaseAbilityStrength = 0;
+        ability7.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability7);
     }
 
     public void SaveData()
