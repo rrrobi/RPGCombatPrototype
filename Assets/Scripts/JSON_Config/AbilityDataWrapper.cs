@@ -108,6 +108,17 @@ public class AbilityDataReader
         ability7.BaseAbilityStrength = 0;
         ability7.AbilityCD = 10f;
         abilityWrapper.AbilityData.AbilityList.Add(ability7);
+
+        // TODO.. Add tech ability functionality
+#warning Supports DO NOT work yet
+        AbilityInfo ability8 = new AbilityInfo();
+        ability8.Name = "Heal";
+        ability8.abilityType = AbilityType.Support;
+        ability8.abilityEffectType = AbilityEffectType.Direct;
+        ability8.abilityDamageType = AbilityDamageType.Physical;
+        ability8.BaseAbilityStrength = -25;
+        ability8.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability8);
     }
 
     public void SaveData()

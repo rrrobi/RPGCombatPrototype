@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f6e716d5a5d8942ac1adedce36c8fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FriendlyMonstersNum: 6
+  FriendlyMonstersNum: 4
   FriendlyTeamGO: {fileID: 538895730}
   EnemyMonstersNum: 3
   EnemyTeamGO: {fileID: 1759051401}

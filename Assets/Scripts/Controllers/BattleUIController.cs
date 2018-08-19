@@ -135,7 +135,7 @@ public class BattleUIController
                 break;
             // if support - targets will be Friendlies
             case AbilityType.Support:
-                // Get list of all Enemies currently in the battle
+                // Get list of all Friendlies currently in the battle
                 List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
                 // Loop through targets, adding them to the pannel
                 foreach (var friend in friendlyList)
@@ -145,6 +145,13 @@ public class BattleUIController
                 break;
             // if summon - Targets will be unOccupied character slots on your side
             case AbilityType.Summon:
+                // Get List of Unoccupied frindly unitslots
+                List<GameObject> unitSlotList = CombatManager.Instance.battlefieldController.FindAllCurrentUnoccupiedFriendlySlots();
+                // Loop through targets, adding them to the pannel
+                foreach (var unitSlot in unitSlotList)
+                {
+                    AddToTargetPanel(unitSlot);
+                }
                 break;
             case AbilityType.None:
                 // TODO... look into more robust error handling
@@ -163,10 +170,23 @@ public class BattleUIController
     {
         // Instantiate button
         GameObject buttonGO = GameObject.Instantiate(TargetButtonTemplate, Vector3.zero, Quaternion.identity, TargetPanel.transform) as GameObject;
-        // Set buttons varables
-        buttonGO.name = target.GetComponent<Character>().GetTeam.ToString() + "_" + target.name + "_Button";
-        Text buttonText = buttonGO.GetComponentInChildren<Text>();
-        buttonText.text = target.name;
+
+        // Buttons require setting up differently depending on if they are for a Character or an unoccupied unitslot
+        if (SelectedAbility.GetAbilityType() == AbilityType.Attack ||
+            SelectedAbility.GetAbilityType() == AbilityType.Support)
+        {
+            // Set buttons varables
+            buttonGO.name = target.GetComponent<Character>().GetTeam.ToString() + "_" + target.name + "_Button";
+            Text buttonText = buttonGO.GetComponentInChildren<Text>();
+            buttonText.text = target.name;
+        }
+        else if (SelectedAbility.GetAbilityType() == AbilityType.Summon)
+        {
+            // Set buttons varables
+            buttonGO.name = target.name + "_Button";
+            Text buttonText = buttonGO.GetComponentInChildren<Text>();
+            buttonText.text = target.name;
+        }       
 
         // Provide instructions for what each button does
         buttonGO.GetComponent<Button>().onClick.AddListener(TargetSelectbuttonPressed);
@@ -278,11 +298,21 @@ public class BattleUIController
         string[] buttonNameParts = buttonClicked.Split('_');
         Debug.Log(buttonNameParts[1]);
 
-        // Currently this is only used to selct target for selected action
-        // Carry out selected action upon this target
-        SelectedCharacter.GetComponent<Character>().UseAbilityOn(
+        // if the ability is an attack or support, 
+        if (SelectedAbility.GetAbilityType() == AbilityType.Attack ||
+            SelectedAbility.GetAbilityType() == AbilityType.Support)
+        {
+            // Carry out selected action upon this target
+            SelectedCharacter.GetComponent<Character>().UseAbilityOn(
             SelectedAbility,
             CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
+        }
+        if (SelectedAbility.GetAbilityType() == AbilityType.Summon)
+        {
+            // Summon a new demon on the highlighted space
+            Debug.Log("A Demon Should be summoned in UnitSlot: " + buttonClicked);
+        }
+
         // Toggle the charcter button to non-interactable
         ToggleButtonInteractable(SelectedCharacterButton, false);
          

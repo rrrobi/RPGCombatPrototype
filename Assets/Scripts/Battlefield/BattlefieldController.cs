@@ -146,6 +146,23 @@ public class BattlefieldController
         return friendlyList;
     }
 
+    public List<GameObject> FindAllCurrentUnoccupiedFriendlySlots()
+    {
+        List<GameObject> unitSlotList = new List<GameObject>();
+        // for each unit slot
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                // if the slot is NOT occupied add to the count
+                if (!FriendlySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
+                    unitSlotList.Add(FriendlySlots[x, y]);
+            }
+        }
+
+        return unitSlotList;
+    }
+
     private void SetUpEnemySlots()
     {
         EnemySlots[0, 0] = GameObject.Instantiate(unitSlotGO,
