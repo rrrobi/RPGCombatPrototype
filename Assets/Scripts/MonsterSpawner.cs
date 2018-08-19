@@ -63,7 +63,7 @@ public class MonsterSpawner
             Debug.Log("TEAM name not correct!!!!");
         heroGO.GetComponent<Hero>().SetTeam(team);
         // Set Monster's ability
-        List<Attack> abilities = new List<Attack>();
+        List<Ability> abilities = new List<Ability>();
         if (!string.IsNullOrEmpty(HeroInfo.Ability1))
             abilities.Add(CreateAbilityFromData(HeroInfo.Ability1));
         if (!string.IsNullOrEmpty(HeroInfo.Ability2))
@@ -106,7 +106,7 @@ public class MonsterSpawner
             Debug.Log("TEAM name not correct!!!!");
         monsterGO.GetComponent<Monster>().SetTeam(team);
         // Set Monster's ability
-        List<Attack> abilities = new List<Attack>();
+        List<Ability> abilities = new List<Ability>();
         if (!string.IsNullOrEmpty(monsterInfo.Ability1))
             abilities.Add(CreateAbilityFromData(monsterInfo.Ability1));
         if (!string.IsNullOrEmpty(monsterInfo.Ability2))
@@ -137,6 +137,7 @@ public class MonsterSpawner
         AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
         Attack ability = new Attack(abilityInfo.Name, abilityInfo.BaseAbilityStrength);
+        ability.SetAbilityType(abilityInfo.abilityType);
         return ability;
     }
 

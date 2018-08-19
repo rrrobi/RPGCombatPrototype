@@ -10,7 +10,7 @@ public class CombatManager : MonoBehaviour {
     public static CombatManager Instance { get; protected set; }
     MonsterSpawner monsterSpawner = new MonsterSpawner();
     BattleUIController battleUIController = new BattleUIController();
-    BattlefieldController battlefieldController = new BattlefieldController();
+    public BattlefieldController battlefieldController = new BattlefieldController();
 
     // Character lists, and function to maintain these lists
     Dictionary<string, GameObject> playerCharacters;

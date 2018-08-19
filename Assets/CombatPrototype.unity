@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 164087927}
   - component: {fileID: 164087929}
   m_Layer: 5
-  m_Name: EnemyPanel
+  m_Name: TargetPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

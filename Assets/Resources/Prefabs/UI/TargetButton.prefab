@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114756876989710276}
   - component: {fileID: 114035401612510400}
   m_Layer: 5
-  m_Name: EnemyButton
+  m_Name: TargetButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222458337751339686}
   - component: {fileID: 114047324336683432}
   m_Layer: 5
-  m_Name: EnemyNameText
+  m_Name: TargetNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

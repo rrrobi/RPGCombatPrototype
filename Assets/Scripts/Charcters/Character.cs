@@ -21,15 +21,15 @@ public class Character : MonoBehaviour {
     public void SetMaxHP(int hp) { maxHP = hp; }
     public int GetMaxHP { get { return maxHP; } }
 
-    protected Dictionary<string, Attack> Abilities;
-    public Dictionary<string, Attack> GetAbilities { get { return Abilities; } }
-    public Attack GetAbilityByName(string name)
+    protected Dictionary<string, Ability> Abilities;
+    public Dictionary<string, Ability> GetAbilities { get { return Abilities; } }
+    public Ability GetAbilityByName(string name)
     {
         return Abilities[name];
     }
-    public void SetMonsterAbilities(List<Attack> abilities)
+    public void SetMonsterAbilities(List<Ability> abilities)
     {
-        Abilities = new Dictionary<string, Attack>();
+        Abilities = new Dictionary<string, Ability>();
         for (int i = 0; i < abilities.Count; i++)
         {
             Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
@@ -160,11 +160,14 @@ public class Character : MonoBehaviour {
         }
     }
 
-    public void UseAbilityOn(Attack ability, GameObject target)
+    public void UseAbilityOn(Ability ability, GameObject target)
     {
         Debug.Log(this.gameObject.name + " Uses '" + ability.GetAbilityName + "' On " + target.name);
 
-        target.GetComponent<Character>().TakeAttack(ability);
+        // unsure about this
+        // TODO.. Is this cast the best way to do this?
+        if (ability is Attack)
+        target.GetComponent<Character>().TakeAttack((Attack)ability);
 
         attackTimer = attackCD;
     }

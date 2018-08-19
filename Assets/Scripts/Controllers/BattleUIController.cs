@@ -10,7 +10,7 @@ public class BattleUIController
 {
     GameObject FriendlyPanel;
     GameObject ActionPanel;
-    GameObject EnemyPanel;
+    GameObject TargetPanel;
     GameObject GameOverPanel;
     GameObject VictoryPanel;
 
@@ -22,7 +22,7 @@ public class BattleUIController
     // I dont like having to have all these buttons added in this way
     GameObject FriendlyButtonTemplate;
     GameObject ActionButtonTemplate;
-    GameObject EnemyButtonTemplate;
+    GameObject TargetButtonTemplate;
 
     // TODO... rethink this
     // Holds whcih character button was pressed - I dont like this
@@ -32,29 +32,32 @@ public class BattleUIController
     // Selected action - may move this to Combatmanager
     GameObject SelectedCharacter;
     Attack SelectedAttack;
+    Ability SelectedAbility;
 
     // Use this for initialization
     public void Setup() {//Start () {
         // Read in GO templates from Resources
         FriendlyButtonTemplate = Resources.Load("Prefabs/UI/MonsterPanel") as GameObject;
         ActionButtonTemplate = Resources.Load("Prefabs/UI/ActionButton") as GameObject;
-        EnemyButtonTemplate = Resources.Load("Prefabs/UI/EnemyButton") as GameObject;
+        TargetButtonTemplate = Resources.Load("Prefabs/UI/TargetButton") as GameObject;
 
         // Get UI Panel Gameobjects to use later
         // TODO... ReThink
         // I HATE this
         FriendlyPanel = GameObject.Find("FriendlyPanel");        
         ActionPanel = GameObject.Find("ActionPanel");
-        EnemyPanel = GameObject.Find("EnemyPanel");
+        TargetPanel = GameObject.Find("TargetPanel");
         GameOverPanel = GameObject.Find("GameOverPanel");
         VictoryPanel = GameObject.Find("VictoryPanel");
         ActionPanel.SetActive(false);
-        EnemyPanel.SetActive(false);
+        TargetPanel.SetActive(false);
         GameOverPanel.SetActive(false);
         VictoryPanel.SetActive(false);
 
         RegisterEventCallbacks();
-    }  
+    }
+
+    #region Friendly Panel Code
 
     void AddToFriendlyPanel(GameObject character)
     {
@@ -92,24 +95,81 @@ public class BattleUIController
         }
     }
 
-    void AddToEnemyPanel(GameObject character)
+    private void UpdateFriendlyPanel(GameObject character)
+    {
+        // TODO.. Is there a better way of doing this, i dont like it
+        GameObject buttonGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button");
+        Text[] texts = buttonGO.GetComponentsInChildren<Text>();
+        foreach (var text in texts)
+        {
+            if (text.name == "HPText")
+            {
+                text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
+            }
+
+        }
+
+    }
+
+    #endregion
+
+    #region Target Panel Code
+
+    void TargetPanelSetup()
+    {
+        // Clear existing panel
+        ClearTargetPanel();
+
+        // get ability type
+        switch (SelectedAbility.GetAbilityType())
+        {
+            // if attack - targets will be enemies
+            case AbilityType.Attack:
+                // Get list of all Enemies currently in the battle
+                List<GameObject> enemyList = CombatManager.Instance.battlefieldController.FindAllCurrentEnemies();
+                // Loop through targets, adding them to the pannel
+                foreach (var enemy in enemyList)
+                {
+                    AddToTargetPanel(enemy);
+                }
+                break;
+            // if support - targets will be Friendlies
+            case AbilityType.Support:
+                break;
+            // if summon - Targets will be unOccupied character slots on your side
+            case AbilityType.Summon:
+                break;
+            case AbilityType.None:
+                // TODO... look into more robust error handling
+                Debug.Log("Not exactly sure what shout happen here, this is probably an error!");
+                break;
+            default:
+                // TODO... look into more robust error handling
+                Debug.Log("Not exactly sure what shout happen here, this is probably an error!");
+                break;
+        }        
+
+        
+    }
+
+    void AddToTargetPanel(GameObject target)
     {
         // Instantiate button
-        GameObject buttonGO = GameObject.Instantiate(EnemyButtonTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+        GameObject buttonGO = GameObject.Instantiate(TargetButtonTemplate, Vector3.zero, Quaternion.identity, TargetPanel.transform) as GameObject;
         // Set buttons varables
-        buttonGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button";
+        buttonGO.name = target.GetComponent<Character>().GetTeam.ToString() + "_" + target.name + "_Button";
         Text buttonText = buttonGO.GetComponentInChildren<Text>();
-        buttonText.text = character.name;
+        buttonText.text = target.name;
 
         // Provide instructions for what each button does
         buttonGO.GetComponent<Button>().onClick.AddListener(EnemySelectbuttonPressed);
     }
 
-    void RemoveFromEnemyPanel(GameObject charcter)
+    void RemoveFromTargetPanel(GameObject charcter)
     {
         // TODO... For when a charcter is killed and needs to be removed from a panel
         // May be reusable for the other panels
-        GameObject buttonGO = EnemyPanel.transform.Find(charcter.name + "_Button").gameObject;
+        GameObject buttonGO = TargetPanel.transform.Find(charcter.name + "_Button").gameObject;
 
         if (buttonGO != null)
         {
@@ -117,13 +177,25 @@ public class BattleUIController
         }
     }
 
+    void ClearTargetPanel()
+    {
+        foreach (Transform child in TargetPanel.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
+    #endregion
+
+    #region Action Panel Code
+
     void ActionPanelSetup(GameObject character)
     {
         // Clear existing panel
         ClearActionPanel();
 
         // Get that characters abilities
-        Dictionary<string, Attack> abilities = character.GetComponent<Character>().GetAbilities;
+        Dictionary<string, Ability> abilities = character.GetComponent<Character>().GetAbilities;
 
         // Add panel for each ability
         foreach (var kvp in abilities)
@@ -153,6 +225,10 @@ public class BattleUIController
         }
     }
 
+    #endregion
+
+    #region Button pressed Reactions
+
     public void CharcterSelectbuttonPressed()
     {
         string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
@@ -177,12 +253,14 @@ public class BattleUIController
         buttonClicked = buttonClicked.Replace("_Button", "");
 
         // record which action has been chosen
-        SelectedAttack = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
+        SelectedAbility = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
 
         // deactivate action panel
         ActionPanel.SetActive(false);
         // Activate Enemy panel
-        EnemyPanel.SetActive(true);
+        TargetPanel.SetActive(true);
+        TargetPanelSetup();
+
     }
 
     public void EnemySelectbuttonPressed()
@@ -196,13 +274,13 @@ public class BattleUIController
         // Currently this is only used to selct target for selected action
         // Carry out selected action upon this target
         SelectedCharacter.GetComponent<Character>().UseAbilityOn(
-            SelectedAttack,
+            SelectedAbility,
             CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
         // Toggle the charcter button to non-interactable
         ToggleButtonInteractable(SelectedCharacterButton, false);
          
         // Deactivate Enemy panel
-        EnemyPanel.SetActive(false);
+        TargetPanel.SetActive(false);
     }
 
     public void GameOverButtonPressed()
@@ -219,26 +297,14 @@ public class BattleUIController
         UnityEditor.EditorApplication.isPlaying = false;
     }
 
+    #endregion
+
     private void ToggleButtonInteractable(GameObject button, bool setTo)
     {
         button.GetComponent<Button>().interactable = setTo;
     }
 
-    private void UpdateCharacterPanel(GameObject character)
-    {
-        // TODO.. Is there a better way of doing this, i dont like it
-        GameObject buttonGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button");
-        Text[] texts  = buttonGO.GetComponentsInChildren<Text>();
-        foreach (var text in texts)
-        {
-            if (text.name == "HPText")
-            {
-                text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
-            }
-
-        }
-        
-    }
+    
 
     #region EventCallbacks
 
@@ -258,7 +324,7 @@ public class BattleUIController
         // Close all existing windows
         FriendlyPanel.SetActive(false);
         ActionPanel.SetActive(false);
-        EnemyPanel.SetActive(false);
+        TargetPanel.SetActive(false);
         // Open Victory Window
         VictoryPanel.SetActive(true);
 
@@ -269,7 +335,7 @@ public class BattleUIController
     {
         Debug.Log("BattleUIController Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
 
-        UpdateCharacterPanel(takeDamageEventInfo.UnitGO);
+        UpdateFriendlyPanel(takeDamageEventInfo.UnitGO);
     }
 
     void OnUnitDied(DeathEventInfo deathEventInfo)
@@ -278,7 +344,8 @@ public class BattleUIController
         // Update UI
         // TODO... ReThink
         // I HATE this
-        GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
+        if (deathEventInfo.TeamName == TeamName.Friendly) // Enemies do not maintain a panel of buttons anymore
+            GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
     }
 
     void OnHeroDeath(HeroDeathEventInfo heroDeathEventInfo)
@@ -288,7 +355,7 @@ public class BattleUIController
         // Close all existing windows
         FriendlyPanel.SetActive(false);
         ActionPanel.SetActive(false);
-        EnemyPanel.SetActive(false);
+        TargetPanel.SetActive(false);
         // Open GameOver Window
         GameOverPanel.SetActive(true);
 
@@ -301,7 +368,9 @@ public class BattleUIController
         if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
             AddToFriendlyPanel(unitSpawnEventInfo.UnitGO);
         else if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Enemy)
-            AddToEnemyPanel(unitSpawnEventInfo.UnitGO);
+        {
+            //AddToTargetPanel(unitSpawnEventInfo.UnitGO); // <-- Enemies do not maintain a panel of buttons anymore
+        }
         else
             // TODO.. improve error handling
             Debug.Log("Something has gone very wrong here");

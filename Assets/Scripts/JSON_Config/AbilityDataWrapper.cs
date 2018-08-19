@@ -5,10 +5,8 @@ using UnityEngine;
 public enum AbilityType
 {
     None,
-    Damage,
-    Heal,
-    Buff,
-    Debuff,
+    Attack,
+    Support,
     Summon
 }
 
@@ -47,7 +45,7 @@ public class AbilityDataReader
 
         AbilityInfo ability1 = new AbilityInfo();
         ability1.Name = "Slash";
-        ability1.abilityType = AbilityType.Damage;
+        ability1.abilityType = AbilityType.Attack;
         ability1.abilityEffectType = AbilityEffectType.Direct;
         ability1.abilityDamageType = AbilityDamageType.Physical;
         ability1.BaseAbilityStrength = 10;
@@ -56,7 +54,7 @@ public class AbilityDataReader
 
         AbilityInfo ability2 = new AbilityInfo();
         ability2.Name = "Stab";
-        ability2.abilityType = AbilityType.Damage;
+        ability2.abilityType = AbilityType.Attack;
         ability2.abilityEffectType = AbilityEffectType.Direct;
         ability2.abilityDamageType = AbilityDamageType.Physical;
         ability2.BaseAbilityStrength = 15;
@@ -65,7 +63,7 @@ public class AbilityDataReader
 
         AbilityInfo ability3 = new AbilityInfo();
         ability3.Name = "Tackle";
-        ability3.abilityType = AbilityType.Damage;
+        ability3.abilityType = AbilityType.Attack;
         ability3.abilityEffectType = AbilityEffectType.Direct;
         ability3.abilityDamageType = AbilityDamageType.Physical;
         ability3.BaseAbilityStrength = 10;
@@ -74,7 +72,7 @@ public class AbilityDataReader
 
         AbilityInfo ability4 = new AbilityInfo();
         ability4.Name = "Bash";
-        ability4.abilityType = AbilityType.Damage;
+        ability4.abilityType = AbilityType.Attack;
         ability4.abilityEffectType = AbilityEffectType.Direct;
         ability4.abilityDamageType = AbilityDamageType.Physical;
         ability4.BaseAbilityStrength = 25;
@@ -84,7 +82,7 @@ public class AbilityDataReader
         // TODO.. Add tech ability functionality
         AbilityInfo ability5 = new AbilityInfo();
         ability5.Name = "Taunt";
-        ability5.abilityType = AbilityType.Damage;
+        ability5.abilityType = AbilityType.Attack;
         ability5.abilityEffectType = AbilityEffectType.Direct;
         ability5.abilityDamageType = AbilityDamageType.Physical;
         ability5.BaseAbilityStrength = 0;
@@ -94,7 +92,7 @@ public class AbilityDataReader
         // TODO.. Add tech ability functionality
         AbilityInfo ability6 = new AbilityInfo();
         ability6.Name = "Guard";
-        ability6.abilityType = AbilityType.Damage;
+        ability6.abilityType = AbilityType.Attack;
         ability6.abilityEffectType = AbilityEffectType.Direct;
         ability6.abilityDamageType = AbilityDamageType.Physical;
         ability6.BaseAbilityStrength = 0;

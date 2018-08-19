@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Ability
 {
-    protected string AbilityName;
-    public string GetAbilityName { get { return AbilityName; } }
+    protected string abilityName;
+    public string GetAbilityName { get { return abilityName; } }
+
+    protected AbilityType abilityType;
+    public AbilityType GetAbilityType() { return abilityType; }
+    public void SetAbilityType(AbilityType type) { abilityType = type; }
 
     public Ability(string name)
     {
-        AbilityName = name;
+        abilityName = name;
     }
 
 }

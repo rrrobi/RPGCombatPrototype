@@ -96,6 +96,39 @@ public class BattlefieldController
         FriendlySlots[2, 1].name = "UnitSlot_2-1";
     }
 
+    public int FindUnoccupiedFriendlySlotCount()
+    {
+        int unoccupiedCount = 0;
+
+        // for each unit slot
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                // if the slot is NOT occupied add to the count
+                if (!FriendlySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
+                    unoccupiedCount++;
+            }
+        }
+
+        return unoccupiedCount;
+    }
+
+    public GameObject FindNextUnoccupiedFriendlySlot()
+    {
+        foreach (var item in slotOrderList)
+        {
+            string[] s_index = item.Split('_');
+            int x = int.Parse(s_index[0]);
+            int y = int.Parse(s_index[1]);
+            if (!GetFriendlySlot(x, y).GetComponent<UnitSlot>().GetIsOccupied())
+                return GetFriendlySlot(x, y);
+        }
+
+        // if no unoccupied slots are available, return null
+        return null;
+    }
+
     private void SetUpEnemySlots()
     {
         EnemySlots[0, 0] = GameObject.Instantiate(unitSlotGO,
@@ -131,39 +164,6 @@ public class BattlefieldController
         EnemySlots[2, 1].name = "UnitSlot_2-1";
     }
 
-    public int FindUnoccupiedFriendlySlotCount()
-    {
-        int unoccupiedCount = 0;
-
-        // for each unit slot
-        for (int x = 0; x < columns; x++)
-        {
-            for (int y = 0; y < rows; y++)
-            {
-                // if the slot is NOT occupied add to the count
-                if (!FriendlySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
-                    unoccupiedCount++;
-            }
-        }
-
-        return unoccupiedCount;
-    }
-
-    public GameObject FindNextUnoccupiedFriendlySlot()
-    {
-        foreach (var item in slotOrderList)
-        {
-            string[] s_index = item.Split('_');
-            int x = int.Parse(s_index[0]);
-            int y = int.Parse(s_index[1]);
-            if (!GetFriendlySlot(x, y).GetComponent<UnitSlot>().GetIsOccupied())
-                return GetFriendlySlot(x, y);
-        }
-
-        // if no unoccupied slots are available, return null
-        return null;
-    }
-
     public int FindUnoccupiedEnemySlotCount()
     {
         int unoccupiedCount = 0;
@@ -195,6 +195,23 @@ public class BattlefieldController
 
         // if no unoccupied slots are available, return null
         return null;
+    }
+
+    public List<GameObject> FindAllCurrentEnemies()
+    {
+        List<GameObject> enemyList = new List<GameObject>();
+        // for each unit slot
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                // if the slot is NOT occupied add to the count
+                if (EnemySlots[x, y].GetComponent<UnitSlot>().GetIsOccupied())
+                    enemyList.Add(EnemySlots[x, y].GetComponent<UnitSlot>().GetOccupyingCharacter());
+            }
+        }
+
+        return enemyList;
     }
 
     public GameObject FindSlotFromCharacter(GameObject character)
