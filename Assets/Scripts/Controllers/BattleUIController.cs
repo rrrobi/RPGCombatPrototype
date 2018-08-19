@@ -135,6 +135,13 @@ public class BattleUIController
                 break;
             // if support - targets will be Friendlies
             case AbilityType.Support:
+                // Get list of all Enemies currently in the battle
+                List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
+                // Loop through targets, adding them to the pannel
+                foreach (var friend in friendlyList)
+                {
+                    AddToTargetPanel(friend);
+                }
                 break;
             // if summon - Targets will be unOccupied character slots on your side
             case AbilityType.Summon:
@@ -162,7 +169,7 @@ public class BattleUIController
         buttonText.text = target.name;
 
         // Provide instructions for what each button does
-        buttonGO.GetComponent<Button>().onClick.AddListener(EnemySelectbuttonPressed);
+        buttonGO.GetComponent<Button>().onClick.AddListener(TargetSelectbuttonPressed);
     }
 
     void RemoveFromTargetPanel(GameObject charcter)
@@ -263,7 +270,7 @@ public class BattleUIController
 
     }
 
-    public void EnemySelectbuttonPressed()
+    public void TargetSelectbuttonPressed()
     {
         string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(buttonClicked);
