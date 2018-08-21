@@ -311,6 +311,9 @@ public class BattleUIController
         {
             // Summon a new demon on the highlighted space
             Debug.Log("A Demon Should be summoned in UnitSlot: " + buttonClicked);
+
+            CombatManager.Instance.AddSummonedPlayerMonster(1,
+                CombatManager.Instance.battlefieldController.FindFriendlySlotByName(buttonClicked));
         }
 
         // Toggle the charcter button to non-interactable

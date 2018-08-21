@@ -163,6 +163,22 @@ public class BattlefieldController
         return unitSlotList;
     }
 
+    public GameObject FindFriendlySlotByName(string name)
+    {
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                // if the slot is NOT occupied add to the count
+                if (FriendlySlots[x, y].name == name)
+                    return FriendlySlots[x, y];
+            }
+        }
+
+        // return null is name doesn't exist;
+        return null;
+    }
+
     private void SetUpEnemySlots()
     {
         EnemySlots[0, 0] = GameObject.Instantiate(unitSlotGO,

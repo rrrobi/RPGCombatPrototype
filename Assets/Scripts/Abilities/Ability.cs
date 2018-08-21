@@ -16,4 +16,9 @@ public class Ability
         abilityName = name;
     }
 
+    public virtual void Action()
+    {
+        // must be overridden
+    }
+
 }

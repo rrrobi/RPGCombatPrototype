@@ -134,6 +134,16 @@ public class CombatManager : MonoBehaviour {
         
     }
 
+    public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
+    {
+        GameObject monsterGO = monsterSpawner.SpawnMonster(index,
+                    TeamName.Friendly,
+                    FriendlyTeamGO,
+                    unitSlot);
+        // add to PlayerCharacterList
+        playerCharacters.Add(monsterGO.name, monsterGO);
+    }
+
     void AddEnemyMonsters()
     {
         // get number of Monster slots available
