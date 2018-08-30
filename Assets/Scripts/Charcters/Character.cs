@@ -169,6 +169,12 @@ public class Character : MonoBehaviour {
         if (ability is Attack)
         target.GetComponent<Character>().TakeAttack((Attack)ability);
 
+        UpdateAttackTimer(attackCD);
+    }
+
+    public void UpdateAttackTimer(float cd)
+    {
+        attackCD = cd;
         attackTimer = attackCD;
     }
 
@@ -177,11 +183,11 @@ public class Character : MonoBehaviour {
         TakeDamage(ability.GetDamage);
 
         // hceck for death
-        if (hP < 0)
-            CharacterDies();
+     //   if (hP < 0)
+     //       CharacterDies();
     }
 
-    protected void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         Debug.Log(this.name + " got hit for " + damage);
         hP -= damage;
@@ -192,6 +198,10 @@ public class Character : MonoBehaviour {
         tdei.Damage = damage;
         tdei.UnitGO = gameObject;
         tdei.FireEvent();
+
+        // check for death
+        if (hP < 0)
+            CharacterDies();
     }
 
     protected virtual void CharacterDies()

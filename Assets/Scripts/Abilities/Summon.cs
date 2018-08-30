@@ -9,4 +9,9 @@ public class Summon : Ability
     {
 
     }
+
+    public override void Action(GameObject source, GameObject target)
+    {
+
+    }
 }

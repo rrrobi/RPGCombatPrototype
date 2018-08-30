@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability
+public abstract class Ability
 {
     protected string abilityName;
     public string GetAbilityName { get { return abilityName; } }
+
+    protected float abilityCD;
+    public float GetAbilityCD { get { return abilityCD; } }
 
     protected AbilityType abilityType;
     public AbilityType GetAbilityType() { return abilityType; }
@@ -16,9 +19,6 @@ public class Ability
         abilityName = name;
     }
 
-    public virtual void Action()
-    {
-        // must be overridden
-    }
+    public abstract void Action(GameObject source, GameObject target);
 
 }

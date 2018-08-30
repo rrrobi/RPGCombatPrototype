@@ -303,9 +303,11 @@ public class BattleUIController
             SelectedAbility.GetAbilityType() == AbilityType.Support)
         {
             // Carry out selected action upon this target
-            SelectedCharacter.GetComponent<Character>().UseAbilityOn(
-            SelectedAbility,
-            CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
+            SelectedAbility.Action(SelectedCharacter, CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));
+
+         //   SelectedCharacter.GetComponent<Character>().UseAbilityOn(
+         //   SelectedAbility,
+         //   CombatManager.Instance.GetEnemyCharacterByName(buttonNameParts[1]));// buttonClicked));
         }
         if (SelectedAbility.GetAbilityType() == AbilityType.Summon)
         {
