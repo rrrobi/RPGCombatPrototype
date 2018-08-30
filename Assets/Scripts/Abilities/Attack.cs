@@ -8,7 +8,7 @@ public class Attack : Ability
     int Damage;
     public int GetDamage { get { return Damage; } } 
 
-    public Attack(string abilityName, int damage) : base (abilityName)
+    public Attack(string abilityName, float cd, int damage) : base (abilityName, cd)
     {
         Damage = damage;
     }

@@ -58,7 +58,7 @@ public class AbilityDataReader
         ability2.abilityEffectType = AbilityEffectType.Direct;
         ability2.abilityDamageType = AbilityDamageType.Physical;
         ability2.BaseAbilityStrength = 15;
-        ability2.AbilityCD = 10f;
+        ability2.AbilityCD = 12f;
         abilityWrapper.AbilityData.AbilityList.Add(ability2);
 
         AbilityInfo ability3 = new AbilityInfo();
@@ -67,7 +67,7 @@ public class AbilityDataReader
         ability3.abilityEffectType = AbilityEffectType.Direct;
         ability3.abilityDamageType = AbilityDamageType.Physical;
         ability3.BaseAbilityStrength = 10;
-        ability3.AbilityCD = 10f;
+        ability3.AbilityCD = 5f;
         abilityWrapper.AbilityData.AbilityList.Add(ability3);
 
         AbilityInfo ability4 = new AbilityInfo();
@@ -76,7 +76,7 @@ public class AbilityDataReader
         ability4.abilityEffectType = AbilityEffectType.Direct;
         ability4.abilityDamageType = AbilityDamageType.Physical;
         ability4.BaseAbilityStrength = 25;
-        ability4.AbilityCD = 10f;
+        ability4.AbilityCD = 15f;
         abilityWrapper.AbilityData.AbilityList.Add(ability4);
 
         // TODO.. Add tech ability functionality
@@ -106,7 +106,7 @@ public class AbilityDataReader
         ability7.abilityEffectType = AbilityEffectType.Direct;
         ability7.abilityDamageType = AbilityDamageType.None;
         ability7.BaseAbilityStrength = 0;
-        ability7.AbilityCD = 10f;
+        ability7.AbilityCD = 20f;
         abilityWrapper.AbilityData.AbilityList.Add(ability7);
 
         // TODO.. Add tech ability functionality

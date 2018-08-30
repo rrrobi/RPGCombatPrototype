@@ -136,7 +136,7 @@ public class MonsterSpawner
     {
         AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
-        Attack ability = new Attack(abilityInfo.Name, abilityInfo.BaseAbilityStrength);
+        Attack ability = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
         ability.SetAbilityType(abilityInfo.abilityType);
         return ability;
     }

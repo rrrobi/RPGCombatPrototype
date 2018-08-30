@@ -5,7 +5,7 @@ using UnityEngine;
 public class Summon : Ability
 {
 
-	public Summon(string name) : base(name)
+	public Summon(string name, float cd) : base(name, cd)
     {
 
     }

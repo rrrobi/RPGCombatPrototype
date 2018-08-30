@@ -156,21 +156,22 @@ public class Character : MonoBehaviour {
             int targetIndex = Random.Range(0, mobList.Count);
             int abilityIndex = Random.Range(0, Abilities.Count);
 
-            UseAbilityOn(Abilities.ElementAt(abilityIndex).Value, mobList[targetIndex]);
+            Abilities.ElementAt(abilityIndex).Value.Action(this.gameObject, mobList[targetIndex]);
+            //UseAbilityOn(Abilities.ElementAt(abilityIndex).Value, mobList[targetIndex]);
         }
     }
 
-    public void UseAbilityOn(Ability ability, GameObject target)
-    {
-        Debug.Log(this.gameObject.name + " Uses '" + ability.GetAbilityName + "' On " + target.name);
+    //public void UseAbilityOn(Ability ability, GameObject target)
+    //{
+    //    Debug.Log(this.gameObject.name + " Uses '" + ability.GetAbilityName + "' On " + target.name);
 
-        // unsure about this
-        // TODO.. Is this cast the best way to do this?
-        if (ability is Attack)
-        target.GetComponent<Character>().TakeAttack((Attack)ability);
+    //    // unsure about this
+    //    // TODO.. Is this cast the best way to do this?
+    //    if (ability is Attack)
+    //    target.GetComponent<Character>().TakeAttack((Attack)ability);
 
-        UpdateAttackTimer(attackCD);
-    }
+    //    UpdateAttackTimer(attackCD);
+    //}
 
     public void UpdateAttackTimer(float cd)
     {

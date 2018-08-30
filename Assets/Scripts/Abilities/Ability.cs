@@ -14,9 +14,10 @@ public abstract class Ability
     public AbilityType GetAbilityType() { return abilityType; }
     public void SetAbilityType(AbilityType type) { abilityType = type; }
 
-    public Ability(string name)
+    public Ability(string name, float cd)
     {
         abilityName = name;
+        abilityCD = cd;
     }
 
     public abstract void Action(GameObject source, GameObject target);
