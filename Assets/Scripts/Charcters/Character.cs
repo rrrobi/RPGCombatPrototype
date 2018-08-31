@@ -179,14 +179,14 @@ public class Character : MonoBehaviour {
         attackTimer = attackCD;
     }
 
-    public void TakeAttack(Attack ability)
-    {
-        TakeDamage(ability.GetDamage);
+    //public void TakeAttack(Attack ability)
+    //{
+    //    TakeDamage(ability.GetDamage);
 
-        // hceck for death
-     //   if (hP < 0)
-     //       CharacterDies();
-    }
+    //    // hceck for death
+    // //   if (hP < 0)
+    // //       CharacterDies();
+    //}
 
     public void TakeDamage(int damage)
     {

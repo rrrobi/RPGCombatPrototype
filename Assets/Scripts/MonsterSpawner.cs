@@ -132,13 +132,30 @@ public class MonsterSpawner
         return monsterGO;
     }
 
-    Attack CreateAbilityFromData(string abilityName)
+    Ability CreateAbilityFromData(string abilityName)
     {
         AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
-        Attack ability = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
-        ability.SetAbilityType(abilityInfo.abilityType);
-        return ability;
+        switch(abilityInfo.abilityType)
+        {
+            case AbilityType.Attack:
+                Attack attack = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
+                attack.SetAbilityType(abilityInfo.abilityType);
+                return attack;
+            case AbilityType.Summon:
+                // TODO... index currently fixed to 1, will need to be added to ability data
+                Summon summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, 1);
+                summon.SetAbilityType(abilityInfo.abilityType);
+                return summon;
+            case AbilityType.Support:
+                // TODO... Support not implemented yet - temp returning attack
+                Attack support = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
+                support.SetAbilityType(abilityInfo.abilityType);
+                return support;
+        }
+
+        // TODO... should never be allowed to happen, look inot more robust error handling
+        return null;
     }
 
     void TrackCharacterCount(MonsterInfo monsterInfo, TeamName team)
