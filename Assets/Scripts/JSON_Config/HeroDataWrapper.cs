@@ -27,6 +27,7 @@ public class HeroDataReader
         heroWrapper.HeroData.HeroInfo.Ability1 = "Slash";
         heroWrapper.HeroData.HeroInfo.Ability2 = "Stab";
         heroWrapper.HeroData.HeroInfo.Ability3 = "Summon Demon";
+        heroWrapper.HeroData.HeroInfo.Ability4 = "Summon Demon Swarm";
 
     }
 

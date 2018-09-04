@@ -99,7 +99,6 @@ public class AbilityDataReader
         ability6.AbilityCD = 10f;
         abilityWrapper.AbilityData.AbilityList.Add(ability6);
 
-        // TODO.. Add tech ability functionality
         AbilityInfo ability7 = new AbilityInfo();
         ability7.Name = "Summon Demon";
         ability7.abilityType = AbilityType.Summon;
@@ -107,18 +106,29 @@ public class AbilityDataReader
         ability7.abilityDamageType = AbilityDamageType.None;
         ability7.BaseAbilityStrength = 0;
         ability7.AbilityCD = 20f;
+        ability7.summonIndex = 1;
         abilityWrapper.AbilityData.AbilityList.Add(ability7);
+
+        AbilityInfo ability8 = new AbilityInfo();
+        ability8.Name = "Summon Demon Swarm";
+        ability8.abilityType = AbilityType.Summon;
+        ability8.abilityEffectType = AbilityEffectType.Direct;
+        ability8.abilityDamageType = AbilityDamageType.None;
+        ability8.BaseAbilityStrength = 0;
+        ability8.AbilityCD = 20f;
+        ability8.summonIndex = 2;
+        abilityWrapper.AbilityData.AbilityList.Add(ability8);
 
         // TODO.. Add tech ability functionality
 #warning Supports DO NOT work yet
-        AbilityInfo ability8 = new AbilityInfo();
-        ability8.Name = "Heal";
-        ability8.abilityType = AbilityType.Support;
-        ability8.abilityEffectType = AbilityEffectType.Direct;
-        ability8.abilityDamageType = AbilityDamageType.Physical;
-        ability8.BaseAbilityStrength = -25;
-        ability8.AbilityCD = 10f;
-        abilityWrapper.AbilityData.AbilityList.Add(ability8);
+        AbilityInfo ability9 = new AbilityInfo();
+        ability9.Name = "Heal";
+        ability9.abilityType = AbilityType.Support;
+        ability9.abilityEffectType = AbilityEffectType.Direct;
+        ability9.abilityDamageType = AbilityDamageType.Physical;
+        ability9.BaseAbilityStrength = -25;
+        ability9.AbilityCD = 10f;
+        abilityWrapper.AbilityData.AbilityList.Add(ability9);
     }
 
     public void SaveData()
@@ -191,5 +201,6 @@ public class AbilityInfo
     public int BaseAbilityStrength = 0;
     // AbilityCD - time in battle for this ability to take effect
     public float AbilityCD = 0f;
-
+    // index for the character to be summoned
+    public int summonIndex = 0;
 }

@@ -144,7 +144,7 @@ public class MonsterSpawner
                 return attack;
             case AbilityType.Summon:
                 // TODO... index currently fixed to 1, will need to be added to ability data
-                Summon summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, 1);
+                Summon summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
                 summon.SetAbilityType(abilityInfo.abilityType);
                 return summon;
             case AbilityType.Support:
