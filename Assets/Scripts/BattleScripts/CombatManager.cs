@@ -75,6 +75,9 @@ namespace Battle
         // Use this for initialization
         void Start()
         {
+            EnemyMonstersNum = GameManager.Instance.GetNumOfEnemies;
+            FriendlyMonstersNum = GameManager.Instance.GetNumOfFriendlies;
+
             // Ititial setup of battlefield
             battlefieldController.Setup();
             // Initial setup of UI controller
