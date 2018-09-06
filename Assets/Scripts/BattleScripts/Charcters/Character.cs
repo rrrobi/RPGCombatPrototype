@@ -90,6 +90,7 @@ namespace Battle
             // Set Correct Monster sprite
             MonsterSprite.sprite = monsterSprite;
             MonsterSprite.sortingLayerName = "Characters";
+           // MonsterSprite.material = Resources.Load("BattleResources/Materials/SpriteHighlightMaterial") as Material;
         }
 
         protected void DiscoverTeams()
@@ -138,6 +139,7 @@ namespace Battle
                 // TODO... ReThink
                 // I HATE this
                 GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
+                this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
 
                 CombatManager.Instance.AddToActionQueue(this.gameObject);
             }
@@ -164,32 +166,11 @@ namespace Battle
             }
         }
 
-        //public void UseAbilityOn(Ability ability, GameObject target)
-        //{
-        //    Debug.Log(this.gameObject.name + " Uses '" + ability.GetAbilityName + "' On " + target.name);
-
-        //    // unsure about this
-        //    // TODO.. Is this cast the best way to do this?
-        //    if (ability is Attack)
-        //    target.GetComponent<Character>().TakeAttack((Attack)ability);
-
-        //    UpdateAttackTimer(attackCD);
-        //}
-
         public void UpdateAttackTimer(float cd)
         {
             attackCD = cd;
             attackTimer = attackCD;
         }
-
-        //public void TakeAttack(Attack ability)
-        //{
-        //    TakeDamage(ability.GetDamage);
-
-        //    // hceck for death
-        // //   if (hP < 0)
-        // //       CharacterDies();
-        //}
 
         public void TakeDamage(int damage)
         {

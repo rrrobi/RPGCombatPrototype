@@ -24,5 +24,6 @@ namespace Battle
 
         public abstract void Action(GameObject source, GameObject target);
 
+        // After Action??
     }
 }
