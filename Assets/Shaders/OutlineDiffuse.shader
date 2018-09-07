@@ -4,7 +4,7 @@ Shader "Custom/Sprite Outline" {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_Color("Color", Color) = (1, 1, 1, 1)
-		_Outline ("Outline width", Range (1.0, 10.0)) = 1.0
+		_Outline ("Outline width", Range (1.0, 10.0)) = 5.0
 	}
 		SubShader{
 		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }

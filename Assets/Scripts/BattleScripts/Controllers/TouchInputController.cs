@@ -26,7 +26,7 @@ namespace Battle
         // Update is called once per frame
         void Update()
         {
-            // currently uyses mouse input
+            // currently uses mouse input
             // TODO...
             // Adjust to use touch input for android phones
             if (Input.GetMouseButtonDown(0))

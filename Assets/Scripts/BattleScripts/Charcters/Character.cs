@@ -63,10 +63,11 @@ namespace Battle
 
             // Set this monster's Sprite
             AssignSprite();
-
             // Set monster's colider, (Make it clickable)
             CircleCollider2D col = this.gameObject.AddComponent<CircleCollider2D>();
             col.radius = 1.0f;
+            // Set unclickable to start
+            MakeUnclickable();
 
             // Discove whcih teams are friend or foe
             DiscoverTeams();
@@ -82,6 +83,20 @@ namespace Battle
             }
             else
                 ScaleSpeedBar();
+        }
+
+        public void MakeClickable()
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
+            // Set Sprite Shader to Glow
+            this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
+        }
+
+        public void MakeUnclickable()
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+            // Reset Sprite Shader to Dprite Default (not Glowing)
+            this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Sprites/Default"));
         }
 
         protected void AssignSprite()
@@ -139,7 +154,7 @@ namespace Battle
                 // TODO... ReThink
                 // I HATE this
                 GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
-                this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
+                MakeClickable();
 
                 CombatManager.Instance.AddToActionQueue(this.gameObject);
             }

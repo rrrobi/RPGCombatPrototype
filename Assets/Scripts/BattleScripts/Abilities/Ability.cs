@@ -24,6 +24,15 @@ namespace Battle
 
         public abstract void Action(GameObject source, GameObject target);
 
-        // After Action??
+        protected void AfterAction(GameObject source)
+        {
+            // Calculate Cooldown from ability cooldown and source agi 
+            float cd = abilityCD;
+            // Restart the source's cooldown
+            source.GetComponent<Character>().UpdateAttackTimer(cd);
+
+            // Reset Sprite Shader to Dprite Default (not Glowing)
+            source.GetComponent<Character>().MakeUnclickable();
+        }
     }
 }

@@ -21,16 +21,13 @@ namespace Battle
 
             // Attack is a direct damage ability
             // Calculate damage from ability base damage and source str modifier
-            int damage = Damage;
-
-            // Calculate Cooldown from ability cooldown and source agi 
-            float cd = abilityCD;
+            int damage = Damage;            
 
             // Deal damage to target
             target.GetComponent<Character>().TakeDamage(damage);
 
-            // Restart the source's cooldown
-            source.GetComponent<Character>().UpdateAttackTimer(cd);
+            // Resolve Afteraction Effects
+            AfterAction(source);
         }
     }
 }

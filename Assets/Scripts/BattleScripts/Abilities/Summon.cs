@@ -17,15 +17,12 @@ namespace Battle
         {
             Debug.Log("A Demon Should be summoned in UnitSlot: " + target.name);
 
-            // Calculate Cooldown from ability cooldown and source agi 
-            float cd = abilityCD;
-
             // Summon new Demon
             CombatManager.Instance.AddSummonedPlayerMonster(SummonIndex,
                 target);
 
-            // Restart the source's cooldown
-            source.GetComponent<Character>().UpdateAttackTimer(cd);
+            // Resolve Afteraction Effects
+            AfterAction(source);
         }
     }
 }
