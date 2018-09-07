@@ -47,6 +47,9 @@ TagManager:
   - name: BackGround
     uniqueID: 3461571735
     locked: 0
+  - name: UnitSlots
+    uniqueID: 2216238733
+    locked: 0
   - name: Characters
     uniqueID: 3526110533
     locked: 0
