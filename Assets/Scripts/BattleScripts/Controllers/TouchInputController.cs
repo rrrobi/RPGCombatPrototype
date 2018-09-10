@@ -42,8 +42,13 @@ namespace Battle
 
             if (hit)
             {
-                Instantiate(SelectCursor, hit.transform.position, Quaternion.identity);
+             //   Instantiate(SelectCursor, hit.transform.position, Quaternion.identity);
                 Debug.Log("Clicked on: " + hit.transform.name);
+
+                EventCallbacks.SelectedObjectEventInfo soei = new EventCallbacks.SelectedObjectEventInfo();
+                soei.EventDescription = "Unit " + hit.transform.name + " Has been selected by the user.";
+                soei.UnitGO = hit.transform.gameObject;
+                soei.FireEvent();
             }
 
         }

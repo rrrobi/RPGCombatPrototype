@@ -153,7 +153,7 @@ namespace Battle
             {
                 // TODO... ReThink
                 // I HATE this
-                GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
+                //GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
                 MakeClickable();
 
                 CombatManager.Instance.AddToActionQueue(this.gameObject);

@@ -52,6 +52,11 @@ namespace EventCallbacks
         public TeamName TeamName;
     }
 
+    public class SelectedObjectEventInfo : EventInfo<SelectedObjectEventInfo>
+    {
+        public GameObject UnitGO;
+    }
+
     public class HeroDeathEventInfo : EventInfo<HeroDeathEventInfo>
     {
         // Battle is lost if this happens
