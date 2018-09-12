@@ -18,6 +18,8 @@ namespace Battle
         };
         AbilityState abilityState;
 
+        GameObject FriendlyPanel;
+        GameObject EnemyPanel;
         GameObject ActionPanel;
         GameObject GameOverPanel;
         GameObject VictoryPanel;
@@ -28,9 +30,9 @@ namespace Battle
 
         // Look into better way of doing this, 
         // I dont like having to have all these buttons added in this way
-        GameObject FriendlyButtonTemplate;
-        GameObject ActionButtonTemplate;
-        GameObject TargetButtonTemplate;
+        GameObject monsterPanelTemplate;
+        GameObject actionButtonTemplate;
+        GameObject targetButtonTemplate;
 
         // TODO... rethink this
         // Holds whcih character button was pressed - I dont like this
@@ -47,13 +49,15 @@ namespace Battle
         public void Setup()
         {
          // Read in GO templates from Resources
-            FriendlyButtonTemplate = Resources.Load("BattleResources/Prefabs/UI/MonsterPanel") as GameObject;
-            ActionButtonTemplate = Resources.Load("BattleResources/Prefabs/UI/ActionButton") as GameObject;
-            TargetButtonTemplate = Resources.Load("BattleResources/Prefabs/UI/TargetButton") as GameObject;
+            monsterPanelTemplate = Resources.Load("BattleResources/Prefabs/UI/MonsterPanel") as GameObject;
+            actionButtonTemplate = Resources.Load("BattleResources/Prefabs/UI/ActionButton") as GameObject;
+            targetButtonTemplate = Resources.Load("BattleResources/Prefabs/UI/TargetButton") as GameObject;
 
             // Get UI Panel Gameobjects to use later
             // TODO... ReThink
             // I HATE this
+            FriendlyPanel = GameObject.Find("FriendlyPanel");
+            EnemyPanel = GameObject.Find("EnemyPanel");
             ActionPanel = GameObject.Find("ActionPanel");
             GameOverPanel = GameObject.Find("GameOverPanel");
             VictoryPanel = GameObject.Find("VictoryPanel");
@@ -66,22 +70,45 @@ namespace Battle
             abilityState = AbilityState.CharcterSelect;
         }
 
-        #region legacy freind panel code
-        //private void UpdateFriendlyPanel(GameObject character)
-        //{
-        //    // TODO.. Is there a better way of doing this, i dont like it
-        //    GameObject buttonGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Button");
-        //    Text[] texts = buttonGO.GetComponentsInChildren<Text>();
-        //    foreach (var text in texts)
-        //    {
-        //        if (text.name == "HPText")
-        //        {
-        //            text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
-        //        }
+        #region HP panels
+        private void AddToHPPanel(GameObject character)
+        {
+            GameObject panelGO;
+            // Instantiate panel
+            if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
+                panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
+            else
+                panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+            // Set buttons varables
+            panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel";
+            Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
+            foreach (var text in panelTexts)
+            {
+                if (text.name == "NameText")
+                {
+                    text.text = character.name;
+                }
+                if (text.name == "HPText")
+                {
+                    text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
+                }
 
-        //    }
+            }
+        }
 
-        //}
+        private void UpdateHPPanel(GameObject character)
+        {
+            // TODO.. Is there a better way of doing this, i dont like it
+            GameObject panelGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel");
+            Text[] texts = panelGO.GetComponentsInChildren<Text>();
+            foreach (var text in texts)
+            {
+                if (text.name == "HPText")
+                {
+                    text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
+                }
+            }
+        }
         #endregion
 
         #region Target highlight Code
@@ -199,7 +226,7 @@ namespace Battle
         void AddToActionPanel(string buttonName)
         {
             // Instantiate button
-            GameObject buttonGO = GameObject.Instantiate(ActionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
+            GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
             // Set buttons varables
             buttonGO.name = buttonName + "_Button";
             Text buttonText = buttonGO.GetComponentInChildren<Text>();
@@ -329,7 +356,7 @@ namespace Battle
         {
             Debug.Log("BattleUIController Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
 
-//            UpdateFriendlyPanel(takeDamageEventInfo.UnitGO);
+            UpdateHPPanel(takeDamageEventInfo.UnitGO);
         }
 
         void OnUnitDied(DeathEventInfo deathEventInfo)
@@ -338,8 +365,7 @@ namespace Battle
             // Update UI
             // TODO... ReThink
             // I HATE this
-            //if (deathEventInfo.TeamName == TeamName.Friendly) // Enemies do not maintain a panel of buttons anymore
-            //    GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Button"));
+            GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Panel"));
         }
 
         void OnHeroDeath(HeroDeathEventInfo heroDeathEventInfo)
@@ -357,16 +383,7 @@ namespace Battle
         void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
         {
             Debug.Log("BattleUIController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
-            //if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
-            //{ }
-            ////               AddToFriendlyPanel(unitSpawnEventInfo.UnitGO);
-            //else if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Enemy)
-            //{
-            //    //AddToTargetPanel(unitSpawnEventInfo.UnitGO); // <-- Enemies do not maintain a panel of buttons anymore
-            //}
-            //else
-            //    // TODO.. improve error handling
-            //    Debug.Log("Something has gone very wrong here");
+            AddToHPPanel(unitSpawnEventInfo.UnitGO);
         }
 
         #endregion

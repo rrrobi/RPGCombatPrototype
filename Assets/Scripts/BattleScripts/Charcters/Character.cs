@@ -200,7 +200,7 @@ namespace Battle
             tdei.FireEvent();
 
             // check for death
-            if (hP < 0)
+            if (hP <= 0)
                 CharacterDies();
         }
 
