@@ -10,13 +10,14 @@ namespace Battle
 {
     public class BattleUIController
     {
-        enum AbilityState
+        public enum AbilityState
         {
             CharcterSelect,
             ActionSelect,
             TargetSelect
         };
         AbilityState abilityState;
+        public AbilityState GetAbilityState { get { return abilityState; } }
 
         GameObject FriendlyPanel;
         GameObject EnemyPanel;
@@ -28,16 +29,10 @@ namespace Battle
         GameObject ActivePanel;
         GameObject PreviousPanel;
 
-        // Look into better way of doing this, 
-        // I dont like having to have all these buttons added in this way
+        // UI templates
         GameObject monsterPanelTemplate;
         GameObject actionButtonTemplate;
         GameObject targetButtonTemplate;
-
-        // TODO... rethink this
-        // Holds whcih character button was pressed - I dont like this
-        // May change later
-        GameObject SelectedCharacterButton;
 
         // Selected action - may move this to Combatmanager
         GameObject SelectedCharacter;
@@ -67,7 +62,8 @@ namespace Battle
 
             RegisterEventCallbacks();
             // Starts battle in the character select state
-            abilityState = AbilityState.CharcterSelect;
+            //abilityState = AbilityState.CharcterSelect;
+            TransferAbilityState(AbilityState.CharcterSelect, AbilityState.CharcterSelect);
         }
 
         #region HP panels
@@ -204,6 +200,65 @@ namespace Battle
             }
         }
 
+        void CharacterSelectHighlight()
+        {
+            List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
+            foreach (var friendly in friendlyList)
+            {
+                if (friendly.GetComponent<Character>().GetIsReady)
+                    friendly.GetComponent<Character>().MakeClickable();
+            }
+        }
+
+        void RemoveCharacterSelectHighlight()
+        {
+            List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
+            foreach (var friendly in friendlyList)
+            {
+                friendly.GetComponent<Character>().MakeUnclickable();
+            }
+        }
+
+        void TransferAbilityState(AbilityState from, AbilityState to)
+        {
+            // Handle 'From' Logic
+            // Rules, for changes depending on what state the battle is moving FROM
+            // e.g. if moving 'from' CharacterSelect, we stop highlighting the 'Ready' characters
+            switch(from)
+            {
+                case AbilityState.CharcterSelect:
+                    // remove highlight from friendly charcters
+                    RemoveCharacterSelectHighlight();
+                    break;
+                case AbilityState.ActionSelect:
+                    break;
+                case AbilityState.TargetSelect:
+                    // remove highlight from targets
+                    RemoveTargetHighlight();
+                    break;
+            }
+
+            // Handle 'To' logic
+            // Rules, for changes depending on what state the battle is moving TO
+            // e.g. if moving 'to' CharacterSelect, we begin to highlight the 'Ready' characters
+            switch (to)
+            {
+                case AbilityState.CharcterSelect:
+                    // highlight all 'ready' friendly characters
+                    CharacterSelectHighlight();
+                    abilityState = AbilityState.CharcterSelect;
+                    break;
+                case AbilityState.ActionSelect:
+                    abilityState = AbilityState.ActionSelect;
+                    break;
+                case AbilityState.TargetSelect:
+                    // highlight relevant Targets
+                    TargetHighlight();
+                    abilityState = AbilityState.TargetSelect;
+                    break;
+            }
+        }
+
         #endregion
 
         #region Action Panel Code
@@ -259,13 +314,10 @@ namespace Battle
 
             // deactivate action panel
             ActionPanel.SetActive(false);
-            TargetHighlight();
+            //TargetHighlight();
 
-            abilityState = AbilityState.TargetSelect;
-            // Activate Enemy panel
-         //   TargetPanel.SetActive(true);
-         //   TargetPanelSetup();
-
+            TransferAbilityState(abilityState, AbilityState.TargetSelect);
+            //abilityState = AbilityState.TargetSelect;
         }
 
         public void GameOverButtonPressed()
@@ -312,7 +364,8 @@ namespace Battle
                 SelectedCharacter = selectedEventInfo.UnitGO;
 
                 // Create action panel for this character
-                abilityState = AbilityState.ActionSelect;
+                //abilityState = AbilityState.ActionSelect;
+                TransferAbilityState(abilityState, AbilityState.ActionSelect);
                 ActionPanel.SetActive(true);
                 ActionPanelSetup(SelectedCharacter);
             }
@@ -335,8 +388,9 @@ namespace Battle
                         selectedEventInfo.UnitGO);
                 }
 
-                RemoveTargetHighlight();
-                abilityState = AbilityState.CharcterSelect;
+                //RemoveTargetHighlight();
+                //abilityState = AbilityState.CharcterSelect;
+                TransferAbilityState(abilityState, AbilityState.CharcterSelect);
             }
         }
 

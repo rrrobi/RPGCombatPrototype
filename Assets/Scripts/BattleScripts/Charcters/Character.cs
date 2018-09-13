@@ -13,6 +13,9 @@ namespace Battle
         // Will be changed to be Ability specific
         protected float attackCD = 10;
         protected float attackTimer;
+        protected bool isReady = false;
+        public void SetIsReady(bool ready) { isReady = ready; }
+        public bool GetIsReady { get { return isReady; } }
 
         [SerializeField]
         protected GameObject SpeedBarGO;
@@ -151,10 +154,12 @@ namespace Battle
                 Attack();
             else
             {
-                // TODO... ReThink
-                // I HATE this
-                //GameObject.Find(this.team + "_" + this.name + "_Button").GetComponent<Button>().interactable = true;
-                MakeClickable();
+                isReady = true;
+                // TODO... im not sure about how this works, in regards to updating the Click-a-bility in more than one place, 
+                // should this be passed to UIController?
+                // If so BattleUIController may not need to be public
+                if (CombatManager.Instance.battleUIController.GetAbilityState == BattleUIController.AbilityState.CharcterSelect)
+                    MakeClickable();
 
                 CombatManager.Instance.AddToActionQueue(this.gameObject);
             }

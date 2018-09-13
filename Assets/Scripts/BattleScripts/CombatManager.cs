@@ -12,7 +12,7 @@ namespace Battle
 
         public static CombatManager Instance { get; protected set; }
         MonsterSpawner monsterSpawner = new MonsterSpawner();
-        BattleUIController battleUIController = new BattleUIController();
+        public BattleUIController battleUIController = new BattleUIController();
         public BattlefieldController battlefieldController = new BattlefieldController();
 
         // Character lists, and function to maintain these lists

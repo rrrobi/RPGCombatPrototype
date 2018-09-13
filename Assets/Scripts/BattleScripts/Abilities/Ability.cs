@@ -30,9 +30,10 @@ namespace Battle
             float cd = abilityCD;
             // Restart the source's cooldown
             source.GetComponent<Character>().UpdateAttackTimer(cd);
+            source.GetComponent<Character>().SetIsReady(false);
 
             // Reset Sprite Shader to Dprite Default (not Glowing)
-            source.GetComponent<Character>().MakeUnclickable();
+            //source.GetComponent<Character>().MakeUnclickable();
         }
     }
 }
