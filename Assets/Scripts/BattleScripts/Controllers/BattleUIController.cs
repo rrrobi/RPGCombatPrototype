@@ -416,6 +416,11 @@ namespace Battle
         void OnUnitDied(DeathEventInfo deathEventInfo)
         {
             Debug.Log("BattleUIController Alerted to Character Death: " + deathEventInfo.UnitGO.name);
+            // check if chacter that died is the currently selected character, 
+            // if so, the 'abilityState' must return to character select
+            if (deathEventInfo.UnitGO == SelectedCharacter)
+                TransferAbilityState(abilityState, AbilityState.CharcterSelect);
+
             // Update UI
             // TODO... ReThink
             // I HATE this
