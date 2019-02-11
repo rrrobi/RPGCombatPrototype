@@ -7,6 +7,35 @@ public class BSP_MapGen
     // BSP - partition the space up into randomly sized areas
     #region
 
+    // Map
+    //      ________________
+    //      |              |
+    //      |              |
+    //      |              |
+    //      |              |
+    //      |______________|
+    //
+    //      _________________
+    //      |A      |B      |
+    //      |       |       |
+    //      |       |       |
+    //      |       |       |
+    //      |_______|_______|
+    //  
+    //      _________________
+    //      |A1     |B1     |
+    //      |       |       |
+    //      |_______|_______|
+    //      |A2     |B2     |
+    //      |_______|_______|
+    //
+    //  List<Segment> - contains all the segments in the map
+    //  List<Segment> A, List<Segment> B - contains all the segments split into 2 lists By the first divide, as shown above
+    //  List<Segment> A1, List<Segment> A2, List<Segment> B1, List<Segment> B2 - contains all the segments split into 4 lists By the first 2 divides, as shown above
+    //  ... and so on....
+
+
+
     #endregion
 
     // Room placement - Asign a randomly sized room to each of the BSP segments
