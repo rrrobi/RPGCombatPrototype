@@ -15,12 +15,8 @@ public class GameManager : MonoBehaviour {
     int numOfFriendlies = 1;
     public int GetNumOfFriendlies { get { return numOfFriendlies; } }
 
-    //void OnEnable()
-    //{
-    //    if (Instance != null)
-    //        Debug.LogError("There should never be more than one GameManager.");
-    //    Instance = this;
-    //}
+    // Dungeon Gen
+    BSP_MapGen BSP_DungeonGenerator;
 
     // Use this for initialization
     void Start () {
@@ -32,6 +28,9 @@ public class GameManager : MonoBehaviour {
         }
         Instance = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
+
+        BSP_DungeonGenerator = new BSP_MapGen();
+        BSP_DungeonGenerator.GenerateBSPDungeon();
 	}
 	
 	// Update is called once per frame
