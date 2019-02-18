@@ -16,7 +16,15 @@ public class GameManager : MonoBehaviour {
     public int GetNumOfFriendlies { get { return numOfFriendlies; } }
 
     // Dungeon Gen
+    public Sprite sampleFloor;
+    public Sprite sampleEntranceTile;
+    public Sprite sampleExitTile;
+    public Sprite sampleCache;
+    public Sprite sampleWall;
+    int dungeonWidth = 50;
+    int dungeonHeight = 30;
     BSP_MapGen BSP_DungeonGenerator;
+    int[,] dungeonMap;
 
     // Use this for initialization
     void Start () {
@@ -29,12 +37,56 @@ public class GameManager : MonoBehaviour {
         Instance = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
 
-        BSP_DungeonGenerator = new BSP_MapGen();
-        BSP_DungeonGenerator.GenerateBSPDungeon();
+        BSP_DungeonGenerator = new BSP_MapGen(dungeonWidth, dungeonHeight);
+        dungeonMap = BSP_DungeonGenerator.GenerateBSPDungeon();
+        DrawMap();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void DrawMap()
+    {
+        for (int x = 0; x < dungeonWidth; x++)
+        {
+            for (int y = 0; y < dungeonHeight; y++)
+            {
+                GameObject tile;
+                string name = "Tile_" + x + "_" + y;
+                if (GameObject.Find(name) == null)
+                {
+                    tile = new GameObject();
+                    tile.transform.parent = GameObject.Find("DungeonMap").transform;
+                    tile.name = name;
+                    tile.transform.position = new Vector3(x, y);
+                    if (dungeonMap[x, y] == 0)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleWall;
+                    else if (dungeonMap[x, y] == 1)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleFloor;
+                    else if (dungeonMap[x, y] == 2)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleCache;
+                    else if (dungeonMap[x, y] == 3)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleEntranceTile;
+                    else if (dungeonMap[x, y] == 4)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleExitTile;
+                }
+                else
+                {
+                    tile = GameObject.Find(name);
+                    if (dungeonMap[x, y] == 0)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleWall;
+                    else if (dungeonMap[x, y] == 1)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleFloor;
+                    else if (dungeonMap[x, y] == 2)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleCache;
+                    else if (dungeonMap[x, y] == 3)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleEntranceTile;
+                    else if (dungeonMap[x, y] == 4)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleExitTile;
+                }
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

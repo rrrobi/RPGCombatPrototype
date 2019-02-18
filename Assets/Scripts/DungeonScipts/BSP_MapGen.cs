@@ -37,8 +37,8 @@ public class BSP_MapGen
 
     // Map Gen Variables
     List<List<List<Segment>>> BSPMap = new List<List<List<Segment>>>();
-    const int MAP_WIDTH = 50;
-    const int MAP_HEIGHT = 30;
+    readonly int MAP_WIDTH;// = 50;
+    readonly int MAP_HEIGHT;// = 30;
     const float MAX_DIVIDE_RATIO = 0.70f;
     const float MIN_DIVIDE_RATION = 0.30f;
     const int DIVIDE_COUNT = 4;
@@ -49,12 +49,13 @@ public class BSP_MapGen
     const int ROOM_MIN_WIDTH = 2;
     const int ROOM_MIN_HEIGHT = 2;
 
-    public BSP_MapGen()
+    public BSP_MapGen(int map_Width, int map_Height)
     {
-
+        MAP_WIDTH = map_Width;
+        MAP_HEIGHT = map_Height;
     }
 
-    public void GenerateBSPDungeon()
+    public int[,] GenerateBSPDungeon()
     {
         // Reset Map
         Map = new int[(int)MAP_WIDTH, (int)MAP_HEIGHT];
@@ -70,6 +71,8 @@ public class BSP_MapGen
         RoomPlacementStage();
         FirstPassCorridorsStage();
         SecondPassCorridorsStage();
+
+        return Map;
     }
 
     // BSP - partition the space up into randomly sized areas
