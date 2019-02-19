@@ -32,7 +32,7 @@ public class BSP_MapGen
         public Vector2Int position;
         // List of guardians
         // list of loot
-        // othe info etc
+        // other info etc
     }
 
     // Map Gen Variables
