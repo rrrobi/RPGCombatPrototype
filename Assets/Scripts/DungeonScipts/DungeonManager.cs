@@ -30,6 +30,7 @@ public class DungeonManager : MonoBehaviour {
         player.transform.position = FindEntrancePosition();
         player.AddComponent<SpriteRenderer>().sprite = PlayerCharacter;
         player.GetComponent<SpriteRenderer>().sortingLayerName = "Characters";
+        player.AddComponent<Rigidbody2D>().gravityScale = 0;
         // fix camera to player
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
     }
@@ -97,25 +98,47 @@ public class DungeonManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         ReadInput();
-	}
+        
+    }
 
     private void ReadInput()
     {
+        // Move around
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             Debug.Log("Move Up");
+            MoveCharacter(new Vector3(0.0f, 1.0f, 0.0f));
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Debug.Log("Move Down");
+            MoveCharacter(new Vector3(0.0f, -1.0f, 0.0f));
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Debug.Log("Move Left");
+            MoveCharacter(new Vector3(-1.0f, 0.0f, 0.0f));
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Debug.Log("Move Right");
+            MoveCharacter(new Vector3(1.0f, 0.0f, 0.0f));
         }
+        // Action 
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log("Return pressed! do something!");
+        }
+    }
+
+    void MoveCharacter(Vector3 dir)
+    {
+        if (dungeonMap[(int)player.transform.position.x + (int)dir.x, (int)player.transform.position.y + (int)dir.y] != 0)
+        {
+            player.transform.Translate(dir, Space.Self);
+            Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
+        }
+
+        
     }
 }
