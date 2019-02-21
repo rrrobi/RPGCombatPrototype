@@ -11,9 +11,11 @@ public class GameManager : MonoBehaviour {
     // num of enemies
     int numOfEnemies = 1;
     public int GetNumOfEnemies { get { return numOfEnemies; } }
+    public void SetNumOfEnemies(int input) { numOfEnemies = input; }
     // num of Friendlies
     int numOfFriendlies = 1;
     public int GetNumOfFriendlies { get { return numOfFriendlies; } }
+    public void SetNumOfFriendlies(int input) { numOfFriendlies = input; }
 
     // Use this for initialization
     void Start () {

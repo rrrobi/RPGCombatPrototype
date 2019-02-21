@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour {
 
@@ -128,6 +129,16 @@ public class DungeonManager : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("Return pressed! do something!");
+            switch (dungeonMap[(int)player.transform.position.x, (int)player.transform.position.y])
+            {
+                // Cache tile
+                case 2:
+                    StartBattle();
+                    break;
+                default:
+                    Debug.Log("Nothing to interact with at: " + (int)player.transform.position.x + ", " + (int)player.transform.position.y);
+                    break;
+            }            
         }
     }
 
@@ -137,8 +148,13 @@ public class DungeonManager : MonoBehaviour {
         {
             player.transform.Translate(dir, Space.Self);
             Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
-        }
+        }        
+    }
 
-        
+    public void StartBattle()
+    {
+        GameManager.Instance.SetNumOfEnemies(2);
+        GameManager.Instance.SetNumOfFriendlies(2);
+        SceneManager.LoadScene("CombatPrototype");
     }
 }
