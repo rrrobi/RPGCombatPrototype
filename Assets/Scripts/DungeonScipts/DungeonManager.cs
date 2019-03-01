@@ -12,8 +12,8 @@ public class DungeonManager : MonoBehaviour {
     public Sprite sampleCache;
     public Sprite sampleWall;
     public Sprite PlayerCharacter;
-    int dungeonWidth = 50;
-    int dungeonHeight = 30;
+    int dungeonWidth;// = 50;
+    int dungeonHeight;// = 30;
     BSP_MapGen BSP_DungeonGenerator;
     int[,] dungeonMap;
 
@@ -21,8 +21,29 @@ public class DungeonManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        BSP_DungeonGenerator = new BSP_MapGen(dungeonWidth, dungeonHeight);
-        dungeonMap = BSP_DungeonGenerator.GenerateBSPDungeon();
+        //BSP_DungeonGenerator = new BSP_MapGen(dungeonWidth, dungeonHeight);
+        //dungeonMap = BSP_DungeonGenerator.GenerateBSPDungeon();
+        //dungeonWidth = GameManager.Instance.GetDungeonMapWidth;
+        //dungeonHeight = GameManager.Instance.GetDungeonMapHeight;
+        //dungeonMap = GameManager.Instance.GetDungeonFloorMap(1);
+        //DrawMap();
+
+        //// Add Playable Character
+        //player = new GameObject();
+        //player.name = "PlayerCharacter";
+        //player.transform.position = FindEntrancePosition();
+        //player.AddComponent<SpriteRenderer>().sprite = PlayerCharacter;
+        //player.GetComponent<SpriteRenderer>().sortingLayerName = "Characters";
+        //player.AddComponent<Rigidbody2D>().gravityScale = 0;
+        //// fix camera to player
+        //Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
+    }
+
+    void FloorSetUp(int floorNum)
+    {
+        dungeonWidth = GameManager.Instance.GetDungeonMapWidth;
+        dungeonHeight = GameManager.Instance.GetDungeonMapHeight;
+        dungeonMap = GameManager.Instance.GetDungeonFloorMap(floorNum);
         DrawMap();
 
         // Add Playable Character
@@ -98,6 +119,9 @@ public class DungeonManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (dungeonMap == null)
+            FloorSetUp(1);
+
         ReadInput();
         
     }
@@ -153,8 +177,9 @@ public class DungeonManager : MonoBehaviour {
 
     public void StartBattle()
     {
-        GameManager.Instance.SetNumOfEnemies(2);
-        GameManager.Instance.SetNumOfFriendlies(2);
-        SceneManager.LoadScene("CombatPrototype");
+        GameManager.Instance.SetNumOfEnemies(1);
+        GameManager.Instance.SetNumOfFriendlies(5);
+        GameManager.Instance.StartBattle();
+        //SceneManager.LoadScene("CombatPrototype");
     }
 }

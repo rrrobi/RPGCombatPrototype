@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get; protected set; }
 
+    // Variables For starting Battle Scene
     // num of enemies
     int numOfEnemies = 1;
     public int GetNumOfEnemies { get { return numOfEnemies; } }
@@ -16,6 +17,29 @@ public class GameManager : MonoBehaviour {
     int numOfFriendlies = 1;
     public int GetNumOfFriendlies { get { return numOfFriendlies; } }
     public void SetNumOfFriendlies(int input) { numOfFriendlies = input; }
+
+    // Variables for Starting Dungeon Scene
+    int playerCurrentFloor;
+    Vector2Int playerDungeonPosition = new Vector2Int();
+    Dictionary<int, int[,]> dungeonMapDictionary = new Dictionary<int, int[,]>();
+    public int[,] GetDungeonFloorMap(int floorNum) { return dungeonMapDictionary[floorNum]; }
+    public void SetDungeonFloorMap (int floorNum, int[,] map)
+    {
+        if (dungeonMapDictionary.ContainsKey(floorNum))
+        {
+            // floor already exists
+            Debug.Log("Overwrite floor: " + floorNum);
+            dungeonMapDictionary.Remove(floorNum);
+            dungeonMapDictionary.Add(floorNum, map);
+        }
+        else
+            dungeonMapDictionary.Add(floorNum, map);
+    }
+    int dungeonMapWidth = 50;
+    public int GetDungeonMapWidth { get { return dungeonMapWidth; } }    
+    int dungeonMapHeight = 30;
+    public int GetDungeonMapHeight { get { return dungeonMapHeight; } }
+    BSP_MapGen BSP_DungeonGenerator;
 
     // Use this for initialization
     void Start () {
@@ -28,6 +52,11 @@ public class GameManager : MonoBehaviour {
         Instance = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
 
+        if (dungeonMapDictionary.Count < 1)
+        {
+            BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight);
+            SetDungeonFloorMap(1, BSP_DungeonGenerator.GenerateBSPDungeon());
+        }
     }
 
     
@@ -39,21 +68,36 @@ public class GameManager : MonoBehaviour {
 
     public void StartBattle()
     {
-        // Temp- beyond temp, to add some UI input to manipulate the battles
-        GameObject panel = GameObject.Find("BattleInfoPanel");
-        InputField[] inputs = panel.GetComponentsInChildren<InputField>();
-        foreach (var input in inputs)
-        {
-            int value;
-            if (!int.TryParse(input.text, out value))
-                value = 2;
+        //// Temp- beyond temp, to add some UI input to manipulate the battles
+        //GameObject panel = GameObject.Find("BattleInfoPanel");
+        //InputField[] inputs = panel.GetComponentsInChildren<InputField>();
+        //foreach (var input in inputs)
+        //{
+        //    int value;
+        //    if (!int.TryParse(input.text, out value))
+        //        value = 2;
 
-            if (input.name == "InputFriendlyCount")
-                numOfFriendlies = value;
-            if (input.name == "InputEnemyCount")
-                numOfEnemies = value;
-        }
+        //    if (input.name == "InputFriendlyCount")
+        //        numOfFriendlies = value;
+        //    if (input.name == "InputEnemyCount")
+        //        numOfEnemies = value;
+        //}
 
         SceneManager.LoadScene("CombatPrototype");
+    }
+
+    public void ReturnToDungeon()
+    {
+
+        SceneManager.LoadScene("Dungeon");
+        //SceneManager.UnloadSceneAsync("CombatPrototype");
+        // Unloading Scene DOES NOT unload assets
+#warning Possible memory leak, look into 'Resources.UnloadUnusedAssets'
+    }
+
+    public void GameOver()
+    {
+        // Temp - Quit game from editor - this will NOT be in the game at all later
+        UnityEditor.EditorApplication.isPlaying = false;
     }
 }

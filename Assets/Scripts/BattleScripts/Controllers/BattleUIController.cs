@@ -69,25 +69,34 @@ namespace Battle
         #region HP panels
         private void AddToHPPanel(GameObject character)
         {
-            GameObject panelGO;
-            // Instantiate panel
-            if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
-                panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
-            else
-                panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
-            // Set buttons varables
-            panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel";
-            Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
-            foreach (var text in panelTexts)
+            if (FriendlyPanel != null)
             {
-                if (text.name == "NameText")
+
+                GameObject panelGO;
+                // Instantiate panel
+                if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
+                else
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+                // Set buttons varables
+                panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel";
+                Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
+                foreach (var text in panelTexts)
                 {
-                    text.text = character.name;
+                    if (text.name == "NameText")
+                    {
+                        text.text = character.name;
+                    }
+                    if (text.name == "HPText")
+                    {
+                        text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
+                    }
+
                 }
-                if (text.name == "HPText")
-                {
-                    text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
-                }
+
+            }
+            else
+            {
 
             }
         }
@@ -322,16 +331,14 @@ namespace Battle
 
         public void GameOverButtonPressed()
         {
-            Debug.Log("Game over/victory clicked!");
-            // Temp - Quit game from editor - this will NOT be in the game at all later
-            UnityEditor.EditorApplication.isPlaying = false;
+            Debug.Log("Game over clicked!");
+            GameManager.Instance.GameOver();            
         }
 
         public void VictoryButtonPressed()
         {
             Debug.Log("Victory clicked!");
-            // Temp - Quit game from editor - this will NOT be in the game at all later
-            UnityEditor.EditorApplication.isPlaying = false;
+            GameManager.Instance.ReturnToDungeon();
         }
 
         #endregion
@@ -403,7 +410,7 @@ namespace Battle
             // Open Victory Window
             VictoryPanel.SetActive(true);
 
-            VictoryPanel.GetComponentInChildren<Button>().onClick.AddListener(GameOverButtonPressed);
+            VictoryPanel.GetComponentInChildren<Button>().onClick.AddListener(VictoryButtonPressed);
         }        
 
         void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
