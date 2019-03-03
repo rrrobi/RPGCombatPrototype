@@ -40,11 +40,10 @@ namespace Battle
         string filename = "abilityData.json";
         string path;
 
-        public void SetUp()
+        // This only needs to be called if im am changing machines during devoplment
+        // To ensure the Ability Json Config file is correct
+        private void JSONSetUp()
         {
-            path = Application.persistentDataPath + "/" + filename;
-            Debug.Log("AbilityData Path: " + path);
-
             AbilityInfo ability1 = new AbilityInfo();
             ability1.Name = "Slash";
             ability1.abilityType = AbilityType.Attack;
@@ -131,6 +130,16 @@ namespace Battle
             ability9.BaseAbilityStrength = -25;
             ability9.AbilityCD = 10f;
             abilityWrapper.AbilityData.AbilityList.Add(ability9);
+
+            SaveData();
+        }
+
+        public void SetUp()
+        {
+            path = Application.persistentDataPath + "/" + filename;
+            Debug.Log("AbilityData Path: " + path);
+
+            //JSONSetUp();
         }
 
         public void SaveData()

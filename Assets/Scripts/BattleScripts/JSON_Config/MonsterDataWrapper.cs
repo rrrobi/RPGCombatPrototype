@@ -12,11 +12,10 @@ namespace Battle
         string filename = "monsterData.json";
         string path;
 
-        public void SetUp()
+        // This only needs to be called if im am changing machines during devoplment
+        // To ensure the Monster Json Config file is correct
+        private void JSONSetUp()
         {
-            path = Application.persistentDataPath + "/" + filename;
-            Debug.Log("MonsterData Path: " + path);
-
             // Temp - this will be removed
             monsterWrapper.MonsterData.Date = System.DateTime.Now.ToShortDateString();
 
@@ -49,6 +48,16 @@ namespace Battle
             m3.Ability2 = "Taunt";
             m3.Ability3 = "Guard";
             monsterWrapper.MonsterData.MonsterList.Add(m3);
+
+            SaveData();
+        }
+
+        public void SetUp()
+        {
+            path = Application.persistentDataPath + "/" + filename;
+            Debug.Log("MonsterData Path: " + path);
+
+            //JSONSetUp();
         }
 
         public void SaveData()

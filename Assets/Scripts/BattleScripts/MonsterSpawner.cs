@@ -38,15 +38,15 @@ namespace Battle
 
             // Read in monster data, ready for spawning specific monsters from the config file
             heroData.Setup();
-            heroData.SaveData();
+            //heroData.SaveData();
             heroData.ReadData();
 
             monsterData.SetUp();
-            monsterData.SaveData();
+            //monsterData.SaveData();
             monsterData.ReadData();
 
             abilityData.SetUp();
-            abilityData.SaveData();
+            //abilityData.SaveData();
             abilityData.ReadData();
         }
 

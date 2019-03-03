@@ -11,11 +11,10 @@ namespace Battle
         string filename = "HeroData.json";
         string path;
 
-        public void Setup()
+        // This only needs to be called if im am changing machines during devoplment
+        // To ensure the Hero Json Config file is correct
+        private void JSONSetUp()
         {
-            path = Application.persistentDataPath + "/" + filename;
-            Debug.Log("HeroData Path: " + path);
-
             // Temp - this will be removed
             heroWrapper.HeroData.Date = System.DateTime.Now.ToShortDateString();
             heroWrapper.HeroData.Time = System.DateTime.Now.ToShortTimeString();
@@ -31,6 +30,15 @@ namespace Battle
             heroWrapper.HeroData.HeroInfo.Ability3 = "Summon Demon";
             heroWrapper.HeroData.HeroInfo.Ability4 = "Summon Demon Swarm";
 
+            SaveData();
+        }
+
+        public void Setup()
+        {
+            path = Application.persistentDataPath + "/" + filename;
+            Debug.Log("HeroData Path: " + path);
+
+            //JSONSetUp();
         }
 
         public void SaveData()
