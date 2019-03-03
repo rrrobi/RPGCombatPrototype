@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public void SetNumOfFriendlies(int input) { numOfFriendlies = input; }
 
     // Variables for Starting Dungeon Scene
-    int playerCurrentFloor;
+    int playerCurrentFloor = 1;
     Vector2Int playerDungeonPosition = new Vector2Int();
     public Vector2Int GetPlayerDungeonPosition { get { return playerDungeonPosition; } }
     public void SetPlayerDungeonPosition(Vector2Int pos) { playerDungeonPosition = pos; }
@@ -91,6 +91,16 @@ public class GameManager : MonoBehaviour {
 
     public void ReturnToDungeon()
     {
+        // Cache Battle has been won,
+        // Replace Cache with Empty Cache
+        if (dungeonMapDictionary[playerCurrentFloor][playerDungeonPosition.x, playerDungeonPosition.y] == 2)
+        {
+            // Ensure current position is a full Cache, else something has gone wrong,
+            // Assign Empty Cache tile index instead
+            dungeonMapDictionary[playerCurrentFloor][playerDungeonPosition.x, playerDungeonPosition.y] = 5;
+        }
+        else
+        { Debug.Log("Something has gone wrong, we are returning to the dungeon while not standing on a Cache!"); }
         SceneManager.LoadScene("Dungeon");
     }
 

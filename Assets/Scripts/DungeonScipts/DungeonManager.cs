@@ -10,33 +10,18 @@ public class DungeonManager : MonoBehaviour {
     public Sprite sampleEntranceTile;
     public Sprite sampleExitTile;
     public Sprite sampleCache;
+    public Sprite sampleEmptyCache;
     public Sprite sampleWall;
     public Sprite PlayerCharacter;
     int dungeonWidth;// = 50;
     int dungeonHeight;// = 30;
-    BSP_MapGen BSP_DungeonGenerator;
     int[,] dungeonMap;
 
     GameObject player;
 
     // Use this for initialization
     void Start () {
-        //BSP_DungeonGenerator = new BSP_MapGen(dungeonWidth, dungeonHeight);
-        //dungeonMap = BSP_DungeonGenerator.GenerateBSPDungeon();
-        //dungeonWidth = GameManager.Instance.GetDungeonMapWidth;
-        //dungeonHeight = GameManager.Instance.GetDungeonMapHeight;
-        //dungeonMap = GameManager.Instance.GetDungeonFloorMap(1);
-        //DrawMap();
 
-        //// Add Playable Character
-        //player = new GameObject();
-        //player.name = "PlayerCharacter";
-        //player.transform.position = FindEntrancePosition();
-        //player.AddComponent<SpriteRenderer>().sprite = PlayerCharacter;
-        //player.GetComponent<SpriteRenderer>().sortingLayerName = "Characters";
-        //player.AddComponent<Rigidbody2D>().gravityScale = 0;
-        //// fix camera to player
-        //Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
     }
 
     void FloorSetUp(int floorNum)
@@ -49,28 +34,13 @@ public class DungeonManager : MonoBehaviour {
         // Add Playable Character
         player = new GameObject();
         player.name = "PlayerCharacter";
-        player.transform.position = new Vector3(GameManager.Instance.GetPlayerDungeonPosition.x, GameManager.Instance.GetPlayerDungeonPosition.y, 0.0f);//FindEntrancePosition();
+        player.transform.position = new Vector3(GameManager.Instance.GetPlayerDungeonPosition.x, GameManager.Instance.GetPlayerDungeonPosition.y, 0.0f);
         player.AddComponent<SpriteRenderer>().sprite = PlayerCharacter;
         player.GetComponent<SpriteRenderer>().sortingLayerName = "Characters";
         player.AddComponent<Rigidbody2D>().gravityScale = 0;
         // fix camera to player
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
     }
-
-    //Vector3 FindEntrancePosition()
-    //{
-    //    for (int x = 0; x < dungeonWidth; x++)
-    //    {
-    //        for (int y = 0; y < dungeonHeight; y++)
-    //        {
-    //            if (dungeonMap[x, y] == 3)
-    //                return new Vector3(x, y, 0.0f);
-    //        }
-    //    }
-
-    //    Debug.Log("No Entrance tile found!");
-    //    return new Vector3(0.0f, 0.0f, 0.0f);
-    //}
 
     private void DrawMap()
     {
@@ -96,6 +66,8 @@ public class DungeonManager : MonoBehaviour {
                         tile.AddComponent<SpriteRenderer>().sprite = sampleEntranceTile;
                     else if (dungeonMap[x, y] == 4)
                         tile.AddComponent<SpriteRenderer>().sprite = sampleExitTile;
+                    else if (dungeonMap[x, y] == 5)
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleEmptyCache;
 
                     tile.GetComponent<SpriteRenderer>().sortingLayerName = "BackGround";
                 }
@@ -112,6 +84,8 @@ public class DungeonManager : MonoBehaviour {
                         tile.GetComponent<SpriteRenderer>().sprite = sampleEntranceTile;
                     else if (dungeonMap[x, y] == 4)
                         tile.GetComponent<SpriteRenderer>().sprite = sampleExitTile;
+                    else if (dungeonMap[x, y] == 5)
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleEmptyCache;
                 }
             }
         }
