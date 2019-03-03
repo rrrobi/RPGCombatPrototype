@@ -307,6 +307,12 @@ namespace Battle
             DeathEventInfo.RegisterListener(OnUnitDied);
         }
 
+        public void UnregisterEventCallbacks()
+        {
+            UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
+            DeathEventInfo.UnregisterListener(OnUnitDied);
+        }
+
         void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
         {
             Debug.Log("BattlefieldController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);

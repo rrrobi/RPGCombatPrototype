@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
     // Variables for Starting Dungeon Scene
     int playerCurrentFloor;
     Vector2Int playerDungeonPosition = new Vector2Int();
+    public Vector2Int GetPlayerDungeonPosition { get { return playerDungeonPosition; } }
+    public void SetPlayerDungeonPosition(Vector2Int pos) { playerDungeonPosition = pos; }
     Dictionary<int, int[,]> dungeonMapDictionary = new Dictionary<int, int[,]>();
     public int[,] GetDungeonFloorMap(int floorNum) { return dungeonMapDictionary[floorNum]; }
     public void SetDungeonFloorMap (int floorNum, int[,] map)
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour {
         {
             BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight);
             SetDungeonFloorMap(1, BSP_DungeonGenerator.GenerateBSPDungeon());
+            playerDungeonPosition = new Vector2Int((int)BSP_DungeonGenerator.GetMapEntrance.x, (int)BSP_DungeonGenerator.GetMapEntrance.y);            
         }
     }
 
@@ -88,11 +91,7 @@ public class GameManager : MonoBehaviour {
 
     public void ReturnToDungeon()
     {
-
         SceneManager.LoadScene("Dungeon");
-        //SceneManager.UnloadSceneAsync("CombatPrototype");
-        // Unloading Scene DOES NOT unload assets
-#warning Possible memory leak, look into 'Resources.UnloadUnusedAssets'
     }
 
     public void GameOver()

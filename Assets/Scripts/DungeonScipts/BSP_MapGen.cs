@@ -44,6 +44,8 @@ public class BSP_MapGen
     const int DIVIDE_COUNT = 4;
 
     int[,] Map;
+    Vector3 mapEntrance;
+    public Vector3 GetMapEntrance { get { return mapEntrance; } }
 
     // Room Gen variables
     const int ROOM_MIN_WIDTH = 2;
@@ -72,7 +74,25 @@ public class BSP_MapGen
         FirstPassCorridorsStage();
         SecondPassCorridorsStage();
 
+        // Find Entrance to Level
+        mapEntrance = FindEntrancePosition();
+
         return Map;
+    }
+
+    Vector3 FindEntrancePosition()
+    {
+        for (int x = 0; x < MAP_WIDTH; x++)
+        {
+            for (int y = 0; y < MAP_HEIGHT; y++)
+            {
+                if (Map[x, y] == 3)
+                    return new Vector3(x, y, 0.0f);
+            }
+        }
+
+        Debug.Log("No Entrance tile found!");
+        return new Vector3(0.0f, 0.0f, 0.0f);
     }
 
     // BSP - partition the space up into randomly sized areas

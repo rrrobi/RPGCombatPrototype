@@ -102,6 +102,11 @@ namespace Battle
         {
             DeathEventInfo.RegisterListener(OnUnitDied);
         }
+        
+        void UnregisterEventCallbacks()
+        {
+            DeathEventInfo.UnregisterListener(OnUnitDied);
+        }
 
         void AddPlayerMonsters()
         {
@@ -191,6 +196,13 @@ namespace Battle
         public GameObject TakeFromActionQueue()
         {
             return actionQueue.Dequeue();
+        }
+
+        public void ClearEventListentersOnSceneClosure()
+        {
+            UnregisterEventCallbacks();
+            battlefieldController.UnregisterEventCallbacks();
+            battleUIController.UnregisterEventCallbacks();
         }
 
         // Update is called once per frame

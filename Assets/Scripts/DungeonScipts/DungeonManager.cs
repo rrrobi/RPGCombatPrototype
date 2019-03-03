@@ -49,7 +49,7 @@ public class DungeonManager : MonoBehaviour {
         // Add Playable Character
         player = new GameObject();
         player.name = "PlayerCharacter";
-        player.transform.position = FindEntrancePosition();
+        player.transform.position = new Vector3(GameManager.Instance.GetPlayerDungeonPosition.x, GameManager.Instance.GetPlayerDungeonPosition.y, 0.0f);//FindEntrancePosition();
         player.AddComponent<SpriteRenderer>().sprite = PlayerCharacter;
         player.GetComponent<SpriteRenderer>().sortingLayerName = "Characters";
         player.AddComponent<Rigidbody2D>().gravityScale = 0;
@@ -57,20 +57,20 @@ public class DungeonManager : MonoBehaviour {
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
     }
 
-    Vector3 FindEntrancePosition()
-    {
-        for (int x = 0; x < dungeonWidth; x++)
-        {
-            for (int y = 0; y < dungeonHeight; y++)
-            {
-                if (dungeonMap[x, y] == 3)
-                    return new Vector3(x, y, 0.0f);
-            }
-        }
+    //Vector3 FindEntrancePosition()
+    //{
+    //    for (int x = 0; x < dungeonWidth; x++)
+    //    {
+    //        for (int y = 0; y < dungeonHeight; y++)
+    //        {
+    //            if (dungeonMap[x, y] == 3)
+    //                return new Vector3(x, y, 0.0f);
+    //        }
+    //    }
 
-        Debug.Log("No Entrance tile found!");
-        return new Vector3(0.0f, 0.0f, 0.0f);
-    }
+    //    Debug.Log("No Entrance tile found!");
+    //    return new Vector3(0.0f, 0.0f, 0.0f);
+    //}
 
     private void DrawMap()
     {
@@ -171,6 +171,7 @@ public class DungeonManager : MonoBehaviour {
         if (dungeonMap[(int)player.transform.position.x + (int)dir.x, (int)player.transform.position.y + (int)dir.y] != 0)
         {
             player.transform.Translate(dir, Space.Self);
+            GameManager.Instance.SetPlayerDungeonPosition(new Vector2Int((int)player.transform.position.x, (int)player.transform.position.y));
             Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, Camera.main.transform.position.z);
         }        
     }

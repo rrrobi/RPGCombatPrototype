@@ -332,12 +332,14 @@ namespace Battle
         public void GameOverButtonPressed()
         {
             Debug.Log("Game over clicked!");
+            CombatManager.Instance.ClearEventListentersOnSceneClosure();
             GameManager.Instance.GameOver();            
         }
 
         public void VictoryButtonPressed()
         {
             Debug.Log("Victory clicked!");
+            CombatManager.Instance.ClearEventListentersOnSceneClosure();
             GameManager.Instance.ReturnToDungeon();
         }
 
@@ -361,6 +363,17 @@ namespace Battle
             HeroDeathEventInfo.RegisterListener(OnHeroDeath);
             DeathEventInfo.RegisterListener(OnUnitDied);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
+        }
+
+        public void UnregisterEventCallbacks()
+        {
+            SelectedObjectEventInfo.UnregisterListener(OnHighlightSelected);
+
+            BattleWonEventInfo.UnregisterListener(OnBattleWon);
+            TakeDamageEventInfo.UnregisterListener(OnDamageTaken);
+            HeroDeathEventInfo.UnregisterListener(OnHeroDeath);
+            DeathEventInfo.UnregisterListener(OnUnitDied);
+            UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
         }
 
         void OnHighlightSelected(SelectedObjectEventInfo selectedEventInfo)
