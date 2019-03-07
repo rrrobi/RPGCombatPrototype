@@ -15,7 +15,6 @@ namespace Global
         // To ensure the Hero Json Config file is correct
         private void JSONSetUp()
         {
-            // Temp - this will be removed
             heroWrapper.HeroData.Date = System.DateTime.Now.ToShortDateString();
             heroWrapper.HeroData.Time = System.DateTime.Now.ToShortTimeString();
 
@@ -68,6 +67,19 @@ namespace Global
                 Debug.Log("File not as expected at " + path);
             }
         }
+
+        // thinking out load so to speak.... not used
+        //////
+        public void AmendCurrentHP(int newHP)
+        {
+            heroWrapper.HeroData.HeroInfo.CurrentHP = newHP;
+        }
+
+        public void AmendData(string varName, int input)
+        {
+            this.GetType().GetField(varName).SetValue(this, input);
+        }
+        //////
     }
 
     [System.Serializable]

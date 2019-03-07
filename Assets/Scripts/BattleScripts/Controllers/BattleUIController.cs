@@ -340,6 +340,7 @@ namespace Battle
         {
             Debug.Log("Victory clicked!");
             CombatManager.Instance.ClearEventListentersOnSceneClosure();
+            CombatManager.Instance.PassChangedStatsToGM();
             GameManager.Instance.ReturnToDungeon();
         }
 

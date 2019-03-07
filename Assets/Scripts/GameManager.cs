@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour {
         }
         else
         { Debug.Log("Something has gone wrong, we are returning to the dungeon while not standing on a Cache!"); }
+
         SceneManager.LoadScene("Dungeon");
     }
 

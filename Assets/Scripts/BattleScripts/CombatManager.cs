@@ -205,6 +205,16 @@ namespace Battle
             battleUIController.UnregisterEventCallbacks();
         }
 
+        public void PassChangedStatsToGM()
+        {
+            // TODO... i dont like how this info is passed back - rework
+        
+            // Update Stats for persistance in future battles
+            // Update Hero HP            
+            int hp = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetHP;
+            GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentHP = hp;
+        }
+
         // Update is called once per frame
         void Update()
         {

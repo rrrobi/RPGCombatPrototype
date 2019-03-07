@@ -56,7 +56,7 @@ namespace Battle
             //   TrackCharacterCount(HeroInfo, team);
 
             GameObject heroGO = GameObject.Instantiate(heroTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
-            heroGO.name = HeroInfo.PlayerName;// + " " + monsterCounts[team + HeroInfo.MonsterName];
+            heroGO.name = HeroInfo.PlayerName;
             if (team == TeamName.Friendly)
                 heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.FriendlySpriteName]);
             else

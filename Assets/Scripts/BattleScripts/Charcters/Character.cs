@@ -61,7 +61,7 @@ namespace Battle
         {
             Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
 
-            hP = maxHP;
+            //hP = maxHP;
             attackTimer = attackCD;
 
             // Set this monster's Sprite
