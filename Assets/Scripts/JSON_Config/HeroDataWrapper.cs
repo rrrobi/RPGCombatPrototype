@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Battle
+namespace Global
 {
     public class HeroDataReader
     {
@@ -22,6 +22,7 @@ namespace Battle
             heroWrapper.HeroData.HeroInfo.PlayerName = "Rrrobi";
             heroWrapper.HeroData.HeroInfo.FriendlySpriteName = "SimpleHeroBackBlue";
             heroWrapper.HeroData.HeroInfo.MaxHP = 100;
+            heroWrapper.HeroData.HeroInfo.CurrentHP = 90;
             heroWrapper.HeroData.HeroInfo.CombatLevel = "10";
             heroWrapper.HeroData.HeroInfo.StrengthModifier = "10";
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
@@ -38,7 +39,7 @@ namespace Battle
             path = Application.persistentDataPath + "/" + filename;
             Debug.Log("HeroData Path: " + path);
 
-            //JSONSetUp();
+            JSONSetUp();
         }
 
         public void SaveData()
@@ -90,6 +91,7 @@ namespace Battle
         public string PlayerName = "";
         public string FriendlySpriteName = "";
         public int MaxHP = 0;
+        public int CurrentHP = 0;
 
         public string CombatLevel = "";
         public string StrengthModifier = "";

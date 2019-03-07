@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Global;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get; protected set; }
+
+    // Globaly Used Variables
+    HeroDataReader heroData = new HeroDataReader();
+    public HeroDataReader GetHeroData { get { return heroData; } }
 
     // Variables For starting Battle Scene
     // num of enemies
@@ -53,6 +58,9 @@ public class GameManager : MonoBehaviour {
         }
         Instance = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
+
+        heroData.Setup();
+        heroData.ReadData();
 
         if (dungeonMapDictionary.Count < 1)
         {

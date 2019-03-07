@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Battle
+namespace Global
 {
     public class MonsterDataReader
     {

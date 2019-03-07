@@ -31,7 +31,7 @@ public enum AbilityDamageType
     Shadow
 }
 
-namespace Battle
+namespace Global
 {
     public class AbilityDataReader
     {

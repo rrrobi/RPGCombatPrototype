@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Global;
 
 public enum TeamName
 {
@@ -12,7 +13,7 @@ namespace Battle
 {
     public class MonsterSpawner
     {
-        HeroDataReader heroData = new HeroDataReader();
+        //HeroDataReader heroData = new HeroDataReader();
         MonsterDataReader monsterData = new MonsterDataReader();
         AbilityDataReader abilityData = new AbilityDataReader();
 
@@ -37,23 +38,20 @@ namespace Battle
             }
 
             // Read in monster data, ready for spawning specific monsters from the config file
-            heroData.Setup();
-            //heroData.SaveData();
-            heroData.ReadData();
+            //heroData.Setup();
+            //heroData.ReadData();
 
             monsterData.SetUp();
-            //monsterData.SaveData();
             monsterData.ReadData();
 
             abilityData.SetUp();
-            //abilityData.SaveData();
             abilityData.ReadData();
         }
 
         public GameObject SpawnHero(TeamName team, GameObject teamGroup, GameObject unitSlot)
         {
             // Get monster data from index
-            HeroInfo HeroInfo = heroData.heroWrapper.HeroData.HeroInfo;
+            HeroInfo HeroInfo = GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo;
             // Keep track of count of each monster type in this fight
             //   TrackCharacterCount(HeroInfo, team);
 
@@ -79,7 +77,7 @@ namespace Battle
 
             // Set monster HP
             heroGO.GetComponent<Hero>().SetMaxHP(HeroInfo.MaxHP);
-            heroGO.GetComponent<Hero>().SetHP(HeroInfo.MaxHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            heroGO.GetComponent<Hero>().SetHP(HeroInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
             // Trigger Unit Spawn Event Callback
             EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
