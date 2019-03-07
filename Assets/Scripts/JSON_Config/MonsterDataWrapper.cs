@@ -16,7 +16,6 @@ namespace Global
         // To ensure the Monster Json Config file is correct
         private void JSONSetUp()
         {
-            // Temp - this will be removed
             monsterWrapper.MonsterData.Date = System.DateTime.Now.ToShortDateString();
 
             MonsterInfo m1 = new MonsterInfo();
@@ -25,6 +24,7 @@ namespace Global
             m1.FriendlySpriteName = "SimpleMonsterBackBlue";
             m1.EnemySpriteName = "SimpleMonsterRed";
             m1.MaxHP = 50;
+            m1.CurrentHP = 50;
             m1.Ability1 = "Slash";
             m1.Ability2 = "Stab";
             monsterWrapper.MonsterData.MonsterList.Add(m1);
@@ -35,6 +35,7 @@ namespace Global
             m2.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
             m2.EnemySpriteName = "SimpleMonsterSwarmRed";
             m2.MaxHP = 15;
+            m2.CurrentHP = 15;
             m2.Ability1 = "Tackle";
             monsterWrapper.MonsterData.MonsterList.Add(m2);
 
@@ -44,6 +45,7 @@ namespace Global
             m3.FriendlySpriteName = "SimpleTankMonsterBackBlue";
             m3.EnemySpriteName = "SimpleTankMonsterRed";
             m3.MaxHP = 75;
+            m3.CurrentHP = 75;
             m3.Ability1 = "Bash";
             m3.Ability2 = "Taunt";
             m3.Ability3 = "Guard";
@@ -57,7 +59,7 @@ namespace Global
             path = Application.persistentDataPath + "/" + filename;
             Debug.Log("MonsterData Path: " + path);
 
-            //JSONSetUp();
+            JSONSetUp();
         }
 
         public void SaveData()
@@ -130,6 +132,7 @@ namespace Global
         public string FriendlySpriteName = "";
         public string EnemySpriteName = "";
         public int MaxHP = 0;
+        public int CurrentHP = 0;
 
         public string StrengthModifier = "";
         public string WillModifier = "";

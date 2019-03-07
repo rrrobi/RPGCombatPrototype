@@ -120,7 +120,7 @@ namespace Battle
 
             // Set monster HP
             monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
-            monsterGO.GetComponent<Monster>().SetHP(monsterInfo.MaxHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
             // Trigger Unit Spawn Event Callback
             EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
