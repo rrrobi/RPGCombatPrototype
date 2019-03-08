@@ -153,8 +153,7 @@ public class DungeonManager : MonoBehaviour {
     public void StartBattle()
     {
         GameManager.Instance.SetNumOfEnemies(2);
-        GameManager.Instance.SetNumOfFriendlies(2);
+        GameManager.Instance.SetNumOfFriendlies(5);
         GameManager.Instance.StartBattle();
-        //SceneManager.LoadScene("CombatPrototype");
     }
 }

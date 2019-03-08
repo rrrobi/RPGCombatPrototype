@@ -185,6 +185,7 @@ namespace Global
         public string Ability4 = "";
 
         public List<MonsterInfo> PlayerDemons = new List<MonsterInfo>();
+        // TODO... not sure if 'ActiveDemons' list is the right way to go about this
         public List<int> ActiveDemons = new List<int>();
     }
 }

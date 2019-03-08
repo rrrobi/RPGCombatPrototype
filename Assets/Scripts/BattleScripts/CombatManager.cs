@@ -117,8 +117,9 @@ namespace Battle
             // Check theres room for all of them
             // spawn each monster, unless there are more monsters than available slots.
             int numToSpawn = availableSlotCount;
-            if (FriendlyMonstersNum <= availableSlotCount)
-                numToSpawn = FriendlyMonstersNum;
+            List<Global.MonsterInfo> activeDemons = GameManager.Instance.GetPlayerActiveMonsters;
+            if (activeDemons.Count <= availableSlotCount) //(FriendlyMonstersNum <= availableSlotCount)
+                numToSpawn = activeDemons.Count;// FriendlyMonstersNum;
 
             // add hero
             GameObject heroGO = monsterSpawner.SpawnHero(TeamName.Friendly,
@@ -135,7 +136,8 @@ namespace Battle
                 {
 
                     int randIndex = Random.Range(1, 4);
-                    GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex,
+                    GameObject monsterGO = monsterSpawner.SpawnMonster(0,
+                        activeDemons[i],
                         TeamName.Friendly,
                         FriendlyTeamGO,
                         nextAvailableSlot);
@@ -148,7 +150,11 @@ namespace Battle
 
         public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
         {
+            // TODO... temp, remove this
+            Global.MonsterInfo mi = new Global.MonsterInfo();
+
             GameObject monsterGO = monsterSpawner.SpawnMonster(index,
+                        mi,
                         TeamName.Friendly,
                         FriendlyTeamGO,
                         unitSlot);
@@ -171,8 +177,12 @@ namespace Battle
                 GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedEnemySlot();
                 if (nextAvailableSlot != null)
                 {
+                    // TODO... Temp, remove this
+                    Global.MonsterInfo mi = new Global.MonsterInfo();
+
                     int randIndex = Random.Range(1, 4);
                     GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex,
+                        mi,
                         TeamName.Enemy,
                         EnemyTeamGO,
                         nextAvailableSlot);

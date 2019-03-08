@@ -89,10 +89,19 @@ namespace Battle
             return heroGO;
         }
 
-        public GameObject SpawnMonster(int index, TeamName team, GameObject teamGroup, GameObject unitSlot)
+        public GameObject SpawnMonster(int index, MonsterInfo mi, TeamName team, GameObject teamGroup, GameObject unitSlot)
         {
-            // Get monster data from index
-            MonsterInfo monsterInfo = monsterData.GetMonsterFromIndex(index);
+            // TODO... the index will not be needed once all monster spawns are driven by player and map driven teams
+            MonsterInfo monsterInfo;
+            if (index == 0)
+            {
+                monsterInfo = mi;
+            }
+            else
+            {
+                // Get monster data from index
+                monsterInfo = monsterData.GetMonsterFromIndex(index);
+            }
             // Keep track of count of each monster type in this fight
             TrackCharacterCount(monsterInfo, team);
 

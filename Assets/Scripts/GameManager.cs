@@ -23,6 +23,19 @@ public class GameManager : MonoBehaviour {
     public int GetNumOfFriendlies { get { return numOfFriendlies; } }
     public void SetNumOfFriendlies(int input) { numOfFriendlies = input; }
 
+    List<MonsterInfo> playerActiveMonsters = new List<MonsterInfo>();
+    public List<MonsterInfo> GetPlayerActiveMonsters { get { return playerActiveMonsters; } }
+    public MonsterInfo GetPlayerActiveMonsterByIndex(int index)  { return playerActiveMonsters[index]; }
+    public void AddToPlayerActiveMonsters(MonsterInfo mi)
+    {
+        playerActiveMonsters.Add(mi);
+    }
+    public void RemoveFromPlayerActiveMonsters(MonsterInfo mi)
+    {
+        if (playerActiveMonsters.Contains(mi))
+            playerActiveMonsters.Remove(mi);
+    }
+
     // Variables for Starting Dungeon Scene
     int playerCurrentFloor = 1;
     Vector2Int playerDungeonPosition = new Vector2Int();
@@ -61,6 +74,7 @@ public class GameManager : MonoBehaviour {
 
         heroData.Setup();
         heroData.ReadData();
+        AssignActiveMonsters();
 
         if (dungeonMapDictionary.Count < 1)
         {
@@ -70,7 +84,16 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    
+    // TODO...
+    // Look into this, I don't like how its done.
+    // find a better way
+    void AssignActiveMonsters()
+    {
+        foreach (var monsterIndex in heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons)
+        {
+            AddToPlayerActiveMonsters(heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons[monsterIndex]);
+        }
+    }
 
     // Update is called once per frame
     void Update () {
