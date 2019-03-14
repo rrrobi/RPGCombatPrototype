@@ -7,7 +7,8 @@ public enum AbilityType
     None,
     Attack,
     Support,
-    Summon
+    Summon,
+    Menu
 }
 
 public enum AbilityEffectType
