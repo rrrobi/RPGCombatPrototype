@@ -215,5 +215,8 @@ namespace Global
         public float AbilityCD = 0f;
         // index for the character to be summoned
         public int summonIndex = 0;
+
+        // List of Menu Abilities
+        public List<AbilityInfo> menuList = new List<AbilityInfo>();
     }
 }

@@ -151,8 +151,7 @@ namespace Battle
                     Attack attack = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
                     attack.SetAbilityType(abilityInfo.abilityType);
                     return attack;
-                case AbilityType.Summon:
-                    // TODO... index currently fixed to 1, will need to be added to ability data
+                case AbilityType.Summon:                    
                     Summon summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
                     summon.SetAbilityType(abilityInfo.abilityType);
                     return summon;
@@ -161,6 +160,13 @@ namespace Battle
                     Attack support = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
                     support.SetAbilityType(abilityInfo.abilityType);
                     return support;
+                case AbilityType.Menu:
+                    // TODO... Not Working yet - work in progress
+                    List<Ability> menuContents = new List<Ability>();
+
+                    Menu menu = new Menu(abilityInfo.Name, abilityInfo.AbilityCD, AbilityType.Summon, menuContents);
+                    menu.SetAbilityType(abilityInfo.abilityType);
+                    return menu;
             }
 
             // TODO... should never be allowed to happen, look inot more robust error handling

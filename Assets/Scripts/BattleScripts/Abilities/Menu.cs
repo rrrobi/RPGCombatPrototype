@@ -12,9 +12,13 @@ namespace Battle
         // Ability type - what type of abilities will be used to populate the ActionList
         private AbilityType actionType;
 
-        public Menu(string name, float cd, AbilityType abilityType) : base(name, cd)
+        public Menu(string name, float cd, AbilityType abilityType, List<Ability> abilityList) : base(name, cd)
         {
             actionType = abilityType;
+            foreach (var ability in abilityList)
+            {
+                actionList.Add(ability);
+            }
         }
 
         public override void Action(GameObject source, GameObject target)
