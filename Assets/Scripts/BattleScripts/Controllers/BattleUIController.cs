@@ -286,21 +286,30 @@ namespace Battle
             // Add panel for each ability
             foreach (var kvp in abilities)
             {
-                AddToActionPanel(kvp.Value.GetAbilityName);
+                AddToActionPanel(kvp.Value);//.GetAbilityName);
             }
         }
 
-        void AddToActionPanel(string buttonName)
+        void AddToActionPanel(Ability ability)//string buttonName)
         {
             // Instantiate button
             GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
             // Set buttons varables
-            buttonGO.name = buttonName + "_Button";
+            buttonGO.name = ability.GetAbilityName + "_Button";//buttonName + "_Button";
             Text buttonText = buttonGO.GetComponentInChildren<Text>();
-            buttonText.text = buttonName;
+            buttonText.text = ability.GetAbilityName;// buttonName;
 
             // Provide instructions for what each button does
-            buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
+            switch (ability.GetAbilityType())
+            {
+                case AbilityType.Menu:
+                    buttonGO.GetComponent<Button>().onClick.AddListener(MenuSelectButtonPressed);
+                    break;
+                default:
+                    buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
+                    break;
+            }
+            
         }
 
         void ClearActionPanel()
@@ -315,19 +324,49 @@ namespace Battle
 
         #region Menu Panel Code
 
-        void MenuPanelSetup()
+        void MenuPanelSetup(Menu menu)
         {
+            // Clear existing MenuPanel
+            ClearMenuPanel();
 
+            // Get Abilities the menu Needs
+           // Ability abilityMenu = character.GetComponent<Character>().GetAbilityByName(menuName);
+
+
+            // Add button for each Ability
+            foreach (var ability in menu.GetActionList)
+            {
+                AddToMenuPanel(ability);
+            }
         }
 
-        void AddToMenuPanel()
+        void AddToMenuPanel(Ability ability)
         {
+            // Instantiate button
+            GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, MenuPanel.transform) as GameObject;
+            // Set buttons varables
+            buttonGO.name = ability.GetAbilityName + "_Button";//buttonName + "_Button";
+            Text buttonText = buttonGO.GetComponentInChildren<Text>();
+            buttonText.text = ability.GetAbilityName;// buttonName;
 
+            // Provide instructions for what each button does
+            switch (ability.GetAbilityType())
+            {
+                case AbilityType.Menu:
+                    buttonGO.GetComponent<Button>().onClick.AddListener(MenuSelectButtonPressed);
+                    break;
+                default:
+                    buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
+                    break;
+            }
         }
 
         void ClearMenuPanel()
         {
-
+            foreach (Transform child in MenuPanel.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
         }
 
         #endregion
@@ -345,10 +384,8 @@ namespace Battle
 
             // deactivate action panel
             ActionPanel.SetActive(false);
-            //TargetHighlight();
 
             TransferAbilityState(abilityState, AbilityState.TargetSelect);
-            //abilityState = AbilityState.TargetSelect;
         }
 
         public void MenuSelectButtonPressed()
@@ -364,7 +401,11 @@ namespace Battle
             ActionPanel.SetActive(false);
             MenuPanel.SetActive(true);
 
+            // Find whcih menu button was pressed
+            Menu selectedMenu = (Menu)SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
+
             // Populate Menu
+            MenuPanelSetup(selectedMenu);
         }
 
         public void GameOverButtonPressed()

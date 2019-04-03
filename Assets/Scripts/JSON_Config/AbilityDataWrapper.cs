@@ -170,7 +170,7 @@ namespace Global
             path = Application.persistentDataPath + "/" + filename;
             Debug.Log("AbilityData Path: " + path);
 
-            //JSONSetUp();
+            JSONSetUp();
         }
 
         public void SaveData()

@@ -27,7 +27,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
             heroWrapper.HeroData.HeroInfo.Ability1 = "Slash";
             heroWrapper.HeroData.HeroInfo.Ability2 = "Stab";
-            heroWrapper.HeroData.HeroInfo.Ability3 = "Summon Demon";
+            heroWrapper.HeroData.HeroInfo.Ability3 = "Summon";
             heroWrapper.HeroData.HeroInfo.Ability4 = "Summon Demon Swarm";
 
             #region player demon List setup

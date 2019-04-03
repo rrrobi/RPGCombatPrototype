@@ -9,6 +9,7 @@ namespace Battle
     {
         // List of abilities which will populate the menu
         private List<Ability> actionList = new List<Ability>();
+        public List<Ability> GetActionList { get { return actionList; } }
         // Ability type - what type of abilities will be used to populate the ActionList
         private AbilityType actionType;
 
