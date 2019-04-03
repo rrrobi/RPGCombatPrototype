@@ -22,6 +22,7 @@ namespace Battle
         GameObject FriendlyPanel;
         GameObject EnemyPanel;
         GameObject ActionPanel;
+        GameObject MenuPanel;
         GameObject GameOverPanel;
         GameObject VictoryPanel;
 
@@ -54,9 +55,11 @@ namespace Battle
             FriendlyPanel = GameObject.Find("FriendlyPanel");
             EnemyPanel = GameObject.Find("EnemyPanel");
             ActionPanel = GameObject.Find("ActionPanel");
+            MenuPanel = GameObject.Find("MenuPanel");
             GameOverPanel = GameObject.Find("GameOverPanel");
             VictoryPanel = GameObject.Find("VictoryPanel");
             ActionPanel.SetActive(false);
+            MenuPanel.SetActive(false);
             GameOverPanel.SetActive(false);
             VictoryPanel.SetActive(false);
 
@@ -310,6 +313,25 @@ namespace Battle
 
         #endregion
 
+        #region Menu Panel Code
+
+        void MenuPanelSetup()
+        {
+
+        }
+
+        void AddToMenuPanel()
+        {
+
+        }
+
+        void ClearMenuPanel()
+        {
+
+        }
+
+        #endregion
+
         #region Button pressed Reactions
 
         public void ActionSelectbuttonPressed()
@@ -327,6 +349,22 @@ namespace Battle
 
             TransferAbilityState(abilityState, AbilityState.TargetSelect);
             //abilityState = AbilityState.TargetSelect;
+        }
+
+        public void MenuSelectButtonPressed()
+        {
+            string buttonClicked = EventSystem.current.currentSelectedGameObject.name;
+            Debug.Log(buttonClicked);
+            buttonClicked = buttonClicked.Replace("_Button", "");
+
+            // record which action has been chosen
+            //SelectedAbility = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
+
+            // deactivate action panel
+            ActionPanel.SetActive(false);
+            MenuPanel.SetActive(true);
+
+            // Populate Menu
         }
 
         public void GameOverButtonPressed()
@@ -421,6 +459,7 @@ namespace Battle
 
             // Close all existing windows
             ActionPanel.SetActive(false);
+            MenuPanel.SetActive(false);
             // Open Victory Window
             VictoryPanel.SetActive(true);
 
@@ -454,6 +493,7 @@ namespace Battle
 
             // Close all existing windows
             ActionPanel.SetActive(false);
+            MenuPanel.SetActive(false);
             // Open GameOver Window
             GameOverPanel.SetActive(true);
 

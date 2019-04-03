@@ -121,16 +121,46 @@ namespace Global
             ability8.summonIndex = 2;
             abilityWrapper.AbilityData.AbilityList.Add(ability8);
 
+            AbilityInfo ability9 = new AbilityInfo();
+            ability9.Name = "Summon";
+            ability9.abilityType = AbilityType.Menu;
+            ability9.AbilityCD = 0f;
+            ability9.menuList = new List<AbilityInfo>();
+
+            AbilityInfo summon1 = new AbilityInfo()
+            {
+                Name = "Summon Demon",
+                abilityType = AbilityType.Summon,
+                abilityEffectType = AbilityEffectType.Direct,
+                abilityDamageType = AbilityDamageType.None,
+                BaseAbilityStrength = 0,
+                AbilityCD = 20f,
+                summonIndex = 1,
+            };
+            ability9.menuList.Add(summon1);
+            AbilityInfo summon2 = new AbilityInfo()
+            {
+                Name = "Summon Demon Swarm",
+                abilityType = AbilityType.Summon,
+                abilityEffectType = AbilityEffectType.Direct,
+                abilityDamageType = AbilityDamageType.None,
+                BaseAbilityStrength = 0,
+                AbilityCD = 20f,
+                summonIndex = 2,
+            };
+            ability9.menuList.Add(summon2);
+            abilityWrapper.AbilityData.AbilityList.Add(ability9);
+
             // TODO.. Add tech ability functionality
 #warning Supports DO NOT work yet
-            AbilityInfo ability9 = new AbilityInfo();
-            ability9.Name = "Heal";
-            ability9.abilityType = AbilityType.Support;
-            ability9.abilityEffectType = AbilityEffectType.Direct;
-            ability9.abilityDamageType = AbilityDamageType.Physical;
-            ability9.BaseAbilityStrength = -25;
-            ability9.AbilityCD = 10f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability9);
+            AbilityInfo ability10 = new AbilityInfo();
+            ability10.Name = "Heal";
+            ability10.abilityType = AbilityType.Support;
+            ability10.abilityEffectType = AbilityEffectType.Direct;
+            ability10.abilityDamageType = AbilityDamageType.Physical;
+            ability10.BaseAbilityStrength = -25;
+            ability10.AbilityCD = 10f;
+            abilityWrapper.AbilityData.AbilityList.Add(ability10);
 
             SaveData();
         }
