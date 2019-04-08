@@ -27,8 +27,10 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
             heroWrapper.HeroData.HeroInfo.Ability1 = "Slash";
             heroWrapper.HeroData.HeroInfo.Ability2 = "Stab";
-            heroWrapper.HeroData.HeroInfo.Ability3 = "Summon";
+            heroWrapper.HeroData.HeroInfo.Ability3 = "Summon Demon";
             heroWrapper.HeroData.HeroInfo.Ability4 = "Summon Demon Swarm";
+
+            heroWrapper.HeroData.HeroInfo.Menu1 = "Summon";
 
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
@@ -183,6 +185,8 @@ namespace Global
         public string Ability2 = "";
         public string Ability3 = "";
         public string Ability4 = "";
+
+        public string Menu1 = "";
 
         public List<MonsterInfo> PlayerDemons = new List<MonsterInfo>();
         // TODO... not sure if 'ActiveDemons' list is the right way to go about this

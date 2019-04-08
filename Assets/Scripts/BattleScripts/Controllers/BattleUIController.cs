@@ -300,16 +300,20 @@ namespace Battle
             buttonText.text = ability.GetAbilityName;// buttonName;
 
             // Provide instructions for what each button does
-            switch (ability.GetAbilityType())
-            {
-                case AbilityType.Menu:
-                    buttonGO.GetComponent<Button>().onClick.AddListener(MenuSelectButtonPressed);
-                    break;
-                default:
-                    buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
-                    break;
-            }
+            buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
             
+        }
+
+        void AddMenuToActionPanel(Menu menu)
+        {
+            // Instantiate button
+            GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
+            // Set buttons varables
+            buttonGO.name = menu.GetMenuName + "_Button";//buttonName + "_Button";
+            Text buttonText = buttonGO.GetComponentInChildren<Text>();
+            buttonText.text = menu.GetMenuName;
+
+            buttonGO.GetComponent<Button>().onClick.AddListener(MenuSelectButtonPressed);
         }
 
         void ClearActionPanel()
@@ -324,14 +328,10 @@ namespace Battle
 
         #region Menu Panel Code
 
-        void MenuPanelSetup(Menu menu)
+        void MenuPanelSetup(Character character, Menu menu)
         {
             // Clear existing MenuPanel
             ClearMenuPanel();
-
-            // Get Abilities the menu Needs
-           // Ability abilityMenu = character.GetComponent<Character>().GetAbilityByName(menuName);
-
 
             // Add button for each Ability
             foreach (var ability in menu.GetActionList)
@@ -350,15 +350,7 @@ namespace Battle
             buttonText.text = ability.GetAbilityName;// buttonName;
 
             // Provide instructions for what each button does
-            switch (ability.GetAbilityType())
-            {
-                case AbilityType.Menu:
-                    buttonGO.GetComponent<Button>().onClick.AddListener(MenuSelectButtonPressed);
-                    break;
-                default:
-                    buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
-                    break;
-            }
+            buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
         }
 
         void ClearMenuPanel()
@@ -402,10 +394,10 @@ namespace Battle
             MenuPanel.SetActive(true);
 
             // Find whcih menu button was pressed
-            Menu selectedMenu = (Menu)SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
+            Menu selectedMenu = SelectedCharacter.GetComponent<Character>().GetMenuByName(buttonClicked);
 
             // Populate Menu
-            MenuPanelSetup(selectedMenu);
+            MenuPanelSetup(SelectedCharacter.GetComponent<Character>(), selectedMenu);
         }
 
         public void GameOverButtonPressed()

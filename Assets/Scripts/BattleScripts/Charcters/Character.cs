@@ -41,6 +41,17 @@ namespace Battle
                 Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
             }
         }
+        protected Dictionary<string, Menu> Menus;
+        public Dictionary<string, Menu> GetMenus { get { return Menus; } }
+        public Menu GetMenuByName(string name) { return Menus[name]; }
+        public void SetMenus(List<Menu> menus)
+        {
+            Menus = new Dictionary<string, Menu>();
+            for (int i = 0; i < menus.Count; i++)
+            {
+                Menus.Add(menus[i].GetMenuName, menus[i]);
+            }
+        }
 
         protected TeamName team;
         public void SetTeam(TeamName teamName) { team = teamName; }

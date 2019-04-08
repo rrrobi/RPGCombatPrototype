@@ -68,12 +68,28 @@ namespace Battle
                 abilities.Add(CreateAbilityFromData(HeroInfo.Ability1));
             if (!string.IsNullOrEmpty(HeroInfo.Ability2))
                 abilities.Add(CreateAbilityFromData(HeroInfo.Ability2));
-            if (!string.IsNullOrEmpty(HeroInfo.Ability3))
-                abilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
-            if (!string.IsNullOrEmpty(HeroInfo.Ability4))
-                abilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
+            //if (!string.IsNullOrEmpty(HeroInfo.Ability3))
+            //    abilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
+            //if (!string.IsNullOrEmpty(HeroInfo.Ability4))
+            //    abilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
             // TODO... what if no abilities?!?
             heroGO.GetComponent<Hero>().SetMonsterAbilities(abilities);
+
+            // Set up Hero's Menus
+            List<Menu> menus = new List<Menu>();
+            if (!string.IsNullOrEmpty(HeroInfo.Menu1))
+            {
+                List<Ability> menuAbilities = new List<Ability>();
+                if (!string.IsNullOrEmpty(HeroInfo.Ability3))
+                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
+                if (!string.IsNullOrEmpty(HeroInfo.Ability4))
+                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
+
+
+                Menu menu = new Menu(HeroInfo.Menu1, AbilityType.Summon, menuAbilities);
+                menus.Add(menu);
+            }
+            heroGO.GetComponent<Hero>().SetMenus(menus);
 
             // Set monster HP
             heroGO.GetComponent<Hero>().SetMaxHP(HeroInfo.MaxHP);
@@ -160,13 +176,6 @@ namespace Battle
                     Attack support = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
                     support.SetAbilityType(abilityInfo.abilityType);
                     return support;
-                case AbilityType.Menu:
-                    // TODO... Not Working yet - work in progress
-                    List<Ability> menuContents = new List<Ability>();
-
-                    Menu menu = new Menu(abilityInfo.Name, abilityInfo.AbilityCD, AbilityType.Summon, menuContents);
-                    menu.SetAbilityType(abilityInfo.abilityType);
-                    return menu;
             }
 
             // TODO... should never be allowed to happen, look inot more robust error handling

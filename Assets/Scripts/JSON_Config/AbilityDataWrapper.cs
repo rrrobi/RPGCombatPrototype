@@ -7,8 +7,7 @@ public enum AbilityType
     None,
     Attack,
     Support,
-    Summon,
-    Menu
+    Summon
 }
 
 public enum AbilityEffectType
@@ -121,35 +120,35 @@ namespace Global
             ability8.summonIndex = 2;
             abilityWrapper.AbilityData.AbilityList.Add(ability8);
 
-            AbilityInfo ability9 = new AbilityInfo();
-            ability9.Name = "Summon";
-            ability9.abilityType = AbilityType.Menu;
-            ability9.AbilityCD = 0f;
-            ability9.menuList = new List<AbilityInfo>();
+            //AbilityInfo ability9 = new AbilityInfo();
+            //ability9.Name = "Summon";
+            //ability9.abilityType = AbilityType.Menu;
+            //ability9.AbilityCD = 0f;
+            //ability9.menuList = new List<AbilityInfo>();
 
-            AbilityInfo summon1 = new AbilityInfo()
-            {
-                Name = "Summon Demon",
-                abilityType = AbilityType.Summon,
-                abilityEffectType = AbilityEffectType.Direct,
-                abilityDamageType = AbilityDamageType.None,
-                BaseAbilityStrength = 0,
-                AbilityCD = 20f,
-                summonIndex = 1,
-            };
-            ability9.menuList.Add(summon1);
-            AbilityInfo summon2 = new AbilityInfo()
-            {
-                Name = "Summon Demon Swarm",
-                abilityType = AbilityType.Summon,
-                abilityEffectType = AbilityEffectType.Direct,
-                abilityDamageType = AbilityDamageType.None,
-                BaseAbilityStrength = 0,
-                AbilityCD = 20f,
-                summonIndex = 2,
-            };
-            ability9.menuList.Add(summon2);
-            abilityWrapper.AbilityData.AbilityList.Add(ability9);
+            //AbilityInfo summon1 = new AbilityInfo()
+            //{
+            //    Name = "Summon Demon",
+            //    abilityType = AbilityType.Summon,
+            //    abilityEffectType = AbilityEffectType.Direct,
+            //    abilityDamageType = AbilityDamageType.None,
+            //    BaseAbilityStrength = 0,
+            //    AbilityCD = 20f,
+            //    summonIndex = 1,
+            //};
+            //ability9.menuList.Add(summon1);
+            //AbilityInfo summon2 = new AbilityInfo()
+            //{
+            //    Name = "Summon Demon Swarm",
+            //    abilityType = AbilityType.Summon,
+            //    abilityEffectType = AbilityEffectType.Direct,
+            //    abilityDamageType = AbilityDamageType.None,
+            //    BaseAbilityStrength = 0,
+            //    AbilityCD = 20f,
+            //    summonIndex = 2,
+            //};
+            //ability9.menuList.Add(summon2);
+            //abilityWrapper.AbilityData.AbilityList.Add(ability9);
 
             // TODO.. Add tech ability functionality
 #warning Supports DO NOT work yet

@@ -8,6 +8,7 @@ namespace Battle
     public class Menu
     {
         string menuName;
+        public string GetMenuName { get { return menuName; } }
         // List of abilities which will populate the menu
         private List<Ability> actionList = new List<Ability>();
         public List<Ability> GetActionList { get { return actionList; } }
@@ -23,11 +24,5 @@ namespace Battle
                 actionList.Add(ability);
             }
         }
-
-        public void Action(GameObject source, GameObject target)
-        {
-            
-        }
-
     }
 }
