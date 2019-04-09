@@ -288,6 +288,13 @@ namespace Battle
             {
                 AddToActionPanel(kvp.Value);//.GetAbilityName);
             }
+
+            // Get that characters Menus
+            Dictionary<string, Menu> menus = character.GetComponent<Character>().GetMenus;
+            foreach (var kvp in menus)
+            {
+                AddMenuToActionPanel(kvp.Value);
+            }
         }
 
         void AddToActionPanel(Ability ability)//string buttonName)
@@ -372,10 +379,11 @@ namespace Battle
             buttonClicked = buttonClicked.Replace("_Button", "");
 
             // record which action has been chosen
-            SelectedAbility = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
+            SelectedAbility = SelectedCharacter.GetComponent<Character>().SearchAllAbilitiesByName(buttonClicked);
 
-            // deactivate action panel
+            // deactivate action panel - And Menu panel (we might be using action from menu panel)
             ActionPanel.SetActive(false);
+            MenuPanel.SetActive(false);
 
             TransferAbilityState(abilityState, AbilityState.TargetSelect);
         }

@@ -52,6 +52,25 @@ namespace Battle
                 Menus.Add(menus[i].GetMenuName, menus[i]);
             }
         }
+        // TODO... I Don't llike the need for a separate 'Get' function for this
+        // seach ability dictionary and list of menus for ability by name
+        public Ability SearchAllAbilitiesByName(string name)
+        {
+            if (Abilities.ContainsKey(name))
+                return Abilities[name];
+            
+            foreach (var menu in Menus)
+            {
+                foreach (var ability in menu.Value.GetActionList)
+                {
+                    if (ability.GetAbilityName == name)
+                        return ability;
+                }
+            }
+
+            Debug.LogError("Ability name not found in Ability dictionary  OR ANY of the menus: " + name);
+            return null;
+        }
 
         protected TeamName team;
         public void SetTeam(TeamName teamName) { team = teamName; }
