@@ -120,11 +120,12 @@ namespace Global
             ability8.summonIndex = 2;
             abilityWrapper.AbilityData.AbilityList.Add(ability8);
 
-            //AbilityInfo ability9 = new AbilityInfo();
-            //ability9.Name = "Summon";
-            //ability9.abilityType = AbilityType.Menu;
-            //ability9.AbilityCD = 0f;
-            //ability9.menuList = new List<AbilityInfo>();
+            AbilityInfo ability9 = new AbilityInfo();
+            ability9.Name = "Summon";
+            ability9.abilityType = AbilityType.Summon;
+            ability9.AbilityCD = 20f;
+            ability9.summonIndex = 0;                                   // <- index of 0, means it will use characters pool of demons to summon from
+            abilityWrapper.AbilityData.AbilityList.Add(ability9);
 
             //AbilityInfo summon1 = new AbilityInfo()
             //{
@@ -244,8 +245,5 @@ namespace Global
         public float AbilityCD = 0f;
         // index for the character to be summoned
         public int summonIndex = 0;
-
-        // List of Menu Abilities
-        public List<AbilityInfo> menuList = new List<AbilityInfo>();
     }
 }

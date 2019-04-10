@@ -148,12 +148,24 @@ namespace Battle
 
         }
 
+        // TODO... This may longer be required - Index is no longer used for Player summon abilities
         public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
         {
             // TODO... temp, remove this
             Global.MonsterInfo mi = new Global.MonsterInfo();
 
             GameObject monsterGO = monsterSpawner.SpawnMonster(index,
+                        mi,
+                        TeamName.Friendly,
+                        FriendlyTeamGO,
+                        unitSlot);
+            // add to PlayerCharacterList
+            playerCharacters.Add(monsterGO.name, monsterGO);
+        }
+
+        public void AddSummonedPlayerMonster(Global.MonsterInfo mi, GameObject unitSlot)
+        {
+            GameObject monsterGO = monsterSpawner.SpawnMonster(0,
                         mi,
                         TeamName.Friendly,
                         FriendlyTeamGO,

@@ -167,8 +167,12 @@ namespace Battle
                     Attack attack = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
                     attack.SetAbilityType(abilityInfo.abilityType);
                     return attack;
-                case AbilityType.Summon:                    
-                    Summon summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
+                case AbilityType.Summon:
+                    Summon summon;
+                    if (abilityInfo.summonIndex == 0)
+                        summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
+                    else
+                        summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
                     summon.SetAbilityType(abilityInfo.abilityType);
                     return summon;
                 case AbilityType.Support:
