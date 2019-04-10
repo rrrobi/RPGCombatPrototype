@@ -79,12 +79,12 @@ namespace Battle
             List<ActionMenu> menus = new List<ActionMenu>();
             if (!string.IsNullOrEmpty(HeroInfo.Menu1))
             {
+                // TODO... I don't like this at all, by FAR not done here - I need a GOOD way to link, the Menu to the ability(s) asociated with it
                 List<Ability> menuAbilities = new List<Ability>();
-                if (!string.IsNullOrEmpty(HeroInfo.Ability3))
-                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
-                if (!string.IsNullOrEmpty(HeroInfo.Ability4))
-                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
-
+                foreach (var monster in HeroInfo.PlayerDemons)
+                {
+                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability3, monster));
+                }
 
                 ActionMenu menu = new ActionMenu(HeroInfo.Menu1, AbilityType.Summon, menuAbilities);
                 menus.Add(menu);
@@ -157,7 +157,7 @@ namespace Battle
             return monsterGO;
         }
 
-        Ability CreateAbilityFromData(string abilityName)
+        Ability CreateAbilityFromData(string abilityName, MonsterInfo mi = null)
         {
             AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
@@ -170,7 +170,15 @@ namespace Battle
                 case AbilityType.Summon:
                     Summon summon;
                     if (abilityInfo.summonIndex == 0)
-                        summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
+                    {
+                        if (mi != null)
+                            summon = new Summon(abilityInfo.Name + " " + mi.MonsterName, abilityInfo.AbilityCD, mi);
+                        else
+                        {
+                            Debug.LogError("MonsterInfo for Summon not provided as expected, index 1 used as default");
+                            summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, 1);
+                        }
+                    }
                     else
                         summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
                     summon.SetAbilityType(abilityInfo.abilityType);

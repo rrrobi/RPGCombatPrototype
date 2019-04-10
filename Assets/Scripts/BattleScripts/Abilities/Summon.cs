@@ -30,7 +30,7 @@ namespace Battle
             CombatManager.Instance.AddSummonedPlayerMonster(SummonIndex,
                 target);
             else
-                CombatManager.Instance.AddSummonedPlayerMonster(SummonIndex,
+                CombatManager.Instance.AddSummonedPlayerMonster(MonsterInfo,
                 target);
 
             // Resolve Afteraction Effects
