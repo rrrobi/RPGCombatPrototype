@@ -290,7 +290,7 @@ namespace Battle
             }
 
             // Get that characters Menus
-            Dictionary<string, Menu> menus = character.GetComponent<Character>().GetMenus;
+            Dictionary<string, ActionMenu> menus = character.GetComponent<Character>().GetMenus;
             foreach (var kvp in menus)
             {
                 AddMenuToActionPanel(kvp.Value);
@@ -311,7 +311,7 @@ namespace Battle
             
         }
 
-        void AddMenuToActionPanel(Menu menu)
+        void AddMenuToActionPanel(ActionMenu menu)
         {
             // Instantiate button
             GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
@@ -335,7 +335,7 @@ namespace Battle
 
         #region Menu Panel Code
 
-        void MenuPanelSetup(Character character, Menu menu)
+        void MenuPanelSetup(Character character, ActionMenu menu)
         {
             // Clear existing MenuPanel
             ClearMenuPanel();
@@ -402,7 +402,7 @@ namespace Battle
             MenuPanel.SetActive(true);
 
             // Find whcih menu button was pressed
-            Menu selectedMenu = SelectedCharacter.GetComponent<Character>().GetMenuByName(buttonClicked);
+            ActionMenu selectedMenu = SelectedCharacter.GetComponent<Character>().GetMenuByName(buttonClicked);
 
             // Populate Menu
             MenuPanelSetup(SelectedCharacter.GetComponent<Character>(), selectedMenu);

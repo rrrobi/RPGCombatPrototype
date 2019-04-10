@@ -76,7 +76,7 @@ namespace Battle
             heroGO.GetComponent<Hero>().SetMonsterAbilities(abilities);
 
             // Set up Hero's Menus
-            List<Menu> menus = new List<Menu>();
+            List<ActionMenu> menus = new List<ActionMenu>();
             if (!string.IsNullOrEmpty(HeroInfo.Menu1))
             {
                 List<Ability> menuAbilities = new List<Ability>();
@@ -86,7 +86,7 @@ namespace Battle
                     menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
 
 
-                Menu menu = new Menu(HeroInfo.Menu1, AbilityType.Summon, menuAbilities);
+                ActionMenu menu = new ActionMenu(HeroInfo.Menu1, AbilityType.Summon, menuAbilities);
                 menus.Add(menu);
             }
             heroGO.GetComponent<Hero>().SetMenus(menus);

@@ -41,12 +41,12 @@ namespace Battle
                 Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
             }
         }
-        protected Dictionary<string, Menu> Menus;
-        public Dictionary<string, Menu> GetMenus { get { return Menus; } }
-        public Menu GetMenuByName(string name) { return Menus[name]; }
-        public void SetMenus(List<Menu> menus)
+        protected Dictionary<string, ActionMenu> Menus;
+        public Dictionary<string, ActionMenu> GetMenus { get { return Menus; } }
+        public ActionMenu GetMenuByName(string name) { return Menus[name]; }
+        public void SetMenus(List<ActionMenu> menus)
         {
-            Menus = new Dictionary<string, Menu>();
+            Menus = new Dictionary<string, ActionMenu>();
             for (int i = 0; i < menus.Count; i++)
             {
                 Menus.Add(menus[i].GetMenuName, menus[i]);
