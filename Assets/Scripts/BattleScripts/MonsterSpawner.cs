@@ -64,32 +64,47 @@ namespace Battle
             heroGO.GetComponent<Hero>().SetTeam(team);
             // Set Monster's ability
             List<Ability> abilities = new List<Ability>();
-            if (!string.IsNullOrEmpty(HeroInfo.Ability1))
-                abilities.Add(CreateAbilityFromData(HeroInfo.Ability1));
-            if (!string.IsNullOrEmpty(HeroInfo.Ability2))
-                abilities.Add(CreateAbilityFromData(HeroInfo.Ability2));
-            //if (!string.IsNullOrEmpty(HeroInfo.Ability3))
-            //    abilities.Add(CreateAbilityFromData(HeroInfo.Ability3));
-            //if (!string.IsNullOrEmpty(HeroInfo.Ability4))
-            //    abilities.Add(CreateAbilityFromData(HeroInfo.Ability4));
-            // TODO... what if no abilities?!?
+            if (HeroInfo.baseActions.Abilities.Count > 0)
+            {
+                foreach (var action in HeroInfo.baseActions.Abilities)
+                {
+                    abilities.Add(CreateAbilityFromData(action));
+                }
+            }
+            else
+            {
+                Debug.LogError("No Base abilities set for the hero, something may have gone wrong!");
+            }
             heroGO.GetComponent<Hero>().SetMonsterAbilities(abilities);
 
-            // Set up Hero's Menus
+            #region Set up Hero's Menus
             List<ActionMenu> menus = new List<ActionMenu>();
-            if (!string.IsNullOrEmpty(HeroInfo.Menu1))
+            // Summon Menu - Should only contain 1 ability
+            if (HeroInfo.SummonActions.Abilities.Count == 1)
             {
-                // TODO... I don't like this at all, by FAR not done here - I need a GOOD way to link, the Menu to the ability(s) asociated with it
                 List<Ability> menuAbilities = new List<Ability>();
                 foreach (var monster in HeroInfo.PlayerDemons)
                 {
-                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.Ability3, monster));
+                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.SummonActions.Abilities[0], monster));
                 }
-
-                ActionMenu menu = new ActionMenu(HeroInfo.Menu1, AbilityType.Summon, menuAbilities);
+                ActionMenu menu = new ActionMenu(HeroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
                 menus.Add(menu);
             }
+            // Item Menu
+            if (HeroInfo.ItemActions.Abilities.Count > 0)
+            {
+                List<Ability> menuAbilities = new List<Ability>();
+                foreach (var ability in HeroInfo.ItemActions.Abilities)
+                {
+                    menuAbilities.Add(CreateAbilityFromData(ability));
+                }
+                ActionMenu menu = new ActionMenu(HeroInfo.ItemActions.Name, AbilityType.Support, menuAbilities);
+                menus.Add(menu);
+            }
+            // Spells Menu
+            // TODO... add this
             heroGO.GetComponent<Hero>().SetMenus(menus);
+            #endregion
 
             // Set monster HP
             heroGO.GetComponent<Hero>().SetMaxHP(HeroInfo.MaxHP);

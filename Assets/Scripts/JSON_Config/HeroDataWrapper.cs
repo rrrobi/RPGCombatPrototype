@@ -25,12 +25,15 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.CombatLevel = "10";
             heroWrapper.HeroData.HeroInfo.StrengthModifier = "10";
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
-            heroWrapper.HeroData.HeroInfo.Ability1 = "Slash";
-            heroWrapper.HeroData.HeroInfo.Ability2 = "Stab";
-            heroWrapper.HeroData.HeroInfo.Ability3 = "Summon";
-            heroWrapper.HeroData.HeroInfo.Ability4 = "Summon Demon Swarm";
 
-            heroWrapper.HeroData.HeroInfo.Menu1 = "Summon";
+            heroWrapper.HeroData.HeroInfo.baseActions.Name = "None";
+            heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Slash");
+            heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Stab");
+            heroWrapper.HeroData.HeroInfo.baseActions.MenuType = "None";
+
+            heroWrapper.HeroData.HeroInfo.SummonActions.Name = "Summon";
+            heroWrapper.HeroData.HeroInfo.SummonActions.Abilities.Add("Summon");
+            heroWrapper.HeroData.HeroInfo.SummonActions.MenuType = "Summon";
 
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
@@ -181,15 +184,22 @@ namespace Global
         public string StrengthModifier = "";
         public string WillModifier = "";
 
-        public string Ability1 = "";
-        public string Ability2 = "";
-        public string Ability3 = "";
-        public string Ability4 = "";
-
-        public string Menu1 = "";
+        // test - items/spells not used yet
+        public AbilityGroup baseActions = new AbilityGroup();
+        public AbilityGroup SummonActions = new AbilityGroup();
+        public AbilityGroup ItemActions = new AbilityGroup();
+        public AbilityGroup SpellActions = new AbilityGroup();
 
         public List<MonsterInfo> PlayerDemons = new List<MonsterInfo>();
         // TODO... not sure if 'ActiveDemons' list is the right way to go about this
         public List<int> ActiveDemons = new List<int>();
+    }
+
+    [System.Serializable]
+    public class AbilityGroup
+    {
+        public string Name = "";
+        public List<string> Abilities = new List<string>();
+        public string MenuType = "";
     }
 }
