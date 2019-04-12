@@ -102,21 +102,6 @@ public class GameManager : MonoBehaviour {
 
     public void StartBattle()
     {
-        //// Temp- beyond temp, to add some UI input to manipulate the battles
-        //GameObject panel = GameObject.Find("BattleInfoPanel");
-        //InputField[] inputs = panel.GetComponentsInChildren<InputField>();
-        //foreach (var input in inputs)
-        //{
-        //    int value;
-        //    if (!int.TryParse(input.text, out value))
-        //        value = 2;
-
-        //    if (input.name == "InputFriendlyCount")
-        //        numOfFriendlies = value;
-        //    if (input.name == "InputEnemyCount")
-        //        numOfEnemies = value;
-        //}
-
         SceneManager.LoadScene("CombatPrototype");
     }
 

@@ -52,8 +52,6 @@ namespace Battle
         {
             // Get monster data from index
             HeroInfo HeroInfo = GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo;
-            // Keep track of count of each monster type in this fight
-            //   TrackCharacterCount(HeroInfo, team);
 
             GameObject heroGO = GameObject.Instantiate(heroTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
             heroGO.name = HeroInfo.PlayerName;

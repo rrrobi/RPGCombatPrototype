@@ -9,6 +9,9 @@ namespace Battle
 {
     public class Monster : Character
     {
+        Global.MonsterInfo mi;  // allows MonsterGO to be used to keep track of Player's monster's stats, even if they are un-summoned, or between battles
+        bool IsSummonable;      // allows the UI to know if the monster needs to have a summon button on the summon menu    // these two may be replaced by a 
+        bool IsActive;          // may not be needed                                                                        //          'status' enum
 
         void Awake()
         {

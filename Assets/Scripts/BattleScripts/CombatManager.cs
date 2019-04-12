@@ -126,7 +126,7 @@ namespace Battle
                 FriendlyTeamGO,
                 battlefieldController.GetFriendlySlot(1, 1));
             // add to PlayerCharacterList
-            playerCharacters.Add(heroGO.name, heroGO);
+            AddToPlayerCharacterList(heroGO);
 
             // for each Monster 
             for (int i = 0; i < numToSpawn; i++)
@@ -134,7 +134,6 @@ namespace Battle
                 GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedFriendlySlot();
                 if (nextAvailableSlot != null)
                 {
-
                     int randIndex = Random.Range(1, 4);
                     GameObject monsterGO = monsterSpawner.SpawnMonster(0,
                         activeDemons[i],
@@ -142,7 +141,7 @@ namespace Battle
                         FriendlyTeamGO,
                         nextAvailableSlot);
                     // add to PlayerCharacterList
-                    playerCharacters.Add(monsterGO.name, monsterGO);
+                    AddToPlayerCharacterList(monsterGO);
                 }
             }
 
@@ -151,7 +150,7 @@ namespace Battle
         // TODO... This may longer be required - Index is no longer used for Player summon abilities
         public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
         {
-            // TODO... temp, remove this
+            // TODO... temp, remove this - may be better setting mi in 'spawnMonster' to a default argument
             Global.MonsterInfo mi = new Global.MonsterInfo();
 
             GameObject monsterGO = monsterSpawner.SpawnMonster(index,
@@ -160,7 +159,7 @@ namespace Battle
                         FriendlyTeamGO,
                         unitSlot);
             // add to PlayerCharacterList
-            playerCharacters.Add(monsterGO.name, monsterGO);
+            AddToPlayerCharacterList(monsterGO);
         }
 
         public void AddSummonedPlayerMonster(Global.MonsterInfo mi, GameObject unitSlot)
@@ -171,7 +170,7 @@ namespace Battle
                         FriendlyTeamGO,
                         unitSlot);
             // add to PlayerCharacterList
-            playerCharacters.Add(monsterGO.name, monsterGO);
+            AddToPlayerCharacterList(monsterGO);
         }
 
         void AddEnemyMonsters()
@@ -199,7 +198,7 @@ namespace Battle
                         EnemyTeamGO,
                         nextAvailableSlot);
                     // Add to EnemyCharacterList
-                    enemyCharacters.Add(monsterGO.name, monsterGO);
+                    AddToEnemyCharacterList(monsterGO);
                 }
             }
         }
