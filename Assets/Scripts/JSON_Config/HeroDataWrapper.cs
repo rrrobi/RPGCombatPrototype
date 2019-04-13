@@ -38,7 +38,7 @@ namespace Global
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
             m1.Index = 3;
-            m1.MonsterName = "Heavy Demon";
+            m1.MonsterName = "Heavy Demon Gary";
             m1.FriendlySpriteName = "SimpleTankMonsterBackBlue";
             m1.EnemySpriteName = "SimpleTankMonsterRed";
             m1.MaxHP = 75;
@@ -50,7 +50,7 @@ namespace Global
 
             MonsterInfo m2 = new MonsterInfo();
             m2.Index = 3;
-            m2.MonsterName = "Heavy Demon";
+            m2.MonsterName = "Heavy Demon Steve";
             m2.FriendlySpriteName = "SimpleTankMonsterBackBlue";
             m2.EnemySpriteName = "SimpleTankMonsterRed";
             m2.MaxHP = 75;
@@ -62,7 +62,7 @@ namespace Global
 
             MonsterInfo m3 = new MonsterInfo();
             m3.Index = 1;
-            m3.MonsterName = "Demon";
+            m3.MonsterName = "Demon Pete";
             m3.FriendlySpriteName = "SimpleMonsterBackBlue";
             m3.EnemySpriteName = "SimpleMonsterRed";
             m3.MaxHP = 50;
@@ -73,7 +73,7 @@ namespace Global
 
             MonsterInfo m4 = new MonsterInfo();
             m4.Index = 1;
-            m4.MonsterName = "Demon";
+            m4.MonsterName = "Demon Sarah";
             m4.FriendlySpriteName = "SimpleMonsterBackBlue";
             m4.EnemySpriteName = "SimpleMonsterRed";
             m4.MaxHP = 50;
@@ -84,7 +84,7 @@ namespace Global
 
             MonsterInfo m5 = new MonsterInfo();
             m5.Index = 2;
-            m5.MonsterName = "Demon Swarm";
+            m5.MonsterName = "Demon Swarm Jones";
             m5.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
             m5.EnemySpriteName = "SimpleMonsterSwarmRed";
             m5.MaxHP = 15;
@@ -94,7 +94,7 @@ namespace Global
 
             MonsterInfo m6 = new MonsterInfo();
             m6.Index = 2;
-            m6.MonsterName = "Demon Swarm";
+            m6.MonsterName = "Demon Swarm Smith";
             m6.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
             m6.EnemySpriteName = "SimpleMonsterSwarmRed";
             m6.MaxHP = 15;

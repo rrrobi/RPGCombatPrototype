@@ -141,5 +141,10 @@ namespace Global
         public string Ability2 = "";
         public string Ability3 = "";
         public string Ability4 = "";
+
+        // Status Data
+        public bool IsSummoned = false;
+        public bool IsDead = false;
+        // Maybe add other status effects here - Poison/sleep/curse etc
     }
 }

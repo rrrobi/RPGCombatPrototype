@@ -28,13 +28,20 @@ public class GameManager : MonoBehaviour {
         if (playerActiveMonsters.Contains(mi))
             playerActiveMonsters.Remove(mi);
     }
-    List<MonsterInfo> playerMonsterParty = new List<MonsterInfo>();
-    public List<MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
-    public void AddToPlayerMonsterParty(MonsterInfo mi) { playerMonsterParty.Add(mi); }
+    Dictionary<string, MonsterInfo> playerMonsterParty = new Dictionary<string, MonsterInfo>();
+    public Dictionary<string, MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
+    public void AddToPlayerMonsterParty(MonsterInfo mi)
+    {
+        if (playerMonsterParty.ContainsKey(mi.MonsterName))
+        {
+            playerMonsterParty[mi.MonsterName] = mi;
+        }
+        playerMonsterParty.Add(mi.MonsterName, mi);
+    }
     public void RemoveFromPlayerMonsterParty(MonsterInfo mi)
     {
-        if (playerMonsterParty.Contains(mi))
-            playerMonsterParty.Remove(mi);
+        if (playerMonsterParty.ContainsKey(mi.MonsterName))
+            playerMonsterParty.Remove(mi.MonsterName);
     }
 
     // Variables for Starting Dungeon Scene
@@ -75,6 +82,7 @@ public class GameManager : MonoBehaviour {
 
         heroData.Setup();
         heroData.ReadData();
+        AssignPlayerMonsterParty();
         AssignActiveMonsters();
 
         if (dungeonMapDictionary.Count < 1)
@@ -85,6 +93,15 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    void AssignPlayerMonsterParty()
+    {
+        foreach (var mi in heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons)
+        {
+            AddToPlayerMonsterParty(mi);
+        }
+    }
+
+#warning This may be replaced by the 'IsSummoned' field in the monsterInfo, using the playerMonsterParty Dictionary
     // TODO...
     // Look into this, I don't like how its done.
     // find a better way

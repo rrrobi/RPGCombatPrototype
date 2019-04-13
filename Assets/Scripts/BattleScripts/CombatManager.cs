@@ -95,9 +95,9 @@ namespace Battle
             playerMonsterinfoList = new Dictionary<string, Global.MonsterInfo>();
             enemyCharacters = new Dictionary<string, GameObject>();
             // Add all monsters from player's party to 'PlayerCharacters'
-            for (int i = 0; i < GameManager.Instance.GetPlayerMonsterParty.Count; i++)
+            foreach (var kvp in GameManager.Instance.GetPlayerMonsterParty)
             {
-                AddToPlayerMonsterInfoList(GameManager.Instance.GetPlayerMonsterParty[i]);
+                AddToPlayerMonsterInfoList(kvp.Value);
             }
 
             // Spawn Enemy monsters
@@ -113,11 +113,13 @@ namespace Battle
         void RegisterEventCallbacks()
         {
             DeathEventInfo.RegisterListener(OnUnitDied);
+            TakeDamageEventInfo.RegisterListener(OnDamageTaken);
         }
         
         void UnregisterEventCallbacks()
         {
             DeathEventInfo.UnregisterListener(OnUnitDied);
+            TakeDamageEventInfo.UnregisterListener(OnDamageTaken);
         }
 
         void AddPlayerMonsters()
@@ -241,9 +243,9 @@ namespace Battle
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentHP = hp;
 
             // update Monster stats
-            for (int i = 0; i < playerMonsterinfoList.Count; i++)
+            foreach (var kvp in playerMonsterinfoList)
             {
-
+                GameManager.Instance.AddToPlayerMonsterParty(kvp.Value);
             }
         }
 
@@ -263,8 +265,14 @@ namespace Battle
             if (deathEventInfo.TeamName == TeamName.Friendly)
             {
                 // Dead character is freindly
-                // Update Dictionary of player charcters
+                // Update Dictionary of player charcters                
                 RemoveFromPlayerCharacterList(deathEventInfo.UnitGO);
+                // Update Characater status
+                if (playerMonsterinfoList.ContainsKey(deathEventInfo.UnitGO.name))
+                {
+                    playerMonsterinfoList[deathEventInfo.UnitGO.name].IsSummoned = false;
+                    playerMonsterinfoList[deathEventInfo.UnitGO.name].IsDead = true;
+                }
             }
             else if (deathEventInfo.TeamName == TeamName.Enemy)
             {
@@ -276,6 +284,20 @@ namespace Battle
             // Remove object
             Destroy(deathEventInfo.UnitGO);
         }
+
+        void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
+        {
+            Debug.Log("CombatManager Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
+
+            // We only care about freindly monsters at this point
+            if (takeDamageEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
+            {
+                // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero damage is tracked differently.
+                if (playerMonsterinfoList.ContainsKey(takeDamageEventInfo.UnitGO.name))
+                    playerMonsterinfoList[takeDamageEventInfo.UnitGO.name].CurrentHP = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetHP;
+            }
+        }
+        
 
         #endregion
     }
