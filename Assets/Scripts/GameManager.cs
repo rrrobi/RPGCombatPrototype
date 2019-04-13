@@ -18,22 +18,23 @@ public class GameManager : MonoBehaviour {
     int numOfEnemies = 1;
     public int GetNumOfEnemies { get { return numOfEnemies; } }
     public void SetNumOfEnemies(int input) { numOfEnemies = input; }
-    // num of Friendlies
-    int numOfFriendlies = 1;
-    public int GetNumOfFriendlies { get { return numOfFriendlies; } }
-    public void SetNumOfFriendlies(int input) { numOfFriendlies = input; }
 
     List<MonsterInfo> playerActiveMonsters = new List<MonsterInfo>();
     public List<MonsterInfo> GetPlayerActiveMonsters { get { return playerActiveMonsters; } }
     public MonsterInfo GetPlayerActiveMonsterByIndex(int index)  { return playerActiveMonsters[index]; }
-    public void AddToPlayerActiveMonsters(MonsterInfo mi)
-    {
-        playerActiveMonsters.Add(mi);
-    }
+    public void AddToPlayerActiveMonsters(MonsterInfo mi) { playerActiveMonsters.Add(mi); }
     public void RemoveFromPlayerActiveMonsters(MonsterInfo mi)
     {
         if (playerActiveMonsters.Contains(mi))
             playerActiveMonsters.Remove(mi);
+    }
+    List<MonsterInfo> playerMonsterParty = new List<MonsterInfo>();
+    public List<MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
+    public void AddToPlayerMonsterParty(MonsterInfo mi) { playerMonsterParty.Add(mi); }
+    public void RemoveFromPlayerMonsterParty(MonsterInfo mi)
+    {
+        if (playerMonsterParty.Contains(mi))
+            playerMonsterParty.Remove(mi);
     }
 
     // Variables for Starting Dungeon Scene

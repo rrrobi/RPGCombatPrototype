@@ -44,6 +44,15 @@ namespace Battle
         protected Dictionary<string, ActionMenu> Menus;
         public Dictionary<string, ActionMenu> GetMenus { get { return Menus; } }
         public ActionMenu GetMenuByName(string name) { return Menus[name]; }
+        public void SetMenu(ActionMenu menu)
+        {
+            if (Menus.ContainsKey(menu.GetMenuName))
+            {
+                Menus[menu.GetMenuName] = menu;
+            }
+            else
+                Menus.Add(menu.GetMenuName, menu);
+        }
         public void SetMenus(List<ActionMenu> menus)
         {
             Menus = new Dictionary<string, ActionMenu>();

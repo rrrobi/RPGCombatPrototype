@@ -17,14 +17,14 @@ namespace Battle
 
         // Character lists, and function to maintain these lists
         Dictionary<string, GameObject> playerCharacters;
+        Dictionary<string, Global.MonsterInfo> playerMonsterinfoList;
         Dictionary<string, GameObject> enemyCharacters;
 
         public Dictionary<string, GameObject> GetPlayerCharacterList { get { return playerCharacters; } }
-        public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }
-        public GameObject GetPlayerCharacterByName(string name)
-        {
-            return playerCharacters[name];
-        }
+        public Dictionary<string, Global.MonsterInfo> GetPlayerMonsterInfoList { get { return playerMonsterinfoList; } }
+        public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }        
+        public GameObject GetPlayerCharacterByName(string name) { return playerCharacters[name]; }
+        public Global.MonsterInfo GetPlayerMonsterInfoByName(string name) { return playerMonsterinfoList[name]; }
         public GameObject GetEnemyCharacterByName(string name)
         {
             return enemyCharacters[name];
@@ -33,6 +33,7 @@ namespace Battle
         {
             playerCharacters.Add(character.name, character);
         }
+        private void AddToPlayerMonsterInfoList(Global.MonsterInfo mi) { playerMonsterinfoList.Add(mi.MonsterName, mi); }
         private void AddToEnemyCharacterList(GameObject character)
         {
             enemyCharacters.Add(character.name, character);
@@ -41,14 +42,20 @@ namespace Battle
         {
             playerCharacters.Remove(character.name);
         }
+        private void RemoveFromPlayerMonsterInfoList(Global.MonsterInfo mi)
+        {
+            if (playerMonsterinfoList.ContainsKey(mi.MonsterName))
+                playerMonsterinfoList.Remove(mi.MonsterName);
+
+        }
         private void RemoveFromEnemyCharacterList(GameObject character)
         {
             enemyCharacters.Remove(character.name);
         }
 
         // Monster Setup Objects
-        [SerializeField]
-        private int FriendlyMonstersNum;
+        //[SerializeField]
+        //private int FriendlyMonstersNum;
         [SerializeField]
         private GameObject FriendlyTeamGO;
         [SerializeField]
@@ -76,7 +83,6 @@ namespace Battle
         void Start()
         {
             EnemyMonstersNum = GameManager.Instance.GetNumOfEnemies;
-            FriendlyMonstersNum = GameManager.Instance.GetNumOfFriendlies;
 
             // Ititial setup of battlefield
             battlefieldController.Setup();
@@ -86,7 +92,13 @@ namespace Battle
             monsterSpawner.Setup();
 
             playerCharacters = new Dictionary<string, GameObject>();
+            playerMonsterinfoList = new Dictionary<string, Global.MonsterInfo>();
             enemyCharacters = new Dictionary<string, GameObject>();
+            // Add all monsters from player's party to 'PlayerCharacters'
+            for (int i = 0; i < GameManager.Instance.GetPlayerMonsterParty.Count; i++)
+            {
+                AddToPlayerMonsterInfoList(GameManager.Instance.GetPlayerMonsterParty[i]);
+            }
 
             // Spawn Enemy monsters
             AddEnemyMonsters();
@@ -118,8 +130,8 @@ namespace Battle
             // spawn each monster, unless there are more monsters than available slots.
             int numToSpawn = availableSlotCount;
             List<Global.MonsterInfo> activeDemons = GameManager.Instance.GetPlayerActiveMonsters;
-            if (activeDemons.Count <= availableSlotCount) //(FriendlyMonstersNum <= availableSlotCount)
-                numToSpawn = activeDemons.Count;// FriendlyMonstersNum;
+            if (activeDemons.Count <= availableSlotCount)
+                numToSpawn = activeDemons.Count;
 
             // add hero
             GameObject heroGO = monsterSpawner.SpawnHero(TeamName.Friendly,
@@ -128,23 +140,16 @@ namespace Battle
             // add to PlayerCharacterList
             AddToPlayerCharacterList(heroGO);
 
-            // for each Monster 
+            // for each active Monster (with a free slot available to be summoned
             for (int i = 0; i < numToSpawn; i++)
             {
                 GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedFriendlySlot();
                 if (nextAvailableSlot != null)
                 {
                     int randIndex = Random.Range(1, 4);
-                    GameObject monsterGO = monsterSpawner.SpawnMonster(0,
-                        activeDemons[i],
-                        TeamName.Friendly,
-                        FriendlyTeamGO,
-                        nextAvailableSlot);
-                    // add to PlayerCharacterList
-                    AddToPlayerCharacterList(monsterGO);
+                    AddSummonedPlayerMonster(activeDemons[i], nextAvailableSlot);
                 }
-            }
-
+            }            
         }
 
         // TODO... This may longer be required - Index is no longer used for Player summon abilities
@@ -234,6 +239,12 @@ namespace Battle
             // Update Hero HP            
             int hp = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetHP;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentHP = hp;
+
+            // update Monster stats
+            for (int i = 0; i < playerMonsterinfoList.Count; i++)
+            {
+
+            }
         }
 
         // Update is called once per frame
