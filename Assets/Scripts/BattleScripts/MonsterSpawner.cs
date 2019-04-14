@@ -18,6 +18,7 @@ namespace Battle
         AbilityDataReader abilityData = new AbilityDataReader();
 
         Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
+        Dictionary<string, List<string>> UniqueIDLog = new Dictionary<string, List<string>>();
 
         GameObject monsterTemplateGO;
         GameObject heroTemplateGO;
@@ -108,6 +109,8 @@ namespace Battle
             // Set monster HP
             heroGO.GetComponent<Hero>().SetMaxHP(heroInfo.MaxHP);
             heroGO.GetComponent<Hero>().SetHP(heroInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            // Set Character Unique ID
+            heroGO.GetComponent<Hero>().SetUniqueID(heroInfo.UniqueID);
 
             // Trigger Unit Spawn Event Callback
             EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
@@ -149,7 +152,7 @@ namespace Battle
             TrackCharacterCount(monsterInfo, team);
 
             GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
-            monsterGO.name = monsterInfo.MonsterName + " " + monsterCounts[team + monsterInfo.MonsterName];
+            monsterGO.name = monsterInfo.MonsterName;// + " " + monsterCounts[team + monsterInfo.MonsterName];
             if (team == TeamName.Friendly)
                 monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.FriendlySpriteName]);
             else if (team == TeamName.Enemy)
@@ -173,6 +176,8 @@ namespace Battle
             // Set monster HP
             monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
             monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            // Set Character Unique ID
+            monsterGO.GetComponent<Monster>().SetUniqueID(AssignUniqueID(monsterInfo, team));
 
             // Trigger Unit Spawn Event Callback
             EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
@@ -219,6 +224,43 @@ namespace Battle
 
             // TODO... should never be allowed to happen, look inot more robust error handling
             return null;
+        }
+
+        string AssignUniqueID(MonsterInfo mi, TeamName team)
+        {
+            string teamID = string.Empty;
+            string unitID = string.Empty;
+            string fullUniqueID = string.Empty;
+            switch(team)
+            {
+                case TeamName.Friendly:
+                    teamID = "01";
+                    break;
+                case TeamName.Enemy:
+                    teamID = "02";
+                    break;
+                default:
+                    Debug.LogError("Something has gone wrong here, Team name is wrong");
+                    break;
+            }
+            // Ensure Log contains a list for this Team
+            if (!UniqueIDLog.ContainsKey(teamID))
+                UniqueIDLog.Add(teamID, new List<string>());
+
+            // Check if MonsterID already has Unique ID (all friendlies will have one pre-set)
+            if (mi.UniqueID.StartsWith(teamID))
+                fullUniqueID = mi.UniqueID;
+            // Else, calculate new ID
+            else
+            {
+                unitID = (UniqueIDLog[teamID].Count + 1).ToString("000");
+                fullUniqueID = teamID + "-" + unitID;
+            }
+            // Add to dictionary, 
+            if (!UniqueIDLog[teamID].Contains(fullUniqueID))
+                UniqueIDLog[teamID].Add(fullUniqueID);
+            // add Unique ID to monster's GO
+            return fullUniqueID;
         }
 
         void TrackCharacterCount(MonsterInfo monsterInfo, TeamName team)

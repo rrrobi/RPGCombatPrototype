@@ -25,18 +25,18 @@ namespace Battle
         public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }        
         public GameObject GetPlayerCharacterByName(string name) { return playerCharacters[name]; }
         public Global.MonsterInfo GetPlayerMonsterInfoByName(string name) { return playerMonsterinfoList[name]; }
-        public GameObject GetEnemyCharacterByName(string name)
+        public GameObject GetEnemyCharacterByID(string id)
         {
-            return enemyCharacters[name];
+            return enemyCharacters[id];
         }
         private void AddToPlayerCharacterList(GameObject character)
         {
             playerCharacters.Add(character.name, character);
         }
-        private void AddToPlayerMonsterInfoList(Global.MonsterInfo mi) { playerMonsterinfoList.Add(mi.MonsterName, mi); }
+        private void AddToPlayerMonsterInfoList(Global.MonsterInfo mi) { playerMonsterinfoList.Add(mi.UniqueID, mi); }
         private void AddToEnemyCharacterList(GameObject character)
         {
-            enemyCharacters.Add(character.name, character);
+            enemyCharacters.Add(character.GetComponent<Monster>().GetUniqueID, character);
         }
         private void RemoveFromPlayerCharacterList(GameObject character)
         {
@@ -44,13 +44,13 @@ namespace Battle
         }
         private void RemoveFromPlayerMonsterInfoList(Global.MonsterInfo mi)
         {
-            if (playerMonsterinfoList.ContainsKey(mi.MonsterName))
-                playerMonsterinfoList.Remove(mi.MonsterName);
+            if (playerMonsterinfoList.ContainsKey(mi.UniqueID))
+                playerMonsterinfoList.Remove(mi.UniqueID);
 
         }
         private void RemoveFromEnemyCharacterList(GameObject character)
         {
-            enemyCharacters.Remove(character.name);
+            enemyCharacters.Remove(character.GetComponent<Monster>().GetUniqueID);//.name);
         }
 
         // Monster Setup Objects
@@ -133,7 +133,13 @@ namespace Battle
             // Check theres room for all of them
             // spawn each monster, unless there are more monsters than available slots.
             int numToSpawn = availableSlotCount;
-            List<Global.MonsterInfo> activeDemons = GameManager.Instance.GetPlayerActiveMonsters;
+            List<Global.MonsterInfo> activeDemons = new List<Global.MonsterInfo>();
+            foreach (var kvp in playerMonsterinfoList)
+            {
+                if (kvp.Value.IsSummoned)
+                    activeDemons.Add(kvp.Value);
+            }
+
             if (activeDemons.Count <= availableSlotCount)
                 numToSpawn = activeDemons.Count;
 
@@ -294,10 +300,11 @@ namespace Battle
             // We only care about freindly monsters at this point
             if (takeDamageEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
             {
+                string uID = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetUniqueID;
                 // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero damage is tracked differently.
-                if (playerMonsterinfoList.ContainsKey(takeDamageEventInfo.UnitGO.name))
+                if (playerMonsterinfoList.ContainsKey(uID))
                 {
-                    playerMonsterinfoList[takeDamageEventInfo.UnitGO.name].CurrentHP = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetHP;
+                    playerMonsterinfoList[takeDamageEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].CurrentHP = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetHP;
 
                     // Update Summon Menu
                     ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);
@@ -314,9 +321,9 @@ namespace Battle
             if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
             {
                 // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero can not be summoned
-                if (playerMonsterinfoList.ContainsKey(unitSpawnEventInfo.UnitGO.name))
+                if (playerMonsterinfoList.ContainsKey(unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetUniqueID))
                 {
-                    playerMonsterinfoList[unitSpawnEventInfo.UnitGO.name].IsSummoned = true;
+                    playerMonsterinfoList[unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].IsSummoned = true;
 
                     // Update Summon Menu
                     ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);

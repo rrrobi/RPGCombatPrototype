@@ -19,29 +19,21 @@ public class GameManager : MonoBehaviour {
     public int GetNumOfEnemies { get { return numOfEnemies; } }
     public void SetNumOfEnemies(int input) { numOfEnemies = input; }
 
-    List<MonsterInfo> playerActiveMonsters = new List<MonsterInfo>();
-    public List<MonsterInfo> GetPlayerActiveMonsters { get { return playerActiveMonsters; } }
-    public MonsterInfo GetPlayerActiveMonsterByIndex(int index)  { return playerActiveMonsters[index]; }
-    public void AddToPlayerActiveMonsters(MonsterInfo mi) { playerActiveMonsters.Add(mi); }
-    public void RemoveFromPlayerActiveMonsters(MonsterInfo mi)
-    {
-        if (playerActiveMonsters.Contains(mi))
-            playerActiveMonsters.Remove(mi);
-    }
     Dictionary<string, MonsterInfo> playerMonsterParty = new Dictionary<string, MonsterInfo>();
     public Dictionary<string, MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
     public void AddToPlayerMonsterParty(MonsterInfo mi)
     {
-        if (playerMonsterParty.ContainsKey(mi.MonsterName))
+        if (playerMonsterParty.ContainsKey(mi.UniqueID))
         {
-            playerMonsterParty[mi.MonsterName] = mi;
+            playerMonsterParty[mi.UniqueID] = mi;
         }
-        playerMonsterParty.Add(mi.MonsterName, mi);
+        else
+            playerMonsterParty.Add(mi.UniqueID, mi);
     }
     public void RemoveFromPlayerMonsterParty(MonsterInfo mi)
     {
-        if (playerMonsterParty.ContainsKey(mi.MonsterName))
-            playerMonsterParty.Remove(mi.MonsterName);
+        if (playerMonsterParty.ContainsKey(mi.UniqueID))
+            playerMonsterParty.Remove(mi.UniqueID);
     }
 
     // Variables for Starting Dungeon Scene
@@ -83,7 +75,6 @@ public class GameManager : MonoBehaviour {
         heroData.Setup();
         heroData.ReadData();
         AssignPlayerMonsterParty();
-        AssignActiveMonsters();
 
         if (dungeonMapDictionary.Count < 1)
         {
@@ -98,18 +89,6 @@ public class GameManager : MonoBehaviour {
         foreach (var mi in heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons)
         {
             AddToPlayerMonsterParty(mi);
-        }
-    }
-
-#warning This may be replaced by the 'IsSummoned' field in the monsterInfo, using the playerMonsterParty Dictionary
-    // TODO...
-    // Look into this, I don't like how its done.
-    // find a better way
-    void AssignActiveMonsters()
-    {
-        foreach (var monsterIndex in heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons)
-        {
-            AddToPlayerActiveMonsters(heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons[monsterIndex]);
         }
     }
 

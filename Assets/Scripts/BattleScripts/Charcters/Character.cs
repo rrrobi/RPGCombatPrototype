@@ -9,6 +9,9 @@ namespace Battle
 {
     public class Character : MonoBehaviour
     {
+        string uniqueID;
+        public string GetUniqueID { get { return uniqueID; } }
+        public void SetUniqueID(string ID) { uniqueID = ID; }
 
         // Will be changed to be Ability specific
         protected float attackCD = 10;
