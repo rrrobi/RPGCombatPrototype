@@ -51,20 +51,20 @@ namespace Battle
         public GameObject SpawnHero(TeamName team, GameObject teamGroup, GameObject unitSlot)
         {
             // Get monster data from index
-            HeroInfo HeroInfo = GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo;
+            HeroInfo heroInfo = GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo;
 
             GameObject heroGO = GameObject.Instantiate(heroTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
-            heroGO.name = HeroInfo.PlayerName;
+            heroGO.name = heroInfo.PlayerName;
             if (team == TeamName.Friendly)
-                heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[HeroInfo.FriendlySpriteName]);
+                heroGO.GetComponent<Hero>().SetMonsterSprite(monsterSprites[heroInfo.FriendlySpriteName]);
             else
                 Debug.Log("TEAM name not correct!!!!");
             heroGO.GetComponent<Hero>().SetTeam(team);
             // Set Monster's ability
             List<Ability> abilities = new List<Ability>();
-            if (HeroInfo.baseActions.Abilities.Count > 0)
+            if (heroInfo.baseActions.Abilities.Count > 0)
             {
-                foreach (var action in HeroInfo.baseActions.Abilities)
+                foreach (var action in heroInfo.baseActions.Abilities)
                 {
                     abilities.Add(CreateAbilityFromData(action));
                 }
@@ -78,25 +78,26 @@ namespace Battle
             #region Set up Hero's Menus
             List<ActionMenu> menus = new List<ActionMenu>();
             // Summon Menu - Should only contain 1 ability
-            if (HeroInfo.SummonActions.Abilities.Count == 1)
+            if (heroInfo.SummonActions.Abilities.Count == 1)
             {
-                List<Ability> menuAbilities = new List<Ability>();
-                foreach (var monster in HeroInfo.PlayerDemons)
-                {
-                    menuAbilities.Add(CreateAbilityFromData(HeroInfo.SummonActions.Abilities[0], monster));
-                }
-                ActionMenu menu = new ActionMenu(HeroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
-                menus.Add(menu);
+                //List<Ability> menuAbilities = new List<Ability>();
+                //foreach (var monster in heroInfo.PlayerDemons)
+                //{
+                //    menuAbilities.Add(CreateAbilityFromData(heroInfo.SummonActions.Abilities[0], monster));
+                //}
+                //ActionMenu menu = new ActionMenu(heroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
+
+                menus.Add(PopulateHeroSummonMenu(heroInfo));//menu);
             }
             // Item Menu
-            if (HeroInfo.ItemActions.Abilities.Count > 0)
+            if (heroInfo.ItemActions.Abilities.Count > 0)
             {
                 List<Ability> menuAbilities = new List<Ability>();
-                foreach (var ability in HeroInfo.ItemActions.Abilities)
+                foreach (var ability in heroInfo.ItemActions.Abilities)
                 {
                     menuAbilities.Add(CreateAbilityFromData(ability));
                 }
-                ActionMenu menu = new ActionMenu(HeroInfo.ItemActions.Name, AbilityType.Support, menuAbilities);
+                ActionMenu menu = new ActionMenu(heroInfo.ItemActions.Name, AbilityType.Support, menuAbilities);
                 menus.Add(menu);
             }
             // Spells Menu
@@ -105,8 +106,8 @@ namespace Battle
             #endregion
 
             // Set monster HP
-            heroGO.GetComponent<Hero>().SetMaxHP(HeroInfo.MaxHP);
-            heroGO.GetComponent<Hero>().SetHP(HeroInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            heroGO.GetComponent<Hero>().SetMaxHP(heroInfo.MaxHP);
+            heroGO.GetComponent<Hero>().SetHP(heroInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
 
             // Trigger Unit Spawn Event Callback
             EventCallbacks.UnitSpawnEventInfo usei = new EventCallbacks.UnitSpawnEventInfo();
@@ -116,6 +117,19 @@ namespace Battle
             usei.FireEvent();
 
             return heroGO;
+        }
+
+        public ActionMenu PopulateHeroSummonMenu(HeroInfo heroInfo)
+        {
+            List<Ability> menuAbilities = new List<Ability>();
+            foreach (var monster in heroInfo.PlayerDemons)
+            {
+                if (!monster.IsDead && !monster.IsSummoned)
+                    menuAbilities.Add(CreateAbilityFromData(heroInfo.SummonActions.Abilities[0], monster));
+            }
+            ActionMenu menu = new ActionMenu(heroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
+
+            return menu;
         }
 
         public GameObject SpawnMonster(int index, MonsterInfo mi, TeamName team, GameObject teamGroup, GameObject unitSlot)

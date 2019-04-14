@@ -114,12 +114,14 @@ namespace Battle
         {
             DeathEventInfo.RegisterListener(OnUnitDied);
             TakeDamageEventInfo.RegisterListener(OnDamageTaken);
+            UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
         }
         
         void UnregisterEventCallbacks()
         {
             DeathEventInfo.UnregisterListener(OnUnitDied);
             TakeDamageEventInfo.UnregisterListener(OnDamageTaken);
+            UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
         }
 
         void AddPlayerMonsters()
@@ -294,10 +296,35 @@ namespace Battle
             {
                 // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero damage is tracked differently.
                 if (playerMonsterinfoList.ContainsKey(takeDamageEventInfo.UnitGO.name))
+                {
                     playerMonsterinfoList[takeDamageEventInfo.UnitGO.name].CurrentHP = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetHP;
+
+                    // Update Summon Menu
+                    ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);
+                    playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().SetMenu(menu);
+                }
             }
         }
-        
+
+        void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
+        {
+            Debug.Log("CombatManager Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
+
+            // We only care about freindly monsters at this point
+            if (unitSpawnEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
+            {
+                // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero can not be summoned
+                if (playerMonsterinfoList.ContainsKey(unitSpawnEventInfo.UnitGO.name))
+                {
+                    playerMonsterinfoList[unitSpawnEventInfo.UnitGO.name].IsSummoned = true;
+
+                    // Update Summon Menu
+                    ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);
+                    playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().SetMenu(menu);
+                }
+            }
+        }
+
 
         #endregion
     }

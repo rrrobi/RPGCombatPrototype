@@ -127,6 +127,8 @@ namespace Global
     [System.Serializable]
     public class MonsterInfo
     {
+        public string UniqueID = "00-000";
+
         public int Index = 0;
         public string MonsterName = "";
         public string FriendlySpriteName = "";

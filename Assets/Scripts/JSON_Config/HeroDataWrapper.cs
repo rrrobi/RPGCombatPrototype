@@ -37,6 +37,7 @@ namespace Global
 
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
+            m1.UniqueID = "01-001";
             m1.Index = 3;
             m1.MonsterName = "Heavy Demon Gary";
             m1.FriendlySpriteName = "SimpleTankMonsterBackBlue";
@@ -49,6 +50,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m1);
 
             MonsterInfo m2 = new MonsterInfo();
+            m2.UniqueID = "01-002";
             m2.Index = 3;
             m2.MonsterName = "Heavy Demon Steve";
             m2.FriendlySpriteName = "SimpleTankMonsterBackBlue";
@@ -61,6 +63,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m2);
 
             MonsterInfo m3 = new MonsterInfo();
+            m3.UniqueID = "01-003";
             m3.Index = 1;
             m3.MonsterName = "Demon Pete";
             m3.FriendlySpriteName = "SimpleMonsterBackBlue";
@@ -72,6 +75,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m3);
 
             MonsterInfo m4 = new MonsterInfo();
+            m4.UniqueID = "01-004";
             m4.Index = 1;
             m4.MonsterName = "Demon Sarah";
             m4.FriendlySpriteName = "SimpleMonsterBackBlue";
@@ -83,6 +87,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m4);
 
             MonsterInfo m5 = new MonsterInfo();
+            m5.UniqueID = "01-005";
             m5.Index = 2;
             m5.MonsterName = "Demon Swarm Jones";
             m5.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
@@ -93,6 +98,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m5);
 
             MonsterInfo m6 = new MonsterInfo();
+            m6.UniqueID = "01-006";
             m6.Index = 2;
             m6.MonsterName = "Demon Swarm Smith";
             m6.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
