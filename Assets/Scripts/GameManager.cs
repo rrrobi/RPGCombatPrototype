@@ -79,7 +79,8 @@ public class GameManager : MonoBehaviour {
         if (dungeonMapDictionary.Count < 1)
         {
             BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight);
-            SetDungeonFloorMap(1, BSP_DungeonGenerator.GenerateBSPDungeon());
+            BSP_DungeonGenerator.GenerateBSPDungeon();
+            SetDungeonFloorMap(1, BSP_DungeonGenerator.GetMap);
             playerDungeonPosition = new Vector2Int((int)BSP_DungeonGenerator.GetMapEntrance.x, (int)BSP_DungeonGenerator.GetMapEntrance.y);            
         }
     }

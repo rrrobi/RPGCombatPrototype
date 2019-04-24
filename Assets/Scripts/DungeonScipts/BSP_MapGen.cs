@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Requirements of a map generator
+// provide the int[,] tileMap
+// provide read access to room info
+// provide read access to Cache info
+
 public class BSP_MapGen
 {
     public struct Segment
@@ -43,7 +48,8 @@ public class BSP_MapGen
     const float MIN_DIVIDE_RATION = 0.30f;
     const int DIVIDE_COUNT = 4;
 
-    int[,] Map;
+    int[,] map;
+    public int[,] GetMap { get { return map; } }
     Vector3 mapEntrance;
     public Vector3 GetMapEntrance { get { return mapEntrance; } }
 
@@ -57,15 +63,15 @@ public class BSP_MapGen
         MAP_HEIGHT = map_Height;
     }
 
-    public int[,] GenerateBSPDungeon()
+    public void GenerateBSPDungeon()
     {
         // Reset Map
-        Map = new int[(int)MAP_WIDTH, (int)MAP_HEIGHT];
+        map = new int[(int)MAP_WIDTH, (int)MAP_HEIGHT];
         for (int x = 0; x < MAP_WIDTH; x++)
         {
             for (int y = 0; y < MAP_HEIGHT; y++)
             {
-                Map[x, y] = 0;
+                map[x, y] = 0;
             }
         }
 
@@ -76,8 +82,6 @@ public class BSP_MapGen
 
         // Find Entrance to Level
         mapEntrance = FindEntrancePosition();
-
-        return Map;
     }
 
     Vector3 FindEntrancePosition()
@@ -86,7 +90,7 @@ public class BSP_MapGen
         {
             for (int y = 0; y < MAP_HEIGHT; y++)
             {
-                if (Map[x, y] == 3)
+                if (map[x, y] == 3)
                     return new Vector3(x, y, 0.0f);
             }
         }
@@ -343,11 +347,11 @@ public class BSP_MapGen
         {
             for (int y = room.roomBottom; y < room.roomBottom + room.roomHeight; y++)
             {
-                Map[x, y] = 1;
+                map[x, y] = 1;
             }
         }
         // Adjust tile map array to include cache
-        Map[room.roomCache.position.x, room.roomCache.position.y] = 2;
+        map[room.roomCache.position.x, room.roomCache.position.y] = 2;
 
         return segment;
     }
@@ -381,7 +385,7 @@ public class BSP_MapGen
         costModList.Add(2, 10);
         costModList.Add(3, 10);
         costModList.Add(4, 10);
-        AstarPathfinder pathfinder = new AstarPathfinder(Map, costModList, impassableList);
+        AstarPathfinder pathfinder = new AstarPathfinder(map, costModList, impassableList);
         // loop through randomly selected segments
         for (int i = 0; i < segmentIndices.Count; i += 2)
         {
@@ -395,8 +399,8 @@ public class BSP_MapGen
             {
                 // If the path passes through walls
                 // change walls to floor tiles
-                if (Map[node.xPos, node.yPos] == 0)
-                    Map[node.xPos, node.yPos] = 1;
+                if (map[node.xPos, node.yPos] == 0)
+                    map[node.xPos, node.yPos] = 1;
             }
 
         }
@@ -444,13 +448,13 @@ public class BSP_MapGen
         costModList.Add(2, 10);
         costModList.Add(3, 10);
         costModList.Add(4, 10);
-        AstarPathfinder pathfinder = new AstarPathfinder(Map, costModList, impassableList);
+        AstarPathfinder pathfinder = new AstarPathfinder(map, costModList, impassableList);
 
         // Pick random Room
         // Pick Random tile in that room
         Entrance = BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom.roomCache.position;// GetRandomPointInRoom(BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom);
         // Assign 'Entrance' to that tile
-        Map[Entrance.x, Entrance.y] = 3;
+        map[Entrance.x, Entrance.y] = 3;
 
         int longestPathLength = 0;
         // loop through all Segments
@@ -465,8 +469,8 @@ public class BSP_MapGen
             {
                 // If the path passes through walls
                 // change walls to floor tiles
-                if (Map[node.xPos, node.yPos] == 0)
-                    Map[node.xPos, node.yPos] = 1;
+                if (map[node.xPos, node.yPos] == 0)
+                    map[node.xPos, node.yPos] = 1;
             }
             if (path.Count > longestPathLength)
             {
@@ -477,7 +481,7 @@ public class BSP_MapGen
         }
 
         // Use longest path from 2nd pass to place Exit stairs
-        Map[Exit.x, Exit.y] = 4;
+        map[Exit.x, Exit.y] = 4;
     }
     #endregion
 }
