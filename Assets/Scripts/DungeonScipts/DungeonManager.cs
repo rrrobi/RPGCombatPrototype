@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour {
 
+    BSP_MapGen currentBSPMap;
+    // on start up BSP for current floor should be passed into this class from the GameManager
+    // (GM stores a BSP_MapGen for each floor in a dungeon, so that it can persist between scenes)
+    // Only this class should interact with BSP, GM only used for persistance
+    // On interaction with cache, check BSP for enemies + reward
+
     // Dungeon Gen
     public Sprite sampleFloor;
     public Sprite sampleEntranceTile;

@@ -57,6 +57,18 @@ public class BSP_MapGen
     const int ROOM_MIN_WIDTH = 2;
     const int ROOM_MIN_HEIGHT = 2;
 
+    public RoomCache FindCache(Vector2Int pos)
+    {
+        foreach (var segment in BSPMap[0][0])
+        {
+            if (segment.segmentRoom.roomCache.position == pos)
+                return segment.segmentRoom.roomCache;
+        }
+
+        Debug.LogError("No cache has been found at the pos: X-" + pos.x + " Y-" + pos.y);
+        return new RoomCache();
+    }
+
     public BSP_MapGen(int map_Width, int map_Height)
     {
         MAP_WIDTH = map_Width;
