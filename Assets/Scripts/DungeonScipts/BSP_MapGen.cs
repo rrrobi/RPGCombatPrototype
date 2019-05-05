@@ -47,6 +47,7 @@ public class BSP_MapGen
     List<List<List<Segment>>> BSPMap = new List<List<List<Segment>>>();
     readonly public int MAP_WIDTH;
     readonly public int MAP_HEIGHT;
+    readonly int floorDifficulty;
     const float MAX_DIVIDE_RATIO = 0.70f;
     const float MIN_DIVIDE_RATION = 0.30f;
     const int DIVIDE_COUNT = 4;
@@ -72,10 +73,11 @@ public class BSP_MapGen
         return new RoomCache();
     }
 
-    public BSP_MapGen(int map_Width, int map_Height)
+    public BSP_MapGen(int map_Width, int map_Height, int difficulty)
     {
         MAP_WIDTH = map_Width;
         MAP_HEIGHT = map_Height;
+        floorDifficulty = difficulty;
     }
 
     public void GenerateBSPDungeon()
@@ -354,6 +356,8 @@ public class BSP_MapGen
         room.roomBottom = UnityEngine.Random.Range(bottom + 1, bottom + segment.height - (room.roomHeight + 1));
         // Place cache in room
         room.roomCache.position = GetRandomPointInRoom(room);
+        // Set Cache Guardian + Loot
+        SetCacheContents();
 
         segment.segmentRoom = room;
 
@@ -369,6 +373,26 @@ public class BSP_MapGen
         map[room.roomCache.position.x, room.roomCache.position.y] = 2;
 
         return segment;
+    }
+
+    private void SetCacheContents()
+    {
+        // Dungeon floor difficulty level.
+        // Cache difficulty level = floor difficulty +- 1 (min cap set to 1)
+        // Each Monster type has a difficulty level.
+        // The map gen 'spends' its cache difficulty level to buy monsters to defend it.
+        int CacheDifficulty = Mathf.Min(1, floorDifficulty + Random.Range(-1, 2)); // <- NOTE max random range is exclusive
+
+        List<MonsterInfo> guardList = new List<MonsterInfo>();
+        int pointsToSpend = CacheDifficulty;
+        List<MonsterInfo> availableCombatants = new List<MonsterInfo>();// TODO... the list of available combatants need to be populated
+        while (guardList.Count <= 6 && availableCombatants.Count > 0)
+        {
+
+        }
+
+        // Gold = 10 * Cache difficulty level
+        int gold = CacheDifficulty * 10;
     }
 
     private Vector2Int GetRandomPointInRoom(Room room)
