@@ -59,7 +59,9 @@ public class GameManager : MonoBehaviour {
     public int GetDungeonMapWidth { get { return dungeonMapWidth; } }    
     int dungeonMapHeight = 30;
     public int GetDungeonMapHeight { get { return dungeonMapHeight; } }
+    // TODO... The BSP_DungeonGenerator will need to be amended to store a list of them, one for each floor of a dungeon.
     BSP_MapGen BSP_DungeonGenerator;
+    public BSP_MapGen GetBSP { get { return BSP_DungeonGenerator; } }
 
     // Use this for initialization
     void Start () {

@@ -32,9 +32,10 @@ public class DungeonManager : MonoBehaviour {
 
     void FloorSetUp(int floorNum)
     {
-        dungeonWidth = GameManager.Instance.GetDungeonMapWidth;
-        dungeonHeight = GameManager.Instance.GetDungeonMapHeight;
-        dungeonMap = GameManager.Instance.GetDungeonFloorMap(floorNum);
+        currentBSPMap = GameManager.Instance.GetBSP;
+        dungeonWidth = currentBSPMap.MAP_WIDTH;
+        dungeonHeight = currentBSPMap.MAP_HEIGHT;
+        dungeonMap = currentBSPMap.GetMap;
         DrawMap();
 
         // Add Playable Character

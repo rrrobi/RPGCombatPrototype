@@ -42,8 +42,8 @@ public class BSP_MapGen
 
     // Map Gen Variables
     List<List<List<Segment>>> BSPMap = new List<List<List<Segment>>>();
-    readonly int MAP_WIDTH;
-    readonly int MAP_HEIGHT;
+    readonly public int MAP_WIDTH;
+    readonly public int MAP_HEIGHT;
     const float MAX_DIVIDE_RATIO = 0.70f;
     const float MIN_DIVIDE_RATION = 0.30f;
     const int DIVIDE_COUNT = 4;
