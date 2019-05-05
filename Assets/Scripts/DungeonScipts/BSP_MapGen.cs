@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Global;
 
 // Requirements of a map generator
 // provide the int[,] tileMap
@@ -36,7 +37,9 @@ public class BSP_MapGen
     {
         public Vector2Int position;
         // List of guardians
+        public List<MonsterInfo> guardians;
         // list of loot
+        public int goldLoot;
         // other info etc
     }
 
