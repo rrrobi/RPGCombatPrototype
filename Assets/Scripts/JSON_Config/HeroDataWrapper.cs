@@ -27,6 +27,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.CombatLevel = "10";
             heroWrapper.HeroData.HeroInfo.StrengthModifier = "10";
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
+            heroWrapper.HeroData.HeroInfo.GoldOwned = 0;
 
             heroWrapper.HeroData.HeroInfo.baseActions.Name = "None";
             heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Slash");
@@ -195,6 +196,8 @@ namespace Global
         public string CombatLevel = "";
         public string StrengthModifier = "";
         public string WillModifier = "";
+
+        public int GoldOwned = 0;
 
         // test - items/spells not used yet
         public AbilityGroup baseActions = new AbilityGroup();

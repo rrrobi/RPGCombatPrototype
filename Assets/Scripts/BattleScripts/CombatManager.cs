@@ -8,7 +8,8 @@ namespace Battle
 {
     public class CombatManager : MonoBehaviour
     {
-
+        // Battle loot
+        int battleLoot;
 
         public static CombatManager Instance { get; protected set; }
         MonsterSpawner monsterSpawner = new MonsterSpawner();
@@ -54,12 +55,8 @@ namespace Battle
         }
 
         // Monster Setup Objects
-        //[SerializeField]
-        //private int FriendlyMonstersNum;
         [SerializeField]
         private GameObject FriendlyTeamGO;
-//        [SerializeField]
-//        private int EnemyMonstersNum;
         [SerializeField]
         private GameObject EnemyTeamGO;
 
@@ -82,7 +79,8 @@ namespace Battle
         // Use this for initialization
         void Start()
         {
-//            EnemyMonstersNum = GameManager.Instance.GetNumOfEnemies;
+            // Ensure the Combat manager knows what loot is at stake in this battle.
+            battleLoot = GameManager.Instance.GetCacheBattleBounty;
 
             // Ititial setup of battlefield
             battlefieldController.Setup();
@@ -254,6 +252,7 @@ namespace Battle
             // Update Hero HP            
             int hp = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetHP;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentHP = hp;
+            GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.GoldOwned += battleLoot;
 
             // update Monster stats
             foreach (var kvp in playerMonsterinfoList)

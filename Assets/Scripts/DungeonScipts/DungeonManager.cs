@@ -171,9 +171,9 @@ public class DungeonManager : MonoBehaviour {
         {
             GameManager.Instance.AddToEnemyMonsterParty(mi);
         }
-        
 
-        //GameManager.Instance.SetNumOfEnemies(2);
+        GameManager.Instance.SetCacheBattleBounty(roomCache.goldLoot);
+
         GameManager.Instance.StartBattle();
     }
 }

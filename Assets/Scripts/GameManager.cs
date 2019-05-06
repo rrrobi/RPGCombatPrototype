@@ -14,17 +14,12 @@ public class GameManager : MonoBehaviour {
     public HeroDataReader GetHeroData { get { return heroData; } }
 
     // Variables For starting Battle Scene
-    // num of enemies
-    int numOfEnemies = 1;
-    public int GetNumOfEnemies { get { return numOfEnemies; } }
-    public void SetNumOfEnemies(int input) { numOfEnemies = input; }
     List<MonsterInfo> enemyMonsterParty = new List<MonsterInfo>();
     public List<MonsterInfo> GetEnemyMonsterParty { get { return enemyMonsterParty; } }
     public void AddToEnemyMonsterParty(MonsterInfo mi)
     {
         enemyMonsterParty.Add(mi);
     }
-
     Dictionary<string, MonsterInfo> playerMonsterParty = new Dictionary<string, MonsterInfo>();
     public Dictionary<string, MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
     public void AddToPlayerMonsterParty(MonsterInfo mi)
@@ -41,6 +36,9 @@ public class GameManager : MonoBehaviour {
         if (playerMonsterParty.ContainsKey(mi.UniqueID))
             playerMonsterParty.Remove(mi.UniqueID);
     }
+    int cacheBattleBounty;
+    public int GetCacheBattleBounty { get { return cacheBattleBounty; } }
+    public void SetCacheBattleBounty(int bounty) { cacheBattleBounty = bounty; }
 
     // Variables for Starting Dungeon Scene
     int playerCurrentFloor = 1;
