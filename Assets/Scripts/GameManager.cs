@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour {
     int numOfEnemies = 1;
     public int GetNumOfEnemies { get { return numOfEnemies; } }
     public void SetNumOfEnemies(int input) { numOfEnemies = input; }
+    List<MonsterInfo> enemyMonsterParty = new List<MonsterInfo>();
+    public List<MonsterInfo> GetEnemyMonsterParty { get { return enemyMonsterParty; } }
+    public void AddToEnemyMonsterParty(MonsterInfo mi)
+    {
+        enemyMonsterParty.Add(mi);
+    }
 
     Dictionary<string, MonsterInfo> playerMonsterParty = new Dictionary<string, MonsterInfo>();
     public Dictionary<string, MonsterInfo> GetPlayerMonsterParty { get { return playerMonsterParty; } }
@@ -80,7 +86,7 @@ public class GameManager : MonoBehaviour {
 
         if (dungeonMapDictionary.Count < 1)
         {
-            BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight);
+            BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3);
             BSP_DungeonGenerator.GenerateBSPDungeon();
             SetDungeonFloorMap(1, BSP_DungeonGenerator.GetMap);
             playerDungeonPosition = new Vector2Int((int)BSP_DungeonGenerator.GetMapEntrance.x, (int)BSP_DungeonGenerator.GetMapEntrance.y);            
@@ -117,6 +123,8 @@ public class GameManager : MonoBehaviour {
         }
         else
         { Debug.Log("Something has gone wrong, we are returning to the dungeon while not standing on a Cache!"); }
+        // Ensure EnemyMonsterParty is empty on leving the battle
+        enemyMonsterParty.Clear();
 
         SceneManager.LoadScene("Dungeon");
     }

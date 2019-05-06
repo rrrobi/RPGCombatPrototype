@@ -8,41 +8,41 @@ using Global;
 // provide read access to room info
 // provide read access to Cache info
 
+public struct Segment
+{
+    // Pos = centre
+    public int xPos;
+    public int yPos;
+    public int width;
+    public int height;
+
+    public string segmentKey;
+    public Room segmentRoom;
+}
+
+public struct Room
+{
+    public int roomWidth;
+    public int roomHeight;
+    public int roomLeft;
+    public int roomBottom;
+    public RoomCache roomCache;
+
+    public List<Vector2Int> roomDoors;
+}
+
+public struct RoomCache
+{
+    public Vector2Int position;
+    // List of guardians
+    public List<MonsterInfo> guardians;
+    // list of loot
+    public int goldLoot;
+    // other info etc
+}
+
 public class BSP_MapGen
 {
-    public struct Segment
-    {
-        // Pos = centre
-        public int xPos;
-        public int yPos;
-        public int width;
-        public int height;
-
-        public string segmentKey;
-        public Room segmentRoom;
-    }
-
-    public struct Room
-    {
-        public int roomWidth;
-        public int roomHeight;
-        public int roomLeft;
-        public int roomBottom;
-        public RoomCache roomCache;
-
-        public List<Vector2Int> roomDoors;
-    }
-
-    public struct RoomCache
-    {
-        public Vector2Int position;
-        // List of guardians
-        public List<MonsterInfo> guardians;
-        // list of loot
-        public int goldLoot;
-        // other info etc
-    }
-
     // Map Gen Variables
     List<List<List<Segment>>> BSPMap = new List<List<List<Segment>>>();
     readonly public int MAP_WIDTH;
@@ -357,7 +357,14 @@ public class BSP_MapGen
         // Place cache in room
         room.roomCache.position = GetRandomPointInRoom(room);
         // Set Cache Guardian + Loot
-        SetCacheContents();
+        // Dungeon floor difficulty level.
+        // Cache difficulty level = floor difficulty +- 1 (min cap set to 1)
+        // Each Monster type has a difficulty level.
+        // The map gen 'spends' its cache difficulty level to buy monsters to defend it.
+        int cacheDifficulty = Mathf.Max(1, floorDifficulty + Random.Range(-1, 2)); // <- NOTE max random range is exclusive
+        room.roomCache.guardians = PopulateGuardList(cacheDifficulty);
+        // Gold = 10 * Cache difficulty level
+        room.roomCache.goldLoot = cacheDifficulty * 10;
 
         segment.segmentRoom = room;
 
@@ -375,24 +382,31 @@ public class BSP_MapGen
         return segment;
     }
 
-    private void SetCacheContents()
+    private List<MonsterInfo> PopulateGuardList(int CacheDifficulty)
     {
-        // Dungeon floor difficulty level.
-        // Cache difficulty level = floor difficulty +- 1 (min cap set to 1)
-        // Each Monster type has a difficulty level.
-        // The map gen 'spends' its cache difficulty level to buy monsters to defend it.
-        int CacheDifficulty = Mathf.Min(1, floorDifficulty + Random.Range(-1, 2)); // <- NOTE max random range is exclusive
+        // TODO... i dont like this here - consider making 'MonsterDataReader' static
+        MonsterDataReader monsterData = new MonsterDataReader();
+        monsterData.SetUp();
+        monsterData.ReadData();
 
         List<MonsterInfo> guardList = new List<MonsterInfo>();
         int pointsToSpend = CacheDifficulty;
-        List<MonsterInfo> availableCombatants = new List<MonsterInfo>();// TODO... the list of available combatants need to be populated
+        List<MonsterInfo> availableCombatants = monsterData.GetAvailableMonstersForDifficulty(pointsToSpend);
         while (guardList.Count <= 6 && availableCombatants.Count > 0)
         {
+            int randIndex = Random.Range(0, availableCombatants.Count);
+            guardList.Add(availableCombatants[randIndex]);
+            pointsToSpend -= availableCombatants[randIndex].DifficultyLevel;
 
+            availableCombatants = monsterData.GetAvailableMonstersForDifficulty(pointsToSpend);
         }
 
-        // Gold = 10 * Cache difficulty level
-        int gold = CacheDifficulty * 10;
+        if (guardList.Count < 1)
+        {
+            Debug.LogError("no guards available for cache with difficulty: " + CacheDifficulty);
+        }
+
+        return guardList;
     }
 
     private Vector2Int GetRandomPointInRoom(Room room)

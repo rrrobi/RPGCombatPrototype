@@ -20,6 +20,7 @@ namespace Global
 
             MonsterInfo m1 = new MonsterInfo();
             m1.Index = 1;
+            m1.DifficultyLevel = 2;
             m1.MonsterName = "Demon";
             m1.FriendlySpriteName = "SimpleMonsterBackBlue";
             m1.EnemySpriteName = "SimpleMonsterRed";
@@ -31,6 +32,7 @@ namespace Global
 
             MonsterInfo m2 = new MonsterInfo();
             m2.Index = 2;
+            m2.DifficultyLevel = 1;
             m2.MonsterName = "Demon Swarm";
             m2.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
             m2.EnemySpriteName = "SimpleMonsterSwarmRed";
@@ -41,6 +43,7 @@ namespace Global
 
             MonsterInfo m3 = new MonsterInfo();
             m3.Index = 3;
+            m3.DifficultyLevel = 3;
             m3.MonsterName = "Heavy Demon";
             m3.FriendlySpriteName = "SimpleTankMonsterBackBlue";
             m3.EnemySpriteName = "SimpleTankMonsterRed";
@@ -89,6 +92,11 @@ namespace Global
             }
         }
 
+        /// <summary>
+        /// Finds the monster from the config which uses the given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>MonsterInfo</returns>
         public MonsterInfo GetMonsterFromIndex(int index)
         {
             List<MonsterInfo> monsterInfoGroup = monsterWrapper.MonsterData.MonsterList.FindAll(s => s.Index == index);
@@ -109,7 +117,21 @@ namespace Global
             return monsterInfoGroup[0];
         }
 
-    }
+        /// <summary>
+        /// Returns a list of MonsterInfo that is available for use with the given difficulty
+        /// </summary>
+        /// <param name="difficulty"></param>
+        /// <returns>List<MonsterInfo></returns>
+        public List<MonsterInfo> GetAvailableMonstersForDifficulty(int difficulty)
+        {
+            List<MonsterInfo> availableMonsters = new List<MonsterInfo>();
+            // return a list of all monsters with a dificulty of less/equal to the given difficulty limit
+            // TODO... this will later be expanded to include other conditions. e.g. biome type etc
+            availableMonsters = monsterWrapper.MonsterData.MonsterList.FindAll(s => s.DifficultyLevel <= difficulty);
+
+            return availableMonsters;
+        }
+    }    
 
     [System.Serializable]
     public class MonsterDataWrapper
@@ -130,6 +152,7 @@ namespace Global
         public string UniqueID = "00-000";
 
         public int Index = 0;
+        public int DifficultyLevel = 0;
         public string MonsterName = "";
         public string FriendlySpriteName = "";
         public string EnemySpriteName = "";

@@ -17,36 +17,36 @@ namespace Battle
 
         // Character lists, and function to maintain these lists
         Dictionary<string, GameObject> playerCharacters;
-        Dictionary<string, Global.MonsterInfo> playerMonsterinfoList;
-        Dictionary<string, GameObject> enemyCharacters;
-
         public Dictionary<string, GameObject> GetPlayerCharacterList { get { return playerCharacters; } }
-        public Dictionary<string, Global.MonsterInfo> GetPlayerMonsterInfoList { get { return playerMonsterinfoList; } }
-        public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }        
         public GameObject GetPlayerCharacterByName(string name) { return playerCharacters[name]; }
-        public Global.MonsterInfo GetPlayerMonsterInfoByName(string name) { return playerMonsterinfoList[name]; }
-        public GameObject GetEnemyCharacterByID(string id)
-        {
-            return enemyCharacters[id];
-        }
         private void AddToPlayerCharacterList(GameObject character)
         {
             playerCharacters.Add(character.name, character);
-        }
-        private void AddToPlayerMonsterInfoList(Global.MonsterInfo mi) { playerMonsterinfoList.Add(mi.UniqueID, mi); }
-        private void AddToEnemyCharacterList(GameObject character)
-        {
-            enemyCharacters.Add(character.GetComponent<Monster>().GetUniqueID, character);
         }
         private void RemoveFromPlayerCharacterList(GameObject character)
         {
             playerCharacters.Remove(character.name);
         }
+
+        Dictionary<string, Global.MonsterInfo> playerMonsterinfoList;
+        public Dictionary<string, Global.MonsterInfo> GetPlayerMonsterInfoList { get { return playerMonsterinfoList; } }
+        public Global.MonsterInfo GetPlayerMonsterInfoByName(string name) { return playerMonsterinfoList[name]; }
+        private void AddToPlayerMonsterInfoList(Global.MonsterInfo mi) { playerMonsterinfoList.Add(mi.UniqueID, mi); }
         private void RemoveFromPlayerMonsterInfoList(Global.MonsterInfo mi)
         {
             if (playerMonsterinfoList.ContainsKey(mi.UniqueID))
                 playerMonsterinfoList.Remove(mi.UniqueID);
+        }
 
+        Dictionary<string, GameObject> enemyCharacters;
+        public Dictionary<string, GameObject> GetEnemyCharacterList { get { return enemyCharacters; } }
+        public GameObject GetEnemyCharacterByID(string id)
+        {
+            return enemyCharacters[id];
+        }
+        private void AddToEnemyCharacterList(GameObject character)
+        {
+            enemyCharacters.Add(character.GetComponent<Monster>().GetUniqueID, character);
         }
         private void RemoveFromEnemyCharacterList(GameObject character)
         {
@@ -58,8 +58,8 @@ namespace Battle
         //private int FriendlyMonstersNum;
         [SerializeField]
         private GameObject FriendlyTeamGO;
-        [SerializeField]
-        private int EnemyMonstersNum;
+//        [SerializeField]
+//        private int EnemyMonstersNum;
         [SerializeField]
         private GameObject EnemyTeamGO;
 
@@ -82,7 +82,7 @@ namespace Battle
         // Use this for initialization
         void Start()
         {
-            EnemyMonstersNum = GameManager.Instance.GetNumOfEnemies;
+//            EnemyMonstersNum = GameManager.Instance.GetNumOfEnemies;
 
             // Ititial setup of battlefield
             battlefieldController.Setup();
@@ -193,10 +193,15 @@ namespace Battle
             // get number of Monster slots available
             int availableSlotCount = battlefieldController.FindUnoccupiedEnemySlotCount();
 
+            List<Global.MonsterInfo> enemyMonsterParty = GameManager.Instance.GetEnemyMonsterParty;
             // spawn each monster, unless there are more monsters than available slots.
             int numToSpawn = availableSlotCount;
-            if (EnemyMonstersNum <= availableSlotCount)
-                numToSpawn = EnemyMonstersNum;
+            if (enemyMonsterParty.Count <= availableSlotCount)
+                numToSpawn = enemyMonsterParty.Count;
+
+            //int numToSpawn = availableSlotCount;
+            //if (EnemyMonstersNum <= availableSlotCount)
+            //    numToSpawn = EnemyMonstersNum;
 
             for (int i = 0; i < numToSpawn; i++)
             {
@@ -204,10 +209,10 @@ namespace Battle
                 if (nextAvailableSlot != null)
                 {
                     // TODO... Temp, remove this
-                    Global.MonsterInfo mi = new Global.MonsterInfo();
+                    Global.MonsterInfo mi = enemyMonsterParty[i];
 
-                    int randIndex = Random.Range(1, 4);
-                    GameObject monsterGO = monsterSpawner.SpawnMonster(randIndex,
+                    //int randIndex = Random.Range(1, 4);
+                    GameObject monsterGO = monsterSpawner.SpawnMonster(0,
                         mi,
                         TeamName.Enemy,
                         EnemyTeamGO,

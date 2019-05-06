@@ -158,14 +158,22 @@ public class DungeonManager : MonoBehaviour {
     }
 
     public void StartBattle()
-    {
+    {      
         // Get Enemy + Reward info from BSP Cache info
         Vector2Int playerPos = new Vector2Int((int)player.transform.position.x, (int)player.transform.position.y);
-        Vector2Int cachePos = currentBSPMap.FindCache(playerPos).position;
+        RoomCache roomCache = currentBSPMap.FindCache(playerPos);
+
+        Vector2Int cachePos = roomCache.position;
         if (cachePos == playerPos)
             Debug.Log("We have info from the cache at: X: " + cachePos.x + ", Y: " + cachePos.y);
 
-        GameManager.Instance.SetNumOfEnemies(2);
+        foreach (var mi in roomCache.guardians)
+        {
+            GameManager.Instance.AddToEnemyMonsterParty(mi);
+        }
+        
+
+        //GameManager.Instance.SetNumOfEnemies(2);
         GameManager.Instance.StartBattle();
     }
 }
