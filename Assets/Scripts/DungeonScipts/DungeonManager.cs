@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DungeonManager : MonoBehaviour {
 
@@ -27,7 +28,6 @@ public class DungeonManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
     }
 
     void FloorSetUp(int floorNum)
@@ -101,7 +101,10 @@ public class DungeonManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (dungeonMap == null)
+        {
             FloorSetUp(1);
+            UISetup();
+        }
 
         ReadInput();
         
@@ -175,5 +178,11 @@ public class DungeonManager : MonoBehaviour {
         GameManager.Instance.SetCacheBattleBounty(roomCache.goldLoot);
 
         GameManager.Instance.StartBattle();
+    }
+
+    private void UISetup()
+    {
+        GameObject goldInfo = GameObject.Find("GoldText");
+        goldInfo.GetComponent<Text>().text = "Gold: " + GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.GoldOwned;
     }
 }
