@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour {
     // Variables for Starting Dungeon Scene
     int playerCurrentFloor = -1;
     int playerStartFloor = -1;                                              // <- not sure if this is overkill
+    int baseFloorDifficulty = 3;
     public int GetPlayerCurrentFloor { get { return playerCurrentFloor; } }
     Vector2Int playerDungeonPosition = new Vector2Int();
     public Vector2Int GetPlayerDungeonPosition { get { return playerDungeonPosition; } }
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour {
 
         if (BSP_MapDictionary.Count < 1)
         {
-            SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3));
+            SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, baseFloorDifficulty));
             BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
             playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapEntrance;           
         }
@@ -133,7 +134,8 @@ public class GameManager : MonoBehaviour {
         // check if destination floor already has BSP created for it
         if (!BSP_MapDictionary.ContainsKey(DestinationFloor))
         {
-            SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3));
+            int newFloorDifficulty = baseFloorDifficulty + Mathf.Abs(0 - DestinationFloor);
+            SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, newFloorDifficulty));
             BSP_MapDictionary[DestinationFloor].GenerateBSPDungeon();            
         }
         // Set player position to the new entrance tile
