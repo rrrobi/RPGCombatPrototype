@@ -58,6 +58,8 @@ public class BSP_MapGen
     public void AmendMap(Vector2Int pos, int value) { map[pos.x, pos.y] = value; }
     Vector2Int mapEntrance;
     public Vector2Int GetMapEntrance { get { return mapEntrance; } }
+    Vector2Int mapExit;
+    public Vector2Int GetMapExit { get { return mapExit; } }
 
     // Room Gen variables
     const int ROOM_MIN_WIDTH = 2;
@@ -101,6 +103,7 @@ public class BSP_MapGen
 
         // Find Entrance to Level
         mapEntrance = FindEntrancePosition();
+        mapExit = FindExitPosition();
     }
 
     Vector2Int FindEntrancePosition()
@@ -117,6 +120,21 @@ public class BSP_MapGen
         Debug.Log("No Entrance tile found!");
         return new Vector2Int(0, 0);
     }
+    Vector2Int FindExitPosition()
+    {
+        for (int x = 0; x < MAP_WIDTH; x++)
+        {
+            for (int y = 0; y < MAP_HEIGHT; y++)
+            {
+                if (map[x, y] == 4)
+                    return new Vector2Int(x, y);
+            }
+        }
+
+        Debug.Log("No Exit tile found!");
+        return new Vector2Int(0, 0);
+    }
+
 
     // BSP - partition the space up into randomly sized areas
     #region

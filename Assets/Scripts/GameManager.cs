@@ -137,7 +137,10 @@ public class GameManager : MonoBehaviour {
             BSP_MapDictionary[DestinationFloor].GenerateBSPDungeon();            
         }
         // Set player position to the new entrance tile
-        playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapEntrance;
+        if (playerCurrentFloor > DestinationFloor)
+            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapEntrance;
+        else
+            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapExit;
 
         // update current floor to destination floor
         playerCurrentFloor = DestinationFloor;
