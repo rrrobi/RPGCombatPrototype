@@ -32,7 +32,7 @@ public class DungeonManager : MonoBehaviour {
 
     void FloorSetUp(int floorNum)
     {
-        currentBSPMap = GameManager.Instance.GetBSP;
+        currentBSPMap = GameManager.Instance.GetBSPMapForCurrentFloor;
         dungeonWidth = currentBSPMap.MAP_WIDTH;
         dungeonHeight = currentBSPMap.MAP_HEIGHT;
         dungeonMap = currentBSPMap.GetMap;
@@ -142,6 +142,21 @@ public class DungeonManager : MonoBehaviour {
                 // Cache tile
                 case 2:
                     StartBattle();
+                    break;
+                case 3:
+                    // Up Stairs
+                    Debug.Log("Climbing all these stairs is hard on the old legs you know?!?");
+                    int DestinatationFloor = GameManager.Instance.GetPlayerCurrentFloor + 1;
+                    // TODO... Replace with a more permanant check and solution for what to do when the player tried to go up the stairs on the top floor.
+                    if (DestinatationFloor == 0)
+                        Debug.Log("These stairs don't seem to lead anywhere, it's like nobody bothered to build a world outside this dungeon...");
+                    else
+                        GameManager.Instance.TravelToNextDugeonFloor(DestinatationFloor);
+                    break;
+                case 4:
+                    // Down Stairs
+                    Debug.Log("Off we go down the stairs!");
+                    GameManager.Instance.TravelToNextDugeonFloor(GameManager.Instance.GetPlayerCurrentFloor - 1);
                     break;
                 default:
                     Debug.Log("Nothing to interact with at: " + (int)player.transform.position.x + ", " + (int)player.transform.position.y);

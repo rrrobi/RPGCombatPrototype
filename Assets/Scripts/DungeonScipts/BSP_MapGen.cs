@@ -5,6 +5,7 @@ using Global;
 
 // Requirements of a map generator
 // provide the int[,] tileMap
+// provide (limeted) write access to tile map (amend tile value)
 // provide read access to room info
 // provide read access to Cache info
 
@@ -54,8 +55,9 @@ public class BSP_MapGen
 
     int[,] map;
     public int[,] GetMap { get { return map; } }
-    Vector3 mapEntrance;
-    public Vector3 GetMapEntrance { get { return mapEntrance; } }
+    public void AmendMap(Vector2Int pos, int value) { map[pos.x, pos.y] = value; }
+    Vector2Int mapEntrance;
+    public Vector2Int GetMapEntrance { get { return mapEntrance; } }
 
     // Room Gen variables
     const int ROOM_MIN_WIDTH = 2;
@@ -101,19 +103,19 @@ public class BSP_MapGen
         mapEntrance = FindEntrancePosition();
     }
 
-    Vector3 FindEntrancePosition()
+    Vector2Int FindEntrancePosition()
     {
         for (int x = 0; x < MAP_WIDTH; x++)
         {
             for (int y = 0; y < MAP_HEIGHT; y++)
             {
                 if (map[x, y] == 3)
-                    return new Vector3(x, y, 0.0f);
+                    return new Vector2Int(x, y);
             }
         }
 
         Debug.Log("No Entrance tile found!");
-        return new Vector3(0.0f, 0.0f, 0.0f);
+        return new Vector2Int(0, 0);
     }
 
     // BSP - partition the space up into randomly sized areas

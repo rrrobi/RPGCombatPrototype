@@ -41,31 +41,32 @@ public class GameManager : MonoBehaviour {
     public void SetCacheBattleBounty(int bounty) { cacheBattleBounty = bounty; }
 
     // Variables for Starting Dungeon Scene
-    int playerCurrentFloor = 1;
+    int playerCurrentFloor = -1;
+    int playerStartFloor = -1;                                              // <- not sure if this is overkill
+    public int GetPlayerCurrentFloor { get { return playerCurrentFloor; } }
     Vector2Int playerDungeonPosition = new Vector2Int();
     public Vector2Int GetPlayerDungeonPosition { get { return playerDungeonPosition; } }
     public void SetPlayerDungeonPosition(Vector2Int pos) { playerDungeonPosition = pos; }
-    Dictionary<int, int[,]> dungeonMapDictionary = new Dictionary<int, int[,]>();
-    public int[,] GetDungeonFloorMap(int floorNum) { return dungeonMapDictionary[floorNum]; }
-    public void SetDungeonFloorMap (int floorNum, int[,] map)
-    {
-        if (dungeonMapDictionary.ContainsKey(floorNum))
-        {
-            // floor already exists
-            Debug.Log("Overwrite floor: " + floorNum);
-            dungeonMapDictionary.Remove(floorNum);
-            dungeonMapDictionary.Add(floorNum, map);
-        }
-        else
-            dungeonMapDictionary.Add(floorNum, map);
-    }
     int dungeonMapWidth = 50;
     public int GetDungeonMapWidth { get { return dungeonMapWidth; } }    
     int dungeonMapHeight = 30;
     public int GetDungeonMapHeight { get { return dungeonMapHeight; } }
     // TODO... The BSP_DungeonGenerator will need to be amended to store a list of them, one for each floor of a dungeon.
-    BSP_MapGen BSP_DungeonGenerator;
-    public BSP_MapGen GetBSP { get { return BSP_DungeonGenerator; } }
+    Dictionary<int, BSP_MapGen> BSP_MapDictionary = new Dictionary<int, BSP_MapGen>();
+    public BSP_MapGen GetBSPMapForFloor(int floor) { return BSP_MapDictionary[floor]; }
+    public BSP_MapGen GetBSPMapForCurrentFloor { get { return BSP_MapDictionary[playerCurrentFloor]; } }
+    public void SetBSPMapForFloor(int floor, BSP_MapGen BSPmap)
+    {
+        if (BSP_MapDictionary.ContainsKey(floor))
+        {
+            // floor already exists, 
+            // we don't want to replace the floor already produced
+            // log an error
+            Debug.LogError("Attempt made to replace BSPMap for floor: " + floor + ", No Action taken.");
+        }
+        else
+            BSP_MapDictionary.Add(floor, BSPmap);
+    }
 
     // Use this for initialization
     void Start () {
@@ -82,12 +83,11 @@ public class GameManager : MonoBehaviour {
         heroData.ReadData();
         AssignPlayerMonsterParty();
 
-        if (dungeonMapDictionary.Count < 1)
+        if (BSP_MapDictionary.Count < 1)
         {
-            BSP_DungeonGenerator = new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3);
-            BSP_DungeonGenerator.GenerateBSPDungeon();
-            SetDungeonFloorMap(1, BSP_DungeonGenerator.GetMap);
-            playerDungeonPosition = new Vector2Int((int)BSP_DungeonGenerator.GetMapEntrance.x, (int)BSP_DungeonGenerator.GetMapEntrance.y);            
+            SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3));
+            BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
+            playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapEntrance;           
         }
     }
 
@@ -111,19 +111,38 @@ public class GameManager : MonoBehaviour {
 
     public void ReturnToDungeon()
     {
+        int[,] map = BSP_MapDictionary[playerCurrentFloor].GetMap;
         // Cache Battle has been won,
         // Replace Cache with Empty Cache
-        if (dungeonMapDictionary[playerCurrentFloor][playerDungeonPosition.x, playerDungeonPosition.y] == 2)
+        if (map[playerDungeonPosition.x, playerDungeonPosition.y] == 2)
         {
             // Ensure current position is a full Cache, else something has gone wrong,
             // Assign Empty Cache tile index instead
-            dungeonMapDictionary[playerCurrentFloor][playerDungeonPosition.x, playerDungeonPosition.y] = 5;
+            BSP_MapDictionary[playerCurrentFloor].AmendMap(playerDungeonPosition, 5);
         }
         else
         { Debug.Log("Something has gone wrong, we are returning to the dungeon while not standing on a Cache!"); }
         // Ensure EnemyMonsterParty is empty on leving the battle
         enemyMonsterParty.Clear();
 
+        SceneManager.LoadScene("Dungeon");
+    }
+
+    public void TravelToNextDugeonFloor(int DestinationFloor)
+    {
+        // check if destination floor already has BSP created for it
+        if (!BSP_MapDictionary.ContainsKey(DestinationFloor))
+        {
+            SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, 3));
+            BSP_MapDictionary[DestinationFloor].GenerateBSPDungeon();            
+        }
+        // Set player position to the new entrance tile
+        playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapEntrance;
+
+        // update current floor to destination floor
+        playerCurrentFloor = DestinationFloor;
+
+        // load new scene
         SceneManager.LoadScene("Dungeon");
     }
 
