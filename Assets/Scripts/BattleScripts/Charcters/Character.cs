@@ -64,8 +64,9 @@ namespace Battle
                 Menus.Add(menus[i].GetMenuName, menus[i]);
             }
         }
-        // TODO... I Don't llike the need for a separate 'Get' function for this
-        // seach ability dictionary and list of menus for ability by name
+        /// <summary>
+        /// seach ability dictionary and list of menus for ability by name
+        /// </summary>
         public Ability SearchAllAbilitiesByName(string name)
         {
             if (Abilities.ContainsKey(name))
@@ -103,7 +104,6 @@ namespace Battle
         {
             Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
 
-            //hP = maxHP;
             attackTimer = attackCD;
 
             // Set this monster's Sprite

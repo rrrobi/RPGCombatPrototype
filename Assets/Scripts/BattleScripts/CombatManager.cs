@@ -206,12 +206,9 @@ namespace Battle
                 GameObject nextAvailableSlot = battlefieldController.FindNextUnoccupiedEnemySlot();
                 if (nextAvailableSlot != null)
                 {
-                    // TODO... Temp, remove this
-                    Global.MonsterInfo mi = enemyMonsterParty[i];
-
                     //int randIndex = Random.Range(1, 4);
                     GameObject monsterGO = monsterSpawner.SpawnMonster(0,
-                        mi,
+                        enemyMonsterParty[i],
                         TeamName.Enemy,
                         EnemyTeamGO,
                         nextAvailableSlot);

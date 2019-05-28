@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace Global
 {
-    public class MonsterDataReader
+    static public class MonsterDataReader
     {
-        public MonsterDataWrapper monsterWrapper = new MonsterDataWrapper();
+        static public MonsterDataWrapper monsterWrapper = new MonsterDataWrapper();
 
-        string filename = "monsterData.json";
-        string path;
+        static string filename = "monsterData.json";
+        static string path;
 
         // This only needs to be called if im am changing machines during devoplment
         // To ensure the Monster Json Config file is correct
-        private void JSONSetUp()
+        static private void JSONSetUp()
         {
             monsterWrapper.MonsterData.Date = System.DateTime.Now.ToShortDateString();
 
@@ -57,21 +57,22 @@ namespace Global
             SaveData();
         }
 
-        public void SetUp()
+        static public void SetUp()
         {
+            Debug.Log("MonsterData Set up started!");
             path = Application.persistentDataPath + "/" + filename;
             Debug.Log("MonsterData Path: " + path);
 
             JSONSetUp();
         }
 
-        public void SaveData()
+        static public void SaveData()
         {
             string contents = JsonUtility.ToJson(monsterWrapper, true);
             System.IO.File.WriteAllText(path, contents);
         }
 
-        public void ReadData()
+        static public void ReadData()
         {
             try
             {
@@ -97,7 +98,7 @@ namespace Global
         /// </summary>
         /// <param name="index"></param>
         /// <returns>MonsterInfo</returns>
-        public MonsterInfo GetMonsterFromIndex(int index)
+        static public MonsterInfo GetMonsterFromIndex(int index)
         {
             List<MonsterInfo> monsterInfoGroup = monsterWrapper.MonsterData.MonsterList.FindAll(s => s.Index == index);
 
@@ -122,7 +123,7 @@ namespace Global
         /// </summary>
         /// <param name="difficulty"></param>
         /// <returns>List<MonsterInfo></returns>
-        public List<MonsterInfo> GetAvailableMonstersForDifficulty(int difficulty)
+        static public List<MonsterInfo> GetAvailableMonstersForDifficulty(int difficulty)
         {
             List<MonsterInfo> availableMonsters = new List<MonsterInfo>();
             // return a list of all monsters with a dificulty of less/equal to the given difficulty limit

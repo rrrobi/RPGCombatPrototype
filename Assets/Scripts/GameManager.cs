@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour {
     public int GetDungeonMapWidth { get { return dungeonMapWidth; } }    
     int dungeonMapHeight = 30;
     public int GetDungeonMapHeight { get { return dungeonMapHeight; } }
-    // TODO... The BSP_DungeonGenerator will need to be amended to store a list of them, one for each floor of a dungeon.
     Dictionary<int, BSP_MapGen> BSP_MapDictionary = new Dictionary<int, BSP_MapGen>();
     public BSP_MapGen GetBSPMapForFloor(int floor) { return BSP_MapDictionary[floor]; }
     public BSP_MapGen GetBSPMapForCurrentFloor { get { return BSP_MapDictionary[playerCurrentFloor]; } }
@@ -79,6 +78,10 @@ public class GameManager : MonoBehaviour {
         }
         Instance = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
+
+        // Set up MonsterData config file for use        
+        MonsterDataReader.SetUp();
+        MonsterDataReader.ReadData();
 
         heroData.Setup();
         heroData.ReadData();

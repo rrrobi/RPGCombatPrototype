@@ -13,8 +13,6 @@ namespace Battle
 {
     public class MonsterSpawner
     {
-        //HeroDataReader heroData = new HeroDataReader();
-        MonsterDataReader monsterData = new MonsterDataReader();
         AbilityDataReader abilityData = new AbilityDataReader();
 
         Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
@@ -37,13 +35,6 @@ namespace Battle
                 Debug.Log(s);
                 monsterSprites.Add(s.name, s);
             }
-
-            // Read in monster data, ready for spawning specific monsters from the config file
-            //heroData.Setup();
-            //heroData.ReadData();
-
-            monsterData.SetUp();
-            monsterData.ReadData();
 
             abilityData.SetUp();
             abilityData.ReadData();
@@ -108,7 +99,7 @@ namespace Battle
 
             // Set monster HP
             heroGO.GetComponent<Hero>().SetMaxHP(heroInfo.MaxHP);
-            heroGO.GetComponent<Hero>().SetHP(heroInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            heroGO.GetComponent<Hero>().SetHP(heroInfo.CurrentHP); // Must be set here or the UI at start doesn't update with correct HP
             // Set Character Unique ID
             heroGO.GetComponent<Hero>().SetUniqueID(heroInfo.UniqueID);
 
@@ -146,7 +137,7 @@ namespace Battle
             else
             {
                 // Get monster data from index
-                monsterInfo = monsterData.GetMonsterFromIndex(index);
+                monsterInfo = MonsterDataReader.GetMonsterFromIndex(index);
             }
             // Keep track of count of each monster type in this fight
             TrackCharacterCount(monsterInfo, team);
@@ -175,7 +166,7 @@ namespace Battle
 
             // Set monster HP
             monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
-            monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // TODO... because of some strange ordering, if this isnt set here the UI at start doesn't update with correct HP
+            monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // Must be set here or the UI at start doesn't update with correct HP
             // Set Character Unique ID
             monsterGO.GetComponent<Monster>().SetUniqueID(AssignUniqueID(monsterInfo, team));
 

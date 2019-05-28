@@ -19,7 +19,6 @@ namespace Battle
         }
 
         // Unitslot prefab 
-        // TODO...may rework this later
         GameObject unitSlotGO;
         // Empty GOs for holding the unitslots
         GameObject friendlyTeamSlots;

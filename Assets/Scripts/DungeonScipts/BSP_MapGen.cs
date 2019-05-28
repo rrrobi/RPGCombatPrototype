@@ -404,21 +404,16 @@ public class BSP_MapGen
 
     private List<MonsterInfo> PopulateGuardList(int CacheDifficulty)
     {
-        // TODO... i dont like this here - consider making 'MonsterDataReader' static
-        MonsterDataReader monsterData = new MonsterDataReader();
-        monsterData.SetUp();
-        monsterData.ReadData();
-
         List<MonsterInfo> guardList = new List<MonsterInfo>();
         int pointsToSpend = CacheDifficulty;
-        List<MonsterInfo> availableCombatants = monsterData.GetAvailableMonstersForDifficulty(pointsToSpend);
+        List<MonsterInfo> availableCombatants = MonsterDataReader.GetAvailableMonstersForDifficulty(pointsToSpend);
         while (guardList.Count <= 6 && availableCombatants.Count > 0)
         {
             int randIndex = Random.Range(0, availableCombatants.Count);
             guardList.Add(availableCombatants[randIndex]);
             pointsToSpend -= availableCombatants[randIndex].DifficultyLevel;
 
-            availableCombatants = monsterData.GetAvailableMonstersForDifficulty(pointsToSpend);
+            availableCombatants = MonsterDataReader.GetAvailableMonstersForDifficulty(pointsToSpend);
         }
 
         if (guardList.Count < 1)
