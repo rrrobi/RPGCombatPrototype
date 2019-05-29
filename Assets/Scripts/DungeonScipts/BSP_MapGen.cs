@@ -56,10 +56,10 @@ public class BSP_MapGen
     int[,] map;
     public int[,] GetMap { get { return map; } }
     public void AmendMap(Vector2Int pos, int value) { map[pos.x, pos.y] = value; }
-    Vector2Int mapEntrance;
-    public Vector2Int GetMapEntrance { get { return mapEntrance; } }
-    Vector2Int mapExit;
-    public Vector2Int GetMapExit { get { return mapExit; } }
+    Vector2Int mapUpStairs;
+    public Vector2Int GetMapUpStairs { get { return mapUpStairs; } }
+    Vector2Int mapDownStairs;
+    public Vector2Int GetMapDownStairs { get { return mapDownStairs; } }
 
     // Room Gen variables
     const int ROOM_MIN_WIDTH = 2;
@@ -101,12 +101,12 @@ public class BSP_MapGen
         FirstPassCorridorsStage();
         SecondPassCorridorsStage();
 
-        // Find Entrance to Level
-        mapEntrance = FindEntrancePosition();
-        mapExit = FindExitPosition();
+        // Find Entrance (Up Stairs) to Level
+        mapUpStairs = FindUpStairsPosition();
+        mapDownStairs = FindDownStairsPosition();
     }
 
-    Vector2Int FindEntrancePosition()
+    Vector2Int FindUpStairsPosition()
     {
         for (int x = 0; x < MAP_WIDTH; x++)
         {
@@ -117,10 +117,10 @@ public class BSP_MapGen
             }
         }
 
-        Debug.Log("No Entrance tile found!");
+        Debug.Log("No UpStairs tile found!");
         return new Vector2Int(0, 0);
     }
-    Vector2Int FindExitPosition()
+    Vector2Int FindDownStairsPosition()
     {
         for (int x = 0; x < MAP_WIDTH; x++)
         {
@@ -131,7 +131,7 @@ public class BSP_MapGen
             }
         }
 
-        Debug.Log("No Exit tile found!");
+        Debug.Log("No DownStairs tile found!");
         return new Vector2Int(0, 0);
     }
 
@@ -499,13 +499,13 @@ public class BSP_MapGen
     }
     #endregion
 
-    // Second pass of corridor connections - Assign an entrance tile in one of the rooms,
+    // Second pass of corridor connections - Assign an 'Up Stairs' tile in one of the rooms,
     // Ensure there is a path from this location to every other room
-    // Assign of of the distant rooms to contain the exit.
+    // Assign of of the distant rooms to contain the 'Down Stairs'.
     #region
-    // Entrance/Exit
-    Vector2Int Entrance;
-    Vector2Int Exit;
+    // Up/Down stairs
+    Vector2Int UpStairs;
+    Vector2Int DownStairs;
 
     void SecondPassCorridorsStage()
     {
@@ -520,16 +520,16 @@ public class BSP_MapGen
 
         // Pick random Room
         // Pick Random tile in that room
-        Entrance = BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom.roomCache.position;// GetRandomPointInRoom(BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom);
-        // Assign 'Entrance' to that tile
-        map[Entrance.x, Entrance.y] = 3;
+        UpStairs = BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom.roomCache.position;// GetRandomPointInRoom(BSPMap[0][0][UnityEngine.Random.Range(0, BSPMap[0][0].Count)].segmentRoom);
+        // Assign 'Up Stairs' to that tile
+        map[UpStairs.x, UpStairs.y] = 3;
 
         int longestPathLength = 0;
         // loop through all Segments
         for (int i = 0; i < BSPMap[0][0].Count; i++)
         {
-            // Ensure there is a path from the entrance to each room
-            Vector2Int startNode = Entrance;
+            // Ensure there is a path from the 'Up Stairs' to each room
+            Vector2Int startNode = UpStairs;
             Vector2Int targetNode = BSPMap[0][0][i].segmentRoom.roomCache.position;// GetRandomPointInRoom(BSPMap[0][0][i].segmentRoom);                
 
             List<Node> path = pathfinder.StartPathfinder(startNode, targetNode);
@@ -543,13 +543,13 @@ public class BSP_MapGen
             if (path.Count > longestPathLength)
             {
                 longestPathLength = path.Count;
-                // The Exit tile is replaced with the new longestPath target - temp level exit placement  
-                Exit = new Vector2Int(targetNode.x, targetNode.y);
+                // The 'Down Stairs' tile is replaced with the new longestPath target 
+                DownStairs = new Vector2Int(targetNode.x, targetNode.y);
             }
         }
 
-        // Use longest path from 2nd pass to place Exit stairs
-        map[Exit.x, Exit.y] = 4;
+        // Use longest path from 2nd pass to place 'Down Stairs'
+        map[DownStairs.x, DownStairs.y] = 4;
     }
     #endregion
 }

@@ -14,8 +14,8 @@ public class DungeonManager : MonoBehaviour {
 
     // Dungeon Gen
     public Sprite sampleFloor;
-    public Sprite sampleEntranceTile;
-    public Sprite sampleExitTile;
+    public Sprite sampleUpStairsTile;
+    public Sprite sampleDownStairsTile;
     public Sprite sampleCache;
     public Sprite sampleEmptyCache;
     public Sprite sampleWall;
@@ -70,9 +70,9 @@ public class DungeonManager : MonoBehaviour {
                     else if (dungeonMap[x, y] == 2)
                         tile.AddComponent<SpriteRenderer>().sprite = sampleCache;
                     else if (dungeonMap[x, y] == 3)
-                        tile.AddComponent<SpriteRenderer>().sprite = sampleEntranceTile;
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleUpStairsTile;
                     else if (dungeonMap[x, y] == 4)
-                        tile.AddComponent<SpriteRenderer>().sprite = sampleExitTile;
+                        tile.AddComponent<SpriteRenderer>().sprite = sampleDownStairsTile;
                     else if (dungeonMap[x, y] == 5)
                         tile.AddComponent<SpriteRenderer>().sprite = sampleEmptyCache;
 
@@ -88,9 +88,9 @@ public class DungeonManager : MonoBehaviour {
                     else if (dungeonMap[x, y] == 2)
                         tile.GetComponent<SpriteRenderer>().sprite = sampleCache;
                     else if (dungeonMap[x, y] == 3)
-                        tile.GetComponent<SpriteRenderer>().sprite = sampleEntranceTile;
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleUpStairsTile;
                     else if (dungeonMap[x, y] == 4)
-                        tile.GetComponent<SpriteRenderer>().sprite = sampleExitTile;
+                        tile.GetComponent<SpriteRenderer>().sprite = sampleDownStairsTile;
                     else if (dungeonMap[x, y] == 5)
                         tile.GetComponent<SpriteRenderer>().sprite = sampleEmptyCache;
                 }

@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
         {
             SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, baseFloorDifficulty));
             BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
-            playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapEntrance;           
+            playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapUpStairs;           
         }
     }
 
@@ -141,11 +141,11 @@ public class GameManager : MonoBehaviour {
             SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, newFloorDifficulty));
             BSP_MapDictionary[DestinationFloor].GenerateBSPDungeon();            
         }
-        // Set player position to the new entrance tile
+        // Set player position to the new 'Up Stairs' tile
         if (playerCurrentFloor > DestinationFloor)
-            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapEntrance;
+            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapUpStairs;
         else
-            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapExit;
+            playerDungeonPosition = BSP_MapDictionary[DestinationFloor].GetMapDownStairs;
 
         // update current floor to destination floor
         playerCurrentFloor = DestinationFloor;

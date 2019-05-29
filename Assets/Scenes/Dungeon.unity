@@ -141,8 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sampleFloor: {fileID: 21300000, guid: 325f998ebcc05d540a39e7f93b0e5d65, type: 3}
-  sampleEntranceTile: {fileID: 21300000, guid: 40d0a5d683f38fa4883716f87685303d, type: 3}
-  sampleExitTile: {fileID: 21300000, guid: 905d57b61699abc46a00327e59a2a386, type: 3}
+  sampleUpStairsTile: {fileID: 21300000, guid: 40d0a5d683f38fa4883716f87685303d, type: 3}
+  sampleDownStairsTile: {fileID: 21300000, guid: 905d57b61699abc46a00327e59a2a386,
+    type: 3}
   sampleCache: {fileID: 21300000, guid: 20696e607a95d7c4985629233a5977b4, type: 3}
   sampleEmptyCache: {fileID: 21300000, guid: 73dd6b71d965e1943a1ae56ac9addd3f, type: 3}
   sampleWall: {fileID: 21300000, guid: 5b24d0be21ab03048bfac9171fde01e8, type: 3}
