@@ -246,4 +246,13 @@ namespace Global
         // index for the character to be summoned
         public int summonIndex = 0;
     }
+
+    // Still in progress... not final
+    [System.Serializable]
+    public class Effect
+    {
+        public AbilityType abilityType = AbilityType.None;
+        public int BaseAbilityStrength = 0;
+
+    }
 }

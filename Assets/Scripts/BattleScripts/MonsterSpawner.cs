@@ -72,14 +72,7 @@ namespace Battle
             // Summon Menu - Should only contain 1 ability
             if (heroInfo.SummonActions.Abilities.Count == 1)
             {
-                //List<Ability> menuAbilities = new List<Ability>();
-                //foreach (var monster in heroInfo.PlayerDemons)
-                //{
-                //    menuAbilities.Add(CreateAbilityFromData(heroInfo.SummonActions.Abilities[0], monster));
-                //}
-                //ActionMenu menu = new ActionMenu(heroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
-
-                menus.Add(PopulateHeroSummonMenu(heroInfo));//menu);
+                menus.Add(PopulateHeroSummonMenu(heroInfo));
             }
             // Item Menu
             if (heroInfo.ItemActions.Abilities.Count > 0)
