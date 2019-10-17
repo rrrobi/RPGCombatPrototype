@@ -248,10 +248,18 @@ namespace Global
     }
 
     // Still in progress... not final
+    /// <summary>
+    /// Effect - One to Many within an ability
+    /// contains: 
+    /// Effect type info - e.g. direct damage, DoT, Buff etc
+    /// Damage type - for use with weaknesses/resistances (not used yet)
+    /// Base strength of the effect - used with 'users' strength to determin how powerful the effect is
+    /// </summary>
     [System.Serializable]
     public class Effect
     {
         public AbilityType abilityType = AbilityType.None;
+        public AbilityDamageType damageType = AbilityDamageType.None;
         public int BaseAbilityStrength = 0;
 
     }
