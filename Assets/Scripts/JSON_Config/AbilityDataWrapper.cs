@@ -241,6 +241,11 @@ namespace Global
         public AbilityDamageType abilityDamageType = AbilityDamageType.None;
         // strength of ability = damage delt, health healed of stat buffed/debuffed depending on ability type
         public int BaseAbilityStrength = 0;
+
+        // Will replace 'abilityType', 'abilityDamageType' and 'BaseAbilityStrength'
+        // Each Ability will have one to Many effects, on use it will cycle through each effect for eacvh target
+        // Not ready yet -> public List<Effect> abilityEffects = new List<Effect>();
+
         // AbilityCD - time in battle for this ability to take effect
         public float AbilityCD = 0f;
         // index for the character to be summoned
