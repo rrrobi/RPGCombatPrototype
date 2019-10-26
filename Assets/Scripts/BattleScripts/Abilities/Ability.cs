@@ -16,6 +16,15 @@ namespace Battle
         public AbilityType GetAbilityType() { return abilityType; }
         public void SetAbilityType(AbilityType type) { abilityType = type; }
 
+        // unfinished
+        //protected List<AbilityEffect> effectList;
+        //public void AddToEffectList(AbilityEffect effect)
+        //{
+        //    effectList.Add(effect);
+        //}
+        //public List<AbilityEffect> GetEffectList() { return effectList; }
+
+
         public Ability(string name, float cd)
         {
             abilityName = name;
