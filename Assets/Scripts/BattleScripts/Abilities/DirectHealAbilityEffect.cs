@@ -12,7 +12,7 @@ public class DirectHealAbilityEffect : BaseAbilityEffect
     }
 
     // this is where are DO the direct heal
-    public override void EffectAction(int strengthMod, GameObject target)
+    public override void EffectAction(int strengthModifier, GameObject target)
     {
         throw new System.NotImplementedException();
     }

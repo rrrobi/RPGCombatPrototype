@@ -4,7 +4,16 @@ using UnityEngine;
 
 namespace Battle
 {
-    public abstract class Ability
+    public struct AbilityEffect
+    {
+        public AbilityType abilityType;
+        public AbilityDamageType damageType;
+        public int BaseAbilityStrength;
+
+        public Global.MonsterInfo monsterInfo;
+    }
+
+    public /*abstract*/ class Ability
     {
         protected string abilityName;
         public string GetAbilityName { get { return abilityName; } }
@@ -12,18 +21,20 @@ namespace Battle
         protected float abilityCD;
         public float GetAbilityCD { get { return abilityCD; } }
 
-        protected AbilityType abilityType;
-        public AbilityType GetAbilityType() { return abilityType; }
-        public void SetAbilityType(AbilityType type) { abilityType = type; }
+        protected TargetType targetType;
+        public TargetType GetTargetType() { return targetType; }
+        public void SetTargetType(TargetType type) { targetType = type; }
+
 
         // unfinished
-        //protected List<AbilityEffect> effectList;
-        //public void AddToEffectList(AbilityEffect effect)
-        //{
-        //    effectList.Add(effect);
-        //}
-        //public List<AbilityEffect> GetEffectList() { return effectList; }
-
+        ////////////////////////////////////////////////////////////////////////////////
+        protected List<AbilityEffect> effectList = new List<AbilityEffect>();
+        public void AddToEffectList(AbilityEffect effect)
+        {
+            effectList.Add(effect);
+        }
+        public List<AbilityEffect> GetEffectList() { return effectList; }
+        //////////////////////////////////////////////////////////////////////////////////
 
         public Ability(string name, float cd)
         {
@@ -31,7 +42,34 @@ namespace Battle
             abilityCD = cd;
         }
 
-        public abstract void Action(GameObject source, GameObject target);
+//        public abstract void Action(GameObject source, GameObject target);
+
+        public void NewAction(GameObject source, GameObject target)
+        {
+            Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
+
+            // Ensure each effect of the ability is carried out
+            foreach (var effect in effectList)
+            {
+                int strengthModifier = effect.BaseAbilityStrength; // TODO... needs to also take into account the strength modifier of the charcater using the ability.
+                switch(effect.abilityType)
+                {
+                    case AbilityType.Attack:
+                        DirectDamageAbilityEffect DDeffect = new DirectDamageAbilityEffect();
+                        DDeffect.EffectAction(strengthModifier, target);
+                        break;
+                    case AbilityType.Summon:
+                        SummonAbilityEffect summonEffect = new SummonAbilityEffect(effect.monsterInfo);
+                        summonEffect.EffectAction(strengthModifier, target);
+                        break;
+                    case AbilityType.Support:
+                        break;
+                }
+            }
+
+            // Resolve Afteraction Effects
+            AfterAction(source);
+        }
 
         protected void AfterAction(GameObject source)
         {

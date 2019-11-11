@@ -1,11 +1,15 @@
 fileFormatVersion: 2
 guid: 75436f79145c96f4db96e9dd387b1338
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: window2_0
-    21300002: UI_Window
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: window2_0
+  - first:
+      213: 21300002
+    second: UI_Window
   externalObjects: {}
-  serializedVersion: 6
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -60,7 +64,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -71,7 +75,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -82,6 +87,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -101,6 +107,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b75ba1655d64d1646938df9968dc5d64
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -121,6 +128,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 74dc21e3f58be2542a72f8dd48ad5080
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -129,11 +137,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 30527ddf6cfd0ed44874866d37a5aaa8
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -37,7 +37,7 @@ namespace Battle
 
         // Selected action - may move this to Combatmanager
         GameObject SelectedCharacter;
-        Attack SelectedAttack;
+        //Attack SelectedAttack;
         Ability SelectedAbility;
         List<GameObject> SelectedTargets;
 
@@ -124,10 +124,10 @@ namespace Battle
         void TargetHighlight()
         {
             // get ability type
-            switch (SelectedAbility.GetAbilityType())
+            switch (SelectedAbility.GetTargetType())
             {
                 // if attack - targets will be enemies
-                case AbilityType.Attack:
+                case TargetType.Enemy:
                     // Get list of all Enemies currently in the battle
                     List<GameObject> enemyList = CombatManager.Instance.battlefieldController.FindAllCurrentEnemies();
                     SelectedTargets = enemyList;
@@ -138,7 +138,7 @@ namespace Battle
                     }
                     break;
                 // if support - targets will be Friendlies
-                case AbilityType.Support:
+                case TargetType.Friendly:
                     // Get list of all Friendlies currently in the battle
                     List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
                     SelectedTargets = friendlyList;
@@ -149,7 +149,7 @@ namespace Battle
                     }
                     break;
                 // if summon - Targets will be unOccupied character slots on your side
-                case AbilityType.Summon:
+                case TargetType.SummonSlot:
                     // Get List of Unoccupied frindly unitslots
                     List<GameObject> unitSlotList = CombatManager.Instance.battlefieldController.FindAllCurrentUnoccupiedFriendlySlots();
                     SelectedTargets = unitSlotList;
@@ -159,7 +159,7 @@ namespace Battle
                         unitSlot.GetComponent<UnitSlot>().MakeClickable();
                     }
                     break;
-                case AbilityType.None:
+                case TargetType.None:
                     // TODO... look into more robust error handling
                     Debug.Log("Not exactly sure what should happen here, this is probably an error!");
                     break;
@@ -175,10 +175,10 @@ namespace Battle
             // Once ability has been done, remove highlight from targets 
             // and make them No longer clickable
             // Get ability type
-            switch (SelectedAbility.GetAbilityType())
+            switch (SelectedAbility.GetTargetType())
             {
                 // if attack - targets will be enemies
-                case AbilityType.Attack:
+                case TargetType.Enemy:
                     // Loop through targets, adding them to the pannel
                     foreach (var enemy in SelectedTargets)
                     {
@@ -186,7 +186,7 @@ namespace Battle
                     }
                     break;
                 // if support - targets will be Friendlies
-                case AbilityType.Support:
+                case TargetType.Friendly:
                     // Loop through targets, adding them to the pannel
                     foreach (var friend in SelectedTargets)
                     {
@@ -194,14 +194,14 @@ namespace Battle
                     }
                     break;
                 // if summon - Targets will be unOccupied character slots on your side
-                case AbilityType.Summon:
+                case TargetType.SummonSlot:
                     // Loop through targets, adding them to the pannel
                     foreach (var unitSlot in SelectedTargets)
                     {
                         unitSlot.GetComponent<UnitSlot>().MakeUnclickable();
                     }
                     break;
-                case AbilityType.None:
+                case TargetType.None:
                     // TODO... look into more robust error handling
                     Debug.Log("Not exactly sure what should happen here, this is probably an error!");
                     break;
@@ -472,24 +472,9 @@ namespace Battle
 
             if (abilityState == AbilityState.TargetSelect)
             {
-                // TODO... look into streamlining this
-
-                // if the ability is an attack or support, 
-                if (SelectedAbility.GetAbilityType() == AbilityType.Attack ||
-                    SelectedAbility.GetAbilityType() == AbilityType.Support)
-                {
-                    // Carry out selected action upon this target
-                    SelectedAbility.Action(SelectedCharacter, selectedEventInfo.UnitGO);
-                }
-                if (SelectedAbility.GetAbilityType() == AbilityType.Summon)
-                {
-                    // Summon a new demon on the highlighted space
-                    SelectedAbility.Action(SelectedCharacter,
+                SelectedAbility.NewAction(SelectedCharacter,
                         selectedEventInfo.UnitGO);
-                }
 
-                //RemoveTargetHighlight();
-                //abilityState = AbilityState.CharcterSelect;
                 TransferAbilityState(abilityState, AbilityState.CharcterSelect);
             }
         }

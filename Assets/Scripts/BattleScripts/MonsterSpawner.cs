@@ -177,34 +177,21 @@ namespace Battle
         {
             AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
-            switch (abilityInfo.abilityType)
+            Ability ability = new Ability(abilityInfo.Name, abilityInfo.AbilityCD);
+            ability.SetTargetType(abilityInfo.targetType);
+            foreach (var effect in abilityInfo.abilityEffects)
             {
-                case AbilityType.Attack:
-                    Attack attack = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
-                    attack.SetAbilityType(abilityInfo.abilityType);
-                    return attack;
-                case AbilityType.Summon:
-                    Summon summon;
-                    if (abilityInfo.summonIndex == 0)
-                    {
-                        if (mi != null)
-                            summon = new Summon(abilityInfo.Name + " " + mi.MonsterName, abilityInfo.AbilityCD, mi);
-                        else
-                        {
-                            Debug.LogError("MonsterInfo for Summon not provided as expected, index 1 used as default");
-                            summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, 1);
-                        }
-                    }
-                    else
-                        summon = new Summon(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.summonIndex);
-                    summon.SetAbilityType(abilityInfo.abilityType);
-                    return summon;
-                case AbilityType.Support:
-                    // TODO... Support not implemented yet - temp returning attack
-                    Attack support = new Attack(abilityInfo.Name, abilityInfo.AbilityCD, abilityInfo.BaseAbilityStrength);
-                    support.SetAbilityType(abilityInfo.abilityType);
-                    return support;
+                AbilityEffect abilityEffect = new AbilityEffect()
+                {
+                    abilityType = effect.abilityType,
+                    damageType = effect.damageType,
+                    BaseAbilityStrength = effect.BaseAbilityStrength
+                };
+                if (mi != null)
+                    abilityEffect.monsterInfo = mi;
+                ability.AddToEffectList(abilityEffect);
             }
+            return ability;
 
             // TODO... should never be allowed to happen, look inot more robust error handling
             return null;

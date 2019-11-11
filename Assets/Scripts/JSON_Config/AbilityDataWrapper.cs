@@ -10,6 +10,14 @@ public enum AbilityType
     Summon
 }
 
+public enum TargetType
+{
+    None,
+    Enemy,
+    Friendly,
+    SummonSlot
+}
+
 public enum AbilityEffectType
 {
     None,
@@ -44,88 +52,179 @@ namespace Global
         // To ensure the Ability Json Config file is correct
         private void JSONSetUp()
         {
-            AbilityInfo ability1 = new AbilityInfo();
-            ability1.Name = "Slash";
-            ability1.abilityType = AbilityType.Attack;
-            ability1.abilityEffectType = AbilityEffectType.Direct;
-            ability1.abilityDamageType = AbilityDamageType.Physical;
-            ability1.BaseAbilityStrength = 10;
-            ability1.AbilityCD = 10f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability1);
+            {
+                AbilityInfo ability1 = new AbilityInfo();
+                ability1.Name = "Slash";
+                ability1.targetType = TargetType.Enemy;
+                //ability1.abilityType = AbilityType.Attack;
+                ability1.abilityEffectType = AbilityEffectType.Direct;
+                //ability1.abilityDamageType = AbilityDamageType.Physical;
+                //ability1.BaseAbilityStrength = 10;
 
-            AbilityInfo ability2 = new AbilityInfo();
-            ability2.Name = "Stab";
-            ability2.abilityType = AbilityType.Attack;
-            ability2.abilityEffectType = AbilityEffectType.Direct;
-            ability2.abilityDamageType = AbilityDamageType.Physical;
-            ability2.BaseAbilityStrength = 15;
-            ability2.AbilityCD = 12f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability2);
+                ability1.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 10
+                };
+                ability1.abilityEffects.Add(effect1);
 
-            AbilityInfo ability3 = new AbilityInfo();
-            ability3.Name = "Tackle";
-            ability3.abilityType = AbilityType.Attack;
-            ability3.abilityEffectType = AbilityEffectType.Direct;
-            ability3.abilityDamageType = AbilityDamageType.Physical;
-            ability3.BaseAbilityStrength = 10;
-            ability3.AbilityCD = 5f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability3);
+                ability1.AbilityCD = 10f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability1);
+            }
 
-            AbilityInfo ability4 = new AbilityInfo();
-            ability4.Name = "Bash";
-            ability4.abilityType = AbilityType.Attack;
-            ability4.abilityEffectType = AbilityEffectType.Direct;
-            ability4.abilityDamageType = AbilityDamageType.Physical;
-            ability4.BaseAbilityStrength = 25;
-            ability4.AbilityCD = 15f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability4);
+            {
+                AbilityInfo ability2 = new AbilityInfo();
+                ability2.Name = "Stab";
+                ability2.targetType = TargetType.Enemy;
+                //ability2.abilityType = AbilityType.Attack;
+                ability2.abilityEffectType = AbilityEffectType.Direct;
+                //ability2.abilityDamageType = AbilityDamageType.Physical;
+                //ability2.BaseAbilityStrength = 15;
+
+                ability2.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 15
+                };
+                ability2.abilityEffects.Add(effect1);
+
+                ability2.AbilityCD = 12f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability2);
+            }
+
+            {
+                AbilityInfo ability3 = new AbilityInfo();
+                ability3.Name = "Tackle";
+                ability3.targetType = TargetType.Enemy;
+                //ability3.abilityType = AbilityType.Attack;
+                ability3.abilityEffectType = AbilityEffectType.Direct;
+                //ability3.abilityDamageType = AbilityDamageType.Physical;
+                //ability3.BaseAbilityStrength = 10;
+
+                ability3.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 10
+                };
+                ability3.abilityEffects.Add(effect1);
+
+                ability3.AbilityCD = 5f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability3);
+            }
+
+            {
+                AbilityInfo ability4 = new AbilityInfo();
+                ability4.Name = "Bash";
+                ability4.targetType = TargetType.Enemy;
+                //ability4.abilityType = AbilityType.Attack;
+                ability4.abilityEffectType = AbilityEffectType.Direct;
+                //ability4.abilityDamageType = AbilityDamageType.Physical;
+                //ability4.BaseAbilityStrength = 25;
+
+                ability4.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 25
+                };
+                ability4.abilityEffects.Add(effect1);
+
+                ability4.AbilityCD = 15f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability4);
+            }
 
             // TODO.. Add tech ability functionality
-            AbilityInfo ability5 = new AbilityInfo();
-            ability5.Name = "Taunt";
-            ability5.abilityType = AbilityType.Attack;
-            ability5.abilityEffectType = AbilityEffectType.Direct;
-            ability5.abilityDamageType = AbilityDamageType.Physical;
-            ability5.BaseAbilityStrength = 0;
-            ability5.AbilityCD = 10f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability5);
+            {
+                AbilityInfo ability5 = new AbilityInfo();
+                ability5.Name = "Taunt";
+                ability5.targetType = TargetType.Enemy;
+                //ability5.abilityType = AbilityType.Attack;
+                ability5.abilityEffectType = AbilityEffectType.Direct;
+                //ability5.abilityDamageType = AbilityDamageType.Physical;
+                //ability5.BaseAbilityStrength = 0;
+
+                ability5.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 0
+                };
+                ability5.abilityEffects.Add(effect1);
+
+                ability5.AbilityCD = 10f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability5);
+            }
 
             // TODO.. Add tech ability functionality
-            AbilityInfo ability6 = new AbilityInfo();
-            ability6.Name = "Guard";
-            ability6.abilityType = AbilityType.Attack;
-            ability6.abilityEffectType = AbilityEffectType.Direct;
-            ability6.abilityDamageType = AbilityDamageType.Physical;
-            ability6.BaseAbilityStrength = 0;
-            ability6.AbilityCD = 10f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability6);
+            {
+                AbilityInfo ability6 = new AbilityInfo();
+                ability6.Name = "Guard";
+                ability6.targetType = TargetType.Friendly;
+                //ability6.abilityType = AbilityType.Attack;
+                ability6.abilityEffectType = AbilityEffectType.Direct;
+                //ability6.abilityDamageType = AbilityDamageType.Physical;
+                //ability6.BaseAbilityStrength = 0;
 
-            AbilityInfo ability7 = new AbilityInfo();
-            ability7.Name = "Summon Demon";
-            ability7.abilityType = AbilityType.Summon;
-            ability7.abilityEffectType = AbilityEffectType.Direct;
-            ability7.abilityDamageType = AbilityDamageType.None;
-            ability7.BaseAbilityStrength = 0;
-            ability7.AbilityCD = 20f;
-            ability7.summonIndex = 1;
-            abilityWrapper.AbilityData.AbilityList.Add(ability7);
+                ability6.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Physical,
+                    BaseAbilityStrength = 0
+                };
+                ability6.abilityEffects.Add(effect1);
 
-            AbilityInfo ability8 = new AbilityInfo();
-            ability8.Name = "Summon Demon Swarm";
-            ability8.abilityType = AbilityType.Summon;
-            ability8.abilityEffectType = AbilityEffectType.Direct;
-            ability8.abilityDamageType = AbilityDamageType.None;
-            ability8.BaseAbilityStrength = 0;
-            ability8.AbilityCD = 20f;
-            ability8.summonIndex = 2;
-            abilityWrapper.AbilityData.AbilityList.Add(ability8);
+                ability6.AbilityCD = 10f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability6);
+            }
 
-            AbilityInfo ability9 = new AbilityInfo();
-            ability9.Name = "Summon";
-            ability9.abilityType = AbilityType.Summon;
-            ability9.AbilityCD = 20f;
-            ability9.summonIndex = 0;                                   // <- index of 0, means it will use characters pool of demons to summon from
-            abilityWrapper.AbilityData.AbilityList.Add(ability9);
+            //////AbilityInfo ability7 = new AbilityInfo();
+            //////ability7.Name = "Summon Demon";
+            //////ability7.abilityType = AbilityType.Summon;
+            //////ability7.abilityEffectType = AbilityEffectType.Direct;
+            //////ability7.abilityDamageType = AbilityDamageType.None;
+            //////ability7.BaseAbilityStrength = 0;
+            //////ability7.AbilityCD = 20f;
+            //////ability7.summonIndex = 1;
+            //////abilityWrapper.AbilityData.AbilityList.Add(ability7);
+
+            //////AbilityInfo ability8 = new AbilityInfo();
+            //////ability8.Name = "Summon Demon Swarm";
+            //////ability8.abilityType = AbilityType.Summon;
+            //////ability8.abilityEffectType = AbilityEffectType.Direct;
+            //////ability8.abilityDamageType = AbilityDamageType.None;
+            //////ability8.BaseAbilityStrength = 0;
+            //////ability8.AbilityCD = 20f;
+            //////ability8.summonIndex = 2;
+            //////abilityWrapper.AbilityData.AbilityList.Add(ability8);
+
+            {
+                AbilityInfo ability9 = new AbilityInfo();
+                ability9.Name = "Summon";
+                ability9.targetType = TargetType.SummonSlot;
+                //ability9.abilityType = AbilityType.Summon;
+
+                ability9.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Summon,
+                    damageType = AbilityDamageType.None,
+                    BaseAbilityStrength = 0
+                };
+                ability9.abilityEffects.Add(effect1);
+
+                ability9.AbilityCD = 20f;
+                ability9.summonIndex = 0;                                   // <- index of 0, means it will use characters pool of demons to summon from
+                abilityWrapper.AbilityData.AbilityList.Add(ability9);
+            }
 
             //AbilityInfo summon1 = new AbilityInfo()
             //{
@@ -153,14 +252,27 @@ namespace Global
 
             // TODO.. Add tech ability functionality
 #warning Supports DO NOT work yet
-            AbilityInfo ability10 = new AbilityInfo();
-            ability10.Name = "Heal";
-            ability10.abilityType = AbilityType.Support;
-            ability10.abilityEffectType = AbilityEffectType.Direct;
-            ability10.abilityDamageType = AbilityDamageType.Physical;
-            ability10.BaseAbilityStrength = -25;
-            ability10.AbilityCD = 10f;
-            abilityWrapper.AbilityData.AbilityList.Add(ability10);
+            {
+                AbilityInfo ability10 = new AbilityInfo();
+                ability10.Name = "Heal";
+                ability10.targetType = TargetType.Friendly;
+                //ability10.abilityType = AbilityType.Support;
+                ability10.abilityEffectType = AbilityEffectType.Direct;
+                //ability10.abilityDamageType = AbilityDamageType.Physical;
+                //ability10.BaseAbilityStrength = -25;
+
+                ability10.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Support,
+                    damageType = AbilityDamageType.Light,
+                    BaseAbilityStrength = 25
+                };
+                ability10.abilityEffects.Add(effect1);
+
+                ability10.AbilityCD = 10f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability10);
+            }
 
             SaveData();
         }
@@ -236,15 +348,16 @@ namespace Global
     public class AbilityInfo
     {
         public string Name = "";
-        public AbilityType abilityType = AbilityType.None;
+        public TargetType targetType = TargetType.None;
+     //   public AbilityType abilityType = AbilityType.None;
         public AbilityEffectType abilityEffectType = AbilityEffectType.None;
-        public AbilityDamageType abilityDamageType = AbilityDamageType.None;
+     //   public AbilityDamageType abilityDamageType = AbilityDamageType.None;
         // strength of ability = damage delt, health healed of stat buffed/debuffed depending on ability type
-        public int BaseAbilityStrength = 0;
+     //   public int BaseAbilityStrength = 0;
 
         // Will replace 'abilityType', 'abilityDamageType' and 'BaseAbilityStrength'
         // Each Ability will have one to Many effects, on use it will cycle through each effect for eacvh target
-        // Not ready yet -> public List<Effect> abilityEffects = new List<Effect>();
+        public List<Effect> abilityEffects = new List<Effect>(); // Not ready yet
 
         // AbilityCD - time in battle for this ability to take effect
         public float AbilityCD = 0f;

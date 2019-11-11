@@ -12,7 +12,7 @@ public abstract class BaseAbilityEffect
     /// <summary>
     /// Will be overridden for each Effect class, e.g. DirectDamamge will hand the EffectAction differently to DirectHeal
     /// </summary>
-    /// <param name="strengthMod"></param>
+    /// <param name="strengthModifier"></param>
     /// <param name="target"></param>
-    public abstract void EffectAction(int strengthMod, GameObject target);
+    public abstract void EffectAction(int strengthModifier, GameObject target);
 }

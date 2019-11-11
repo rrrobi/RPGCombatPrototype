@@ -223,7 +223,7 @@ namespace Battle
                 int targetIndex = Random.Range(0, mobList.Count);
                 int abilityIndex = Random.Range(0, Abilities.Count);
 
-                Abilities.ElementAt(abilityIndex).Value.Action(this.gameObject, mobList[targetIndex]);
+                Abilities.ElementAt(abilityIndex).Value.NewAction(this.gameObject, mobList[targetIndex]);
                 //UseAbilityOn(Abilities.ElementAt(abilityIndex).Value, mobList[targetIndex]);
             }
         }
