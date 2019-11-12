@@ -177,7 +177,10 @@ namespace Battle
         {
             AbilityInfo abilityInfo = abilityData.GetAbilityByName(abilityName);
 
-            Ability ability = new Ability(abilityInfo.Name, abilityInfo.AbilityCD);
+            string givenName = abilityInfo.Name;
+            if (mi != null)
+                givenName = mi.MonsterName;
+            Ability ability = new Ability(givenName, abilityInfo.AbilityCD);
             ability.SetTargetType(abilityInfo.targetType);
             foreach (var effect in abilityInfo.abilityEffects)
             {
