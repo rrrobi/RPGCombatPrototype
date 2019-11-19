@@ -86,6 +86,16 @@ namespace Battle
                 menus.Add(ItemMenu);
             }
             // Spells Menu
+            if (heroInfo.SpellActions.Abilities.Count > 0)
+            {
+                List<Ability> menuAbilities = new List<Ability>();
+                foreach (var ability in heroInfo.SpellActions.Abilities)
+                {
+                    menuAbilities.Add(CreateAbilityFromData(ability));
+                }
+                ActionMenu spellMenu = new ActionMenu(heroInfo.SpellActions.Name, menuAbilities);
+                menus.Add(spellMenu);
+            }
             // TODO... add this
             heroGO.GetComponent<Hero>().SetMenus(menus);
             #endregion

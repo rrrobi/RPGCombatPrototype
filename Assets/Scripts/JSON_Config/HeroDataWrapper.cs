@@ -31,12 +31,16 @@ namespace Global
 
             heroWrapper.HeroData.HeroInfo.baseActions.Name = "None";
             heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Stab");
-            heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Heal");
+            //heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Heal");
             heroWrapper.HeroData.HeroInfo.baseActions.MenuType = "None";
 
             heroWrapper.HeroData.HeroInfo.SummonActions.Name = "Summon";
             heroWrapper.HeroData.HeroInfo.SummonActions.Abilities.Add("Summon");
             heroWrapper.HeroData.HeroInfo.SummonActions.MenuType = "Summon";
+
+            heroWrapper.HeroData.HeroInfo.SpellActions.Name = "Spells";
+            heroWrapper.HeroData.HeroInfo.SpellActions.Abilities.Add("Heal");
+            heroWrapper.HeroData.HeroInfo.SpellActions.MenuType = "Spells";
 
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
@@ -215,6 +219,6 @@ namespace Global
     {
         public string Name = "";
         public List<string> Abilities = new List<string>();
-        public string MenuType = "";
+        public string MenuType = ""; // <- i dont think this is used for anything atm
     }
 }
