@@ -240,11 +240,28 @@ namespace Battle
             hP -= damage;
 
             // Trigger Attacked Event callback
-            EventCallbacks.TakeDamageEventInfo tdei = new EventCallbacks.TakeDamageEventInfo();
-            tdei.EventDescription = "Unit " + gameObject.name + " Has taken " + damage + " damage";
-            tdei.Damage = damage;
-            tdei.UnitGO = gameObject;
-            tdei.FireEvent();
+            EventCallbacks.HPChangedEventInfo hpcei = new EventCallbacks.HPChangedEventInfo();
+            hpcei.EventDescription = "Unit " + gameObject.name + " Has taken " + damage + " damage";
+            hpcei.UnitGO = gameObject;
+            hpcei.FireEvent();
+
+            // check for death
+            if (hP <= 0)
+                CharacterDies();
+        }
+
+        public void RecoverHitPoints(int hitPoints)
+        {
+            Debug.Log(this.name + " got healed for " + hitPoints);
+
+            hP = Mathf.Clamp(hP += hitPoints, 0, maxHP);
+
+            // Trigger Attacked Event callback - 
+            // TODO... Alter these events, split 'TakeDamage' into separate 'GetAttacked' and 'HealthChanged' events (currently only 'HealthChanged' would be used)
+            EventCallbacks.HPChangedEventInfo hpcei = new EventCallbacks.HPChangedEventInfo();
+            hpcei.EventDescription = "Unit " + gameObject.name + " Has recovered " + hP + " health";
+            hpcei.UnitGO = gameObject;
+            hpcei.FireEvent();
 
             // check for death
             if (hP <= 0)

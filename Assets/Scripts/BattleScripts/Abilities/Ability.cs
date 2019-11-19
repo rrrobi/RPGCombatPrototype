@@ -55,14 +55,16 @@ namespace Battle
                 switch(effect.abilityType)
                 {
                     case AbilityType.Attack:
-                        DirectDamageAbilityEffect DDeffect = new DirectDamageAbilityEffect();
-                        DDeffect.EffectAction(strengthModifier, target);
+                        DirectDamageAbilityEffect ddEffect = new DirectDamageAbilityEffect();
+                        ddEffect.EffectAction(strengthModifier, target);
                         break;
                     case AbilityType.Summon:
                         SummonAbilityEffect summonEffect = new SummonAbilityEffect(effect.monsterInfo);
                         summonEffect.EffectAction(strengthModifier, target);
                         break;
-                    case AbilityType.Support:
+                    case AbilityType.DirectHeal:
+                        DirectHealAbilityEffect dhEffect = new DirectHealAbilityEffect();
+                        dhEffect.EffectAction(strengthModifier, target);
                         break;
                 }
             }

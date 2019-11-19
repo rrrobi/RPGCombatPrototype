@@ -111,14 +111,14 @@ namespace Battle
         void RegisterEventCallbacks()
         {
             DeathEventInfo.RegisterListener(OnUnitDied);
-            TakeDamageEventInfo.RegisterListener(OnDamageTaken);
+            HPChangedEventInfo.RegisterListener(OnHPChange);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
         }
         
         void UnregisterEventCallbacks()
         {
             DeathEventInfo.UnregisterListener(OnUnitDied);
-            TakeDamageEventInfo.UnregisterListener(OnDamageTaken);
+            HPChangedEventInfo.UnregisterListener(OnHPChange);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
         }
 
@@ -294,18 +294,19 @@ namespace Battle
             Destroy(deathEventInfo.UnitGO);
         }
 
-        void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
+        // This updates the player's MonsterList info with the new HP for the monsters
+        void OnHPChange(HPChangedEventInfo hpChangedEventInfo)
         {
-            Debug.Log("CombatManager Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
+            Debug.Log("CombatManager Alerted to Character HP Change: " + hpChangedEventInfo.UnitGO.name);
 
             // We only care about freindly monsters at this point
-            if (takeDamageEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
+            if (hpChangedEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
             {
-                string uID = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetUniqueID;
-                // Also, we only care about monsters in out playerMonsterInfoList (i.e NOT the hero) <- this is because the hero damage is tracked differently.
+                string uID = hpChangedEventInfo.UnitGO.GetComponent<Character>().GetUniqueID;
+                // Also, we only care about monsters in our playerMonsterInfoList (i.e NOT the hero) <- this is because the hero damage is tracked differently.
                 if (playerMonsterinfoList.ContainsKey(uID))
                 {
-                    playerMonsterinfoList[takeDamageEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].CurrentHP = takeDamageEventInfo.UnitGO.GetComponent<Character>().GetHP;
+                    playerMonsterinfoList[hpChangedEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].CurrentHP = hpChangedEventInfo.UnitGO.GetComponent<Character>().GetHP;
 
                     // Update Summon Menu
                     ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);

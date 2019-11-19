@@ -439,7 +439,7 @@ namespace Battle
             SelectedObjectEventInfo.RegisterListener(OnHighlightSelected);
 
             BattleWonEventInfo.RegisterListener(OnBattleWon);
-            TakeDamageEventInfo.RegisterListener(OnDamageTaken);
+            HPChangedEventInfo.RegisterListener(OnHPChange);
             HeroDeathEventInfo.RegisterListener(OnHeroDeath);
             DeathEventInfo.RegisterListener(OnUnitDied);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
@@ -450,7 +450,7 @@ namespace Battle
             SelectedObjectEventInfo.UnregisterListener(OnHighlightSelected);
 
             BattleWonEventInfo.UnregisterListener(OnBattleWon);
-            TakeDamageEventInfo.UnregisterListener(OnDamageTaken);
+            HPChangedEventInfo.UnregisterListener(OnHPChange);
             HeroDeathEventInfo.UnregisterListener(OnHeroDeath);
             DeathEventInfo.UnregisterListener(OnUnitDied);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
@@ -492,11 +492,11 @@ namespace Battle
             VictoryPanel.GetComponentInChildren<Button>().onClick.AddListener(VictoryButtonPressed);
         }        
 
-        void OnDamageTaken(TakeDamageEventInfo takeDamageEventInfo)
+        void OnHPChange(HPChangedEventInfo hpChangedEventInfo)
         {
-            Debug.Log("BattleUIController Alerted to Character taken damge: " + takeDamageEventInfo.UnitGO.name);
+            Debug.Log("BattleUIController Alerted to Character HP Change: " + hpChangedEventInfo.UnitGO.name);
 
-            UpdateHPPanel(takeDamageEventInfo.UnitGO);
+            UpdateHPPanel(hpChangedEventInfo.UnitGO);
         }
 
         void OnUnitDied(DeathEventInfo deathEventInfo)

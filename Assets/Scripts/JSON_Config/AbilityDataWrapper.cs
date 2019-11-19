@@ -6,6 +6,7 @@ public enum AbilityType
 {
     None,
     Attack,
+    DirectHeal,
     Support,
     Summon
 }
@@ -264,7 +265,7 @@ namespace Global
                 ability10.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Support,
+                    abilityType = AbilityType.DirectHeal,
                     damageType = AbilityDamageType.Light,
                     BaseAbilityStrength = 25
                 };

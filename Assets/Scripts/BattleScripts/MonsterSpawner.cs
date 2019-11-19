@@ -82,8 +82,8 @@ namespace Battle
                 {
                     menuAbilities.Add(CreateAbilityFromData(ability));
                 }
-                ActionMenu menu = new ActionMenu(heroInfo.ItemActions.Name, AbilityType.Support, menuAbilities);
-                menus.Add(menu);
+                ActionMenu ItemMenu = new ActionMenu(heroInfo.ItemActions.Name, menuAbilities);
+                menus.Add(ItemMenu);
             }
             // Spells Menu
             // TODO... add this
@@ -114,9 +114,9 @@ namespace Battle
                 if (!monster.IsDead && !monster.IsSummoned)
                     menuAbilities.Add(CreateAbilityFromData(heroInfo.SummonActions.Abilities[0], monster));
             }
-            ActionMenu menu = new ActionMenu(heroInfo.SummonActions.Name, AbilityType.Summon, menuAbilities);
+            ActionMenu summonMenu = new ActionMenu(heroInfo.SummonActions.Name, menuAbilities);
 
-            return menu;
+            return summonMenu;
         }
 
         public GameObject SpawnMonster(int index, MonsterInfo mi, TeamName team, GameObject teamGroup, GameObject unitSlot)

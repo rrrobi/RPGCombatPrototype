@@ -64,10 +64,19 @@ namespace EventCallbacks
         // be filled out later
     }
 
-    public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>
+    // TODO... Not required yet
+    //public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>
+    //{
+    //    // Info about the attack the character has just been the target of.
+    //    public int Damage;
+    //    public GameObject UnitGO;
+    //    // more info can go here
+    //    // eg. Who attacked
+    //}
+
+    public class HPChangedEventInfo : EventInfo<HPChangedEventInfo>
     {
         // Info about the attack the character has just been the target of.
-        public int Damage;
         public GameObject UnitGO;
         // more info can go here
         // eg. Who attacked
