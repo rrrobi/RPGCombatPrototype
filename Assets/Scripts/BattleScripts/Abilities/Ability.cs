@@ -48,6 +48,10 @@ namespace Battle
         {
             Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
 
+            // Handle AOE, 
+            // Get all targets based on 'AbilityEffectType'
+            // for each target, apply each effect
+
             // Ensure each effect of the ability is carried out
             foreach (var effect in effectList)
             {
