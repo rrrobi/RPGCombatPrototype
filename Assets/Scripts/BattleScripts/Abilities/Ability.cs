@@ -13,7 +13,7 @@ namespace Battle
         public Global.MonsterInfo monsterInfo;
     }
 
-    public /*abstract*/ class Ability
+    public class Ability
     {
         protected string abilityName;
         public string GetAbilityName { get { return abilityName; } }
@@ -25,6 +25,9 @@ namespace Battle
         public TargetType GetTargetType() { return targetType; }
         public void SetTargetType(TargetType type) { targetType = type; }
 
+        protected AbilityEffectType abilityEffectType;
+        public AbilityEffectType GetAbilityEffectType() { return abilityEffectType; }
+        public void SetAbilityEffectType(AbilityEffectType aet) { abilityEffectType = aet; }
 
         // unfinished
         ////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +54,29 @@ namespace Battle
             // Handle AOE, 
             // Get all targets based on 'AbilityEffectType'
             // for each target, apply each effect
+            List<GameObject> targetList = new List<GameObject>();
+            GameObject targetUnitSlot = CombatManager.Instance.battlefieldController.FindSlotFromCharacter(target);
+
+            // slot name 'UnitSlot_0-0'
+            //                   (_X-Y)
+            // To find the AoE targets I must:
+            // 1) find the 'Y' of the slot containg the main target
+            // 2) Find all other slots in line with the target's 'Y' - using the parent of the main target to find search only other 'siblings'
+            // 3) Find target charcater occupying each slot we have selected
+            // 4) Add each target character to a list
+
+            /// treat as cleave
+            string y = targetUnitSlot.name.Substring(targetUnitSlot.name.Length - 1);
+            for (int x = 0; x < 3; x++)
+            {
+                GameObject slot = targetUnitSlot.transform.parent.Find($"UnitSlot_{x}-{y}").gameObject;
+                GameObject aoeTarget = slot.GetComponent<UnitSlot>().GetOccupyingCharacter();
+                if (aoeTarget  != null)
+                    targetList.Add(aoeTarget);
+            }
+            /// should now have all 3 targets in the cleaved row
+
+
 
             // Ensure each effect of the ability is carried out
             foreach (var effect in effectList)
