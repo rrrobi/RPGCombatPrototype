@@ -192,6 +192,7 @@ namespace Battle
                 givenName = mi.MonsterName;
             Ability ability = new Ability(givenName, abilityInfo.AbilityCD);
             ability.SetTargetType(abilityInfo.targetType);
+            ability.SetAbilityEffectType(abilityInfo.abilityEffectType);
             foreach (var effect in abilityInfo.abilityEffects)
             {
                 AbilityEffect abilityEffect = new AbilityEffect()

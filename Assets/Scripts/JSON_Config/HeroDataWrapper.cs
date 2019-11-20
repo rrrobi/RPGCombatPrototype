@@ -30,7 +30,7 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.GoldOwned = 0;
 
             heroWrapper.HeroData.HeroInfo.baseActions.Name = "None";
-            heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Stab");
+            heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Slash");
             //heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Heal");
             heroWrapper.HeroData.HeroInfo.baseActions.MenuType = "None";
 
