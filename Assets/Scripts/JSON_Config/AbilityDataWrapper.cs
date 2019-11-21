@@ -78,7 +78,7 @@ namespace Global
                 AbilityInfo ability2 = new AbilityInfo();
                 ability2.Name = "Stab";
                 ability2.targetType = TargetType.Enemy;
-                ability2.abilityEffectType = AbilityEffectType.Direct;
+                ability2.abilityEffectType = AbilityEffectType.Pierce;
 
                 ability2.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
@@ -208,6 +208,25 @@ namespace Global
 
                 ability10.AbilityCD = 10f;
                 abilityWrapper.AbilityData.AbilityList.Add(ability10);
+            }
+
+            {
+                AbilityInfo ability11 = new AbilityInfo();
+                ability11.Name = "Fire Wave";
+                ability11.targetType = TargetType.Enemy;
+                ability11.abilityEffectType = AbilityEffectType.Nova;
+
+                ability11.abilityEffects = new List<Effect>();
+                Effect effect1 = new Effect()
+                {
+                    abilityType = AbilityType.Attack,
+                    damageType = AbilityDamageType.Fire,
+                    BaseAbilityStrength = 25
+                };
+                ability11.abilityEffects.Add(effect1);
+
+                ability11.AbilityCD = 10f;
+                abilityWrapper.AbilityData.AbilityList.Add(ability11);
             }
 
             SaveData();

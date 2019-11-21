@@ -40,6 +40,7 @@ namespace Global
 
             heroWrapper.HeroData.HeroInfo.SpellActions.Name = "Spells";
             heroWrapper.HeroData.HeroInfo.SpellActions.Abilities.Add("Heal");
+            heroWrapper.HeroData.HeroInfo.SpellActions.Abilities.Add("Fire Wave");
             heroWrapper.HeroData.HeroInfo.SpellActions.MenuType = "Spells";
 
             #region player demon List setup
