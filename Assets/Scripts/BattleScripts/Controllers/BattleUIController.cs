@@ -82,7 +82,7 @@ namespace Battle
                 else
                     panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
                 // Set buttons varables
-                panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel";
+                panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel";
                 Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
                 foreach (var text in panelTexts)
                 {
@@ -107,7 +107,7 @@ namespace Battle
         private void UpdateHPPanel(GameObject character)
         {
             // TODO.. Is there a better way of doing this, i dont like it
-            GameObject panelGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.name + "_Panel");
+            GameObject panelGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel");
             Text[] texts = panelGO.GetComponentsInChildren<Text>();
             foreach (var text in texts)
             {
@@ -510,7 +510,7 @@ namespace Battle
             // Update UI
             // TODO... ReThink
             // I HATE this
-            GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.name + "_Panel"));
+            GameObject.Destroy(GameObject.Find(deathEventInfo.TeamName + "_" + deathEventInfo.UnitGO.GetComponent<Character>().GetUniqueID + "_Panel"));
         }
 
         void OnHeroDeath(HeroDeathEventInfo heroDeathEventInfo)
