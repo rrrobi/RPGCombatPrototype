@@ -47,6 +47,11 @@ namespace Battle
         public void NewAction(GameObject source, GameObject target)
         {
             Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
+            // Trigger AbilityUsed Event Callback
+            EventCallbacks.UseAbilityEventInfo uaei = new EventCallbacks.UseAbilityEventInfo();
+            uaei.EventDescription = $"{source.name} Has used {abilityName} on {target.name}";
+            uaei.UnitGO = source;
+            uaei.FireEvent();
 
             // Handle AOE, 
             // Get all targets based on 'AbilityEffectType'            
@@ -129,6 +134,12 @@ namespace Battle
 
             foreach (var t in targetList)
             {
+                // Trigger AbilityHit Event Callback
+                EventCallbacks.AbilityHitEventInfo ahei = new EventCallbacks.AbilityHitEventInfo();
+                ahei.EventDescription = $"{abilityName} has hit {target.name}";
+                ahei.UnitGO = target;
+                ahei.FireEvent();
+
                 // Ensure each effect of the ability is carried out
                 foreach (var effect in effectList)
                 {

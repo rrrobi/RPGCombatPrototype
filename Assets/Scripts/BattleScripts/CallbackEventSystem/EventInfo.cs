@@ -64,6 +64,19 @@ namespace EventCallbacks
         // be filled out later
     }
 
+    public class UseAbilityEventInfo : EventInfo<UseAbilityEventInfo>
+    {
+        public GameObject UnitGO;
+        //public GameObject TargetUnitGO; <-- not sure if we will need this, so i will leave it out for now
+        // May need abitity info to be added later, for now its fine without.
+    }
+
+    public class AbilityHitEventInfo : EventInfo<AbilityHitEventInfo>
+    {
+        public GameObject UnitGO;
+        // Will likely need info about the ability used at a later stage, for now we only use the basics
+    }
+
     // TODO... Not required yet
     //public class TakeDamageEventInfo : EventInfo<TakeDamageEventInfo>
     //{

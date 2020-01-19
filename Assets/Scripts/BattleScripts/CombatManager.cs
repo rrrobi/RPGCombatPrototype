@@ -15,6 +15,7 @@ namespace Battle
         MonsterSpawner monsterSpawner = new MonsterSpawner();
         public BattleUIController battleUIController = new BattleUIController();
         public BattlefieldController battlefieldController = new BattlefieldController();
+        public AnimationController animationController = new AnimationController();
 
         // Character lists, and function to maintain these lists
         Dictionary<string, GameObject> playerCharacters;
