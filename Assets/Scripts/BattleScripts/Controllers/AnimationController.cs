@@ -19,13 +19,14 @@ public class AnimationController
 
     public void UnregisterEventCallbacks()
     {
-        
+        UseAbilityEventInfo.UnregisterListener(OnAbilityUsed);
+        AbilityHitEventInfo.UnregisterListener(OnAbilityHit);
     }
 
     void OnAbilityUsed(UseAbilityEventInfo useAbilityEventInfo)
     {
         Debug.Log("AnimationController Alerted to Ability used!");
-
+        useAbilityEventInfo.UnitGO.GetComponent<Animator>().SetTrigger("OnAttack");
         
     }
 

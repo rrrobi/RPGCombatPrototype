@@ -134,19 +134,19 @@ namespace Battle
         {
             this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
             // Set Sprite Shader to Glow
-            this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
+            this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
         }
 
         public void MakeUnclickable()
         {
             this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
             // Reset Sprite Shader to Dprite Default (not Glowing)
-            this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Sprites/Default"));
+            this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Sprites/Default"));
         }
 
         protected void AssignSprite()
         {
-            SpriteRenderer MonsterSprite = this.gameObject.AddComponent<SpriteRenderer>();
+            SpriteRenderer MonsterSprite = this.gameObject.GetComponentInChildren<SpriteRenderer>(); //this.gameObject.AddComponent<SpriteRenderer>();
             // Set Correct Monster sprite
             MonsterSprite.sprite = monsterSprite;
             MonsterSprite.sortingLayerName = "Characters";
