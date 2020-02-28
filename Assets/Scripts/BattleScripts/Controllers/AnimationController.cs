@@ -33,7 +33,7 @@ public class AnimationController
     void OnAbilityHit(AbilityHitEventInfo abilityHitEventInfo)
     {
         Debug.Log("AnimationController Alerted to Ability Hit!");
-
+        abilityHitEventInfo.UnitGO.GetComponent<Animator>().SetTrigger("OnGetHit");
 
     }
 }
