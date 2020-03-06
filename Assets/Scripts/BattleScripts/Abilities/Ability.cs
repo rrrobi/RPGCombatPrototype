@@ -42,8 +42,6 @@ namespace Battle
             abilityCD = cd;
         }
 
-//        public abstract void Action(GameObject source, GameObject target);
-
         public void NewAction(GameObject source, GameObject target)
         {
             Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
@@ -138,6 +136,7 @@ namespace Battle
                 EventCallbacks.AbilityHitEventInfo ahei = new EventCallbacks.AbilityHitEventInfo();
                 ahei.EventDescription = $"{abilityName} has hit {target.name}";
                 ahei.UnitGO = target;
+                ahei.ability = this;
                 ahei.FireEvent();
 
                 // Ensure each effect of the ability is carried out

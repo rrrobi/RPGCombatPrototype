@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EventCallbacks;
+using System.Linq;
 
 public class AnimationController
 {
@@ -33,7 +34,9 @@ public class AnimationController
     void OnAbilityHit(AbilityHitEventInfo abilityHitEventInfo)
     {
         Debug.Log("AnimationController Alerted to Ability Hit!");
-        abilityHitEventInfo.UnitGO.GetComponent<Animator>().SetTrigger("OnGetHit");
+
+        if (abilityHitEventInfo.ability.GetEffectList().Any(c => c.abilityType == AbilityType.Attack))
+            abilityHitEventInfo.UnitGO.GetComponent<Animator>().SetTrigger("OnGetHit");
 
     }
 }

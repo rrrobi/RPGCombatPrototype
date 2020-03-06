@@ -74,6 +74,7 @@ namespace EventCallbacks
     public class AbilityHitEventInfo : EventInfo<AbilityHitEventInfo>
     {
         public GameObject UnitGO;
+        public Battle.Ability ability; 
         // Will likely need info about the ability used at a later stage, for now we only use the basics
     }
 
