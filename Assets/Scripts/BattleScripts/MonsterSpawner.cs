@@ -148,9 +148,15 @@ namespace Battle
             GameObject monsterGO = GameObject.Instantiate(monsterTemplateGO, unitSlot.transform.position, Quaternion.identity, teamGroup.transform) as GameObject;
             monsterGO.name = monsterInfo.MonsterName;// + " " + monsterCounts[team + monsterInfo.MonsterName];
             if (team == TeamName.Friendly)
+            {
                 monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.FriendlySpriteName]);
+                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("BattleResources\\Animations\\Default_Animations\\Monster") as RuntimeAnimatorController;
+            }
             else if (team == TeamName.Enemy)
+            {
                 monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.EnemySpriteName]);
+                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("BattleResources\\Animations\\Default_Animations\\Enemy\\EnemyMonster") as RuntimeAnimatorController;
+            }
             else
                 Debug.Log("TEAM name not correct!!!!");
             monsterGO.GetComponent<Monster>().SetTeam(team);
