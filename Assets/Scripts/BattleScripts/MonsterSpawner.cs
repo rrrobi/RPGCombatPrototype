@@ -150,12 +150,12 @@ namespace Battle
             if (team == TeamName.Friendly)
             {
                 monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.FriendlySpriteName]);
-                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("BattleResources\\Animations\\Default_Animations\\Monster") as RuntimeAnimatorController;
+                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load($"BattleResources\\Animations\\Default_Animations\\{monsterInfo.AnnimationController}") as RuntimeAnimatorController;
             }
             else if (team == TeamName.Enemy)
             {
                 monsterGO.GetComponent<Monster>().SetMonsterSprite(monsterSprites[monsterInfo.EnemySpriteName]);
-                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("BattleResources\\Animations\\Default_Animations\\Enemy\\EnemyMonster") as RuntimeAnimatorController;
+                monsterGO.GetComponent<Animator>().runtimeAnimatorController = Resources.Load($"BattleResources\\Animations\\Default_Animations\\Enemy\\Enemy{monsterInfo.AnnimationController}") as RuntimeAnimatorController;
             }
             else
                 Debug.Log("TEAM name not correct!!!!");

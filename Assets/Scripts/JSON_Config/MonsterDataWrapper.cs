@@ -24,6 +24,7 @@ namespace Global
             m1.MonsterName = "Demon";
             m1.FriendlySpriteName = "SimpleMonsterBackBlue";
             m1.EnemySpriteName = "SimpleMonsterRed";
+            m1.AnnimationController = "DefaultMonster";
             m1.MaxHP = 50;
             m1.CurrentHP = 50;
             m1.Ability1 = "Slash";
@@ -36,6 +37,7 @@ namespace Global
             m2.MonsterName = "Demon Swarm";
             m2.FriendlySpriteName = "SimpleMonsterSwarmBackBlue";
             m2.EnemySpriteName = "SimpleMonsterSwarmRed";
+            m2.AnnimationController = "DefaultMonster";
             m2.MaxHP = 15;
             m2.CurrentHP = 15;
             m2.Ability1 = "Tackle";
@@ -47,6 +49,7 @@ namespace Global
             m3.MonsterName = "Heavy Demon";
             m3.FriendlySpriteName = "SimpleTankMonsterBackBlue";
             m3.EnemySpriteName = "SimpleTankMonsterRed";
+            m3.AnnimationController = "DefaultMonster";
             m3.MaxHP = 75;
             m3.CurrentHP = 75;
             m3.Ability1 = "Bash";
@@ -157,6 +160,7 @@ namespace Global
         public string MonsterName = "";
         public string FriendlySpriteName = "";
         public string EnemySpriteName = "";
+        public string AnnimationController = "";
         public int MaxHP = 0;
         public int CurrentHP = 0;
 
