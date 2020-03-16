@@ -9,7 +9,7 @@ namespace Battle
     public class CombatManager : MonoBehaviour
     {
         // Battle loot
-        int battleLoot;
+        int battleLoot;// test
 
         public static CombatManager Instance { get; protected set; }
         MonsterSpawner monsterSpawner = new MonsterSpawner();
