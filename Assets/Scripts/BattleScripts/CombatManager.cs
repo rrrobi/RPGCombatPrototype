@@ -262,6 +262,15 @@ namespace Battle
         // Update is called once per frame
         void Update()
         {
+            // loop through ALL characters
+            int attackDelay = 1000;
+            foreach (var character in playerCharacters)
+            {
+                //if (character.Value.at)
+            }
+            // find the character with the lowest Attack delay
+            // This charcacter takes its turn
+            // subtracte this characters attack delay from all other character's attack delay
 
         }
 
