@@ -13,6 +13,10 @@ namespace Battle
         public string GetUniqueID { get { return uniqueID; } }
         public void SetUniqueID(string ID) { uniqueID = ID; }
 
+        protected float abilityDelay;
+        public float GetAbilityDelay() { return abilityDelay; }
+        public void SetAbilityDelay(float AD) { abilityDelay = AD; }
+
         // Will be changed to be Ability specific
         protected float attackCD = 10;
         protected float attackTimer;
@@ -104,6 +108,7 @@ namespace Battle
         {
             Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
 
+            abilityDelay = Random.Range(3, 10);  // TODO... - will be set from monster Info
             attackTimer = attackCD;
 
             // Set this monster's Sprite
@@ -121,13 +126,13 @@ namespace Battle
         // Update is called once per frame
         protected virtual void Update()
         {
-            attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0)
-            {
-                TakeTurn();
-            }
-            else
-                ScaleSpeedBar();
+            //attackTimer -= Time.deltaTime;
+            //if (attackTimer <= 0)
+            //{
+            //    TakeTurn();
+            //}
+            //else
+            //    ScaleSpeedBar();
         }
 
         public void MakeClickable()
@@ -190,7 +195,7 @@ namespace Battle
 
         // TODO....
         // Split AI/Player attack code
-        protected void TakeTurn()
+        public void TakeTurn()
         {
             if (team == TeamName.Enemy)
                 Attack();
@@ -230,8 +235,9 @@ namespace Battle
 
         public void UpdateAttackTimer(float cd)
         {
-            attackCD = cd;
-            attackTimer = attackCD;
+            abilityDelay = cd;
+            //attackCD = cd;
+            //attackTimer = attackCD;
         }
 
         public void TakeDamage(int damage)

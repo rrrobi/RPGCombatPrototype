@@ -262,16 +262,54 @@ namespace Battle
         // Update is called once per frame
         void Update()
         {
+            // TODO... streamline this
             // loop through ALL characters
-            int attackDelay = 1000;
+            float abilityDelay = 1000;
+            string nextChar = string.Empty;
+            TeamName team = TeamName.Friendly;
+            // find the character with the lowest Attack delay
             foreach (var character in playerCharacters)
             {
-                //if (character.Value.at)
+                if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
+                {
+                    abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
+                    nextChar = character.Key;
+                    team = TeamName.Friendly;
+                }
             }
-            // find the character with the lowest Attack delay
-            // This charcacter takes its turn
-            // subtracte this characters attack delay from all other character's attack delay
+            foreach (var character in enemyCharacters)
+            {
+                if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
+                {
+                    abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
+                    nextChar = character.Key;
+                    team = TeamName.Enemy;
+                }
+            }
 
+            // This charcacter takes its turn
+            if (team == TeamName.Friendly)
+                playerCharacters[nextChar].GetComponent<Character>().TakeTurn();
+            else if (team == TeamName.Enemy)
+                enemyCharacters[nextChar].GetComponent<Character>().TakeTurn();
+
+            // subtract this characters attack delay from all other character's attack delay
+            foreach (var character in playerCharacters)
+            {
+                if (character.Key != nextChar)
+                {
+                    character.Value.GetComponent<Character>().SetAbilityDelay(
+                        character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
+                }
+            }
+            foreach (var character in enemyCharacters)
+            {
+                if (character.Key != nextChar)
+                {
+                    character.Value.GetComponent<Character>().SetAbilityDelay(
+                        character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
+                }
+            }
         }
 
         // may move this

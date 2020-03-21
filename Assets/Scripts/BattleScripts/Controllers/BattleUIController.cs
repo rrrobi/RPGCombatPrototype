@@ -437,6 +437,7 @@ namespace Battle
         void RegisterEventCallbacks()
         {
             SelectedObjectEventInfo.RegisterListener(OnHighlightSelected);
+            CharacterReadyEventInfo.RegisterListener(OnCharacterReady);
 
             BattleWonEventInfo.RegisterListener(OnBattleWon);
             HPChangedEventInfo.RegisterListener(OnHPChange);
@@ -456,19 +457,30 @@ namespace Battle
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
         }
 
+        void OnCharacterReady(CharacterReadyEventInfo characterReadyEventInfo)
+        {
+            // record which freindly character has been selected
+            SelectedCharacter = characterReadyEventInfo.UnitGO;
+
+            // Create action panel for this character
+            TransferAbilityState(abilityState, AbilityState.ActionSelect);
+            ActionPanel.SetActive(true);
+            ActionPanelSetup(SelectedCharacter);
+        }
+
         void OnHighlightSelected(SelectedObjectEventInfo selectedEventInfo)
         {
-            if (abilityState == AbilityState.CharcterSelect)
-            {
-                // record which freindly character has been selected
-                SelectedCharacter = selectedEventInfo.UnitGO;
+            //if (abilityState == AbilityState.CharcterSelect)
+            //{
+            //    // record which freindly character has been selected
+            //    SelectedCharacter = selectedEventInfo.UnitGO;
 
-                // Create action panel for this character
-                //abilityState = AbilityState.ActionSelect;
-                TransferAbilityState(abilityState, AbilityState.ActionSelect);
-                ActionPanel.SetActive(true);
-                ActionPanelSetup(SelectedCharacter);
-            }
+            //    // Create action panel for this character
+            //    //abilityState = AbilityState.ActionSelect;
+            //    TransferAbilityState(abilityState, AbilityState.ActionSelect);
+            //    ActionPanel.SetActive(true);
+            //    ActionPanelSetup(SelectedCharacter);
+            //}
 
             if (abilityState == AbilityState.TargetSelect)
             {
