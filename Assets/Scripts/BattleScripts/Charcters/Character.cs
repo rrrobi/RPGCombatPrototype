@@ -48,7 +48,7 @@ namespace Battle
                 Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
             }
         }
-        protected Dictionary<string, ActionMenu> Menus;
+        protected Dictionary<string, ActionMenu> Menus = new Dictionary<string, ActionMenu>();
         public Dictionary<string, ActionMenu> GetMenus { get { return Menus; } }
         public ActionMenu GetMenuByName(string name) { return Menus[name]; }
         public void SetMenu(ActionMenu menu)
@@ -61,11 +61,15 @@ namespace Battle
                 Menus.Add(menu.GetMenuName, menu);
         }
         public void SetMenus(List<ActionMenu> menus)
-        {
-            Menus = new Dictionary<string, ActionMenu>();
+        {            
             for (int i = 0; i < menus.Count; i++)
             {
-                Menus.Add(menus[i].GetMenuName, menus[i]);
+                // If Menu already exists - replace with new
+                if (Menus.ContainsKey(menus[i].GetMenuName))
+                    Menus[menus[i].GetMenuName] = menus[i];
+                // Else add new menu to list
+                else
+                    Menus.Add(menus[i].GetMenuName, menus[i]);
             }
         }
         /// <summary>

@@ -100,17 +100,22 @@ namespace Battle
                 AddToPlayerMonsterInfoList(kvp.Value);
             }
 
+            // Register Listeners
+            RegisterEventCallbacks();
+
             // Spawn Enemy monsters
             AddEnemyMonsters();
 
             // Spawn Players Monsters
-            AddPlayerMonsters();
+            AddPlayerMonsters();            
 
-            // initial set up of the Battler Order list
-            CreateCharacterTurnOrder();
+            //// Register Listeners
+            //RegisterEventCallbacks();
 
-            // Register Listeners
-            RegisterEventCallbacks();            
+            // TODO... i don't like this- it causes each starting creature to be added then replaced with itself
+            //          I intend to build a ReadyTostart class whcih will ensure everything is in place before we start the game loop.
+            // initial set up of the Battler Order list 
+            //CreateCharacterTurnOrder();
         }
 
         void RegisterEventCallbacks()
@@ -273,8 +278,8 @@ namespace Battle
             // Start off the battle by letting the fist charcater take its turn
             if (readyForNextTurn)
             {
-                NextCharacterTakeTurn();
                 readyForNextTurn = false;
+                NextCharacterTakeTurn();                
             }
 
             //// TODO... streamline this
@@ -327,25 +332,38 @@ namespace Battle
             //}
         }
 
-        List<GameObject> battleOrderList = new List<GameObject>();
+        Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
         private void CreateCharacterTurnOrder()
         {
             // Loop through all the characters from both teams
             foreach (var character in playerCharacters)
             {
-                battleOrderList.Add(character.Value);
+                battleOrderList.Add(character.Value.GetComponent<Character>().GetUniqueID ,character.Value);
             }
             foreach (var character in enemyCharacters)
             {
-                battleOrderList.Add(character.Value);
+                battleOrderList.Add(character.Value.GetComponent<Character>().GetUniqueID, character.Value);
             }
-            battleOrderList.OrderBy(c => c.GetComponent<Character>().GetAbilityDelay());
+            battleOrderList = battleOrderList.OrderBy(c => c.Value.GetComponent<Character>().GetAbilityDelay()).ToDictionary(z => z.Key, y => y.Value);
         }
 
         private void AddToCharacterTurnOrder(GameObject characterGO)
         {
-            battleOrderList.Add(characterGO);
-            battleOrderList.OrderBy(c => c.GetComponent<Character>().GetAbilityDelay());
+            string ID = characterGO.GetComponent<Character>().GetUniqueID;
+            if (battleOrderList.ContainsKey(ID))
+                battleOrderList[ID] = characterGO;
+            else
+                battleOrderList.Add(ID, characterGO);
+
+            // Reorder List
+            battleOrderList = battleOrderList.OrderBy(c => c.Value.GetComponent<Character>().GetAbilityDelay()).ToDictionary(z => z.Key, y => y.Value);
+        }
+
+        private void RemoveFromCharacterTurnOrder(GameObject characterGO)
+        {
+            string ID = characterGO.GetComponent<Character>().GetUniqueID;
+            if (battleOrderList.ContainsKey(ID))
+                battleOrderList.Remove(ID);
         }
 
         private void NextCharacterTakeTurn()
@@ -353,11 +371,21 @@ namespace Battle
             string list = string.Empty;
             foreach (var item in battleOrderList)
             {
-                list += $"{item.name}, ";
+                list += $"{item.Value.name}: {item.Value.GetComponent<Character>().GetAbilityDelay()}, ";
             }
             Debug.Log($"Current Turn Order: {list}");
-            battleOrderList.First().GetComponent<Character>().TakeTurn();
-            battleOrderList.RemoveAt(0);
+
+            // Reduce all charcaters ability Delay by the delay of the charcater currently taking its turn
+            // This character 'should' have the lowest delay, and so by doing this it simulates time moving forward
+            float currentDelay = battleOrderList.First().Value.GetComponent<Character>().GetAbilityDelay();
+            foreach (var character in battleOrderList)
+            {
+                character.Value.GetComponent<Character>().SetAbilityDelay(
+                    character.Value.GetComponent<Character>().GetAbilityDelay() - currentDelay);
+            }
+
+            battleOrderList.First().Value.GetComponent<Character>().TakeTurn();
+            //battleOrderList.Remove(battleOrderList.First().Key);
         }
 
         // may move this
@@ -385,6 +413,9 @@ namespace Battle
                 // Update Dictionary of enemy charcters
                 RemoveFromEnemyCharacterList(deathEventInfo.UnitGO);
             }
+
+            // Remove from charcter Order List
+            RemoveFromCharacterTurnOrder(deathEventInfo.UnitGO);
 
             // Remove object
             Destroy(deathEventInfo.UnitGO);
@@ -428,6 +459,9 @@ namespace Battle
                     playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().SetMenu(menu);
                 }
             }
+
+            // Add to character order list - All Charcaters
+            AddToCharacterTurnOrder(unitSpawnEventInfo.UnitGO);
         }
 
         void OnTurnOver(CharacterTurnOverEventInfo characterTurnOverEventInfo)
