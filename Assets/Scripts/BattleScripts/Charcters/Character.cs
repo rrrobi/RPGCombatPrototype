@@ -201,14 +201,21 @@ namespace Battle
                 Attack();
             else
             {
-                isReady = true;
-                // TODO... im not sure about how this works, in regards to updating the Click-a-bility in more than one place, 
-                // should this be passed to UIController?
-                // If so BattleUIController may not need to be public
-                if (CombatManager.Instance.battleUIController.GetAbilityState == BattleUIController.AbilityState.CharcterSelect)
-                    MakeClickable();
+                // Trigger Attacked Event callback
+                EventCallbacks.CharacterReadyEventInfo crei = new EventCallbacks.CharacterReadyEventInfo();
+                crei.EventDescription = $"Unit {gameObject.name} Is ready to take it's turn.";
+                crei.UnitGO = gameObject;
+                crei.FireEvent();
 
-                CombatManager.Instance.AddToActionQueue(this.gameObject);
+
+                //isReady = true;
+                //// TODO... im not sure about how this works, in regards to updating the Click-a-bility in more than one place, 
+                //// should this be passed to UIController?
+                //// If so BattleUIController may not need to be public
+                //if (CombatManager.Instance.battleUIController.GetAbilityState == BattleUIController.AbilityState.CharcterSelect)
+                //    MakeClickable();
+
+                //CombatManager.Instance.AddToActionQueue(this.gameObject);
             }
         }
 

@@ -240,7 +240,7 @@ namespace Battle
             {
                 case AbilityState.CharcterSelect:
                     // remove highlight from friendly charcters
-                    RemoveCharacterSelectHighlight();
+                    //RemoveCharacterSelectHighlight(); <- Not required to highlight anymore, might rename this state 
                     break;
                 case AbilityState.ActionSelect:
                     break;
@@ -257,7 +257,7 @@ namespace Battle
             {
                 case AbilityState.CharcterSelect:
                     // highlight all 'ready' friendly characters
-                    CharacterSelectHighlight();
+                    //CharacterSelectHighlight(); <- Not required to highlight anymore, might rename this state 
                     abilityState = AbilityState.CharcterSelect;
                     break;
                 case AbilityState.ActionSelect:
@@ -449,6 +449,7 @@ namespace Battle
         public void UnregisterEventCallbacks()
         {
             SelectedObjectEventInfo.UnregisterListener(OnHighlightSelected);
+            CharacterReadyEventInfo.UnregisterListener(OnCharacterReady);
 
             BattleWonEventInfo.UnregisterListener(OnBattleWon);
             HPChangedEventInfo.UnregisterListener(OnHPChange);

@@ -174,6 +174,12 @@ namespace Battle
             source.GetComponent<Character>().UpdateAttackTimer(cd);
             source.GetComponent<Character>().SetIsReady(false);
 
+            // Trigger AbilityOver Event callback
+            EventCallbacks.CharacterTurnOverEventInfo ctoei = new EventCallbacks.CharacterTurnOverEventInfo();
+            ctoei.EventDescription = $"Unit {source.name} has finished its turn";
+            ctoei.UnitGO = source;
+            ctoei.FireEvent();
+
             // Reset Sprite Shader to Dprite Default (not Glowing)
             //source.GetComponent<Character>().MakeUnclickable();
         }

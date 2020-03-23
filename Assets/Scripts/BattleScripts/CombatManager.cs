@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using EventCallbacks;
+using System.Linq;
 
 namespace Battle
 {
@@ -62,7 +63,7 @@ namespace Battle
         private GameObject EnemyTeamGO;
 
         // Battle Objects - unused
-        Queue<GameObject> actionQueue = new Queue<GameObject>();
+        //Queue<GameObject> actionQueue = new Queue<GameObject>();
 
         void OnEnable()
         {
@@ -105,8 +106,11 @@ namespace Battle
             // Spawn Players Monsters
             AddPlayerMonsters();
 
+            // initial set up of the Battler Order list
+            CreateCharacterTurnOrder();
+
             // Register Listeners
-            RegisterEventCallbacks();
+            RegisterEventCallbacks();            
         }
 
         void RegisterEventCallbacks()
@@ -114,6 +118,7 @@ namespace Battle
             DeathEventInfo.RegisterListener(OnUnitDied);
             HPChangedEventInfo.RegisterListener(OnHPChange);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
+            CharacterTurnOverEventInfo.RegisterListener(OnTurnOver);
         }
         
         void UnregisterEventCallbacks()
@@ -121,6 +126,7 @@ namespace Battle
             DeathEventInfo.UnregisterListener(OnUnitDied);
             HPChangedEventInfo.UnregisterListener(OnHPChange);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
+            CharacterTurnOverEventInfo.UnregisterListener(OnTurnOver);
         }
 
         void AddPlayerMonsters()
@@ -161,7 +167,7 @@ namespace Battle
             }            
         }
 
-        // TODO... This may longer be required - Index is no longer used for Player summon abilities
+        // TODO... This may no longer be required - Index is no longer used for Player summon abilities
         public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
         {
             // TODO... temp, remove this - may be better setting mi in 'spawnMonster' to a default argument
@@ -219,21 +225,21 @@ namespace Battle
             }
         }
 
-        public void AddToActionQueue(GameObject monster)
-        {
-            if (!actionQueue.Contains(monster))
-            {
-                actionQueue.Enqueue(monster);
+        //public void AddToActionQueue(GameObject monster)
+        //{
+        //    if (!actionQueue.Contains(monster))
+        //    {
+        //        actionQueue.Enqueue(monster);
 
-                // Temp
-                Debug.Log(monster.name + " joined the action queue");
-            }
-        }
+        //        // Temp
+        //        Debug.Log(monster.name + " joined the action queue");
+        //    }
+        //}
 
-        public GameObject TakeFromActionQueue()
-        {
-            return actionQueue.Dequeue();
-        }
+        //public GameObject TakeFromActionQueue()
+        //{
+        //    return actionQueue.Dequeue();
+        //}
 
         public void ClearEventListentersOnSceneClosure()
         {
@@ -260,56 +266,98 @@ namespace Battle
         }
 
         // Update is called once per frame
+        bool readyForNextTurn = true;
         void Update()
         {
-            // TODO... streamline this
-            // loop through ALL characters
-            float abilityDelay = 1000;
-            string nextChar = string.Empty;
-            TeamName team = TeamName.Friendly;
-            // find the character with the lowest Attack delay
+            // TODO... I hate this - find a better way
+            // Start off the battle by letting the fist charcater take its turn
+            if (readyForNextTurn)
+            {
+                NextCharacterTakeTurn();
+                readyForNextTurn = false;
+            }
+
+            //// TODO... streamline this
+            //// loop through ALL characters
+            //float abilityDelay = 1000;
+            //string nextChar = string.Empty;
+            //TeamName team = TeamName.Friendly;
+            //// find the character with the lowest Attack delay
+            //foreach (var character in playerCharacters)
+            //{
+            //    if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
+            //    {
+            //        abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
+            //        nextChar = character.Key;
+            //        team = TeamName.Friendly;
+            //    }
+            //}
+            //foreach (var character in enemyCharacters)
+            //{
+            //    if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
+            //    {
+            //        abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
+            //        nextChar = character.Key;
+            //        team = TeamName.Enemy;
+            //    }
+            //}
+
+            //// This charcacter takes its turn
+            //if (team == TeamName.Friendly)
+            //    playerCharacters[nextChar].GetComponent<Character>().TakeTurn();
+            //else if (team == TeamName.Enemy)
+            //    enemyCharacters[nextChar].GetComponent<Character>().TakeTurn();
+
+            //// subtract this characters attack delay from all other character's attack delay
+            //foreach (var character in playerCharacters)
+            //{
+            //    if (character.Key != nextChar)
+            //    {
+            //        character.Value.GetComponent<Character>().SetAbilityDelay(
+            //            character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
+            //    }
+            //}
+            //foreach (var character in enemyCharacters)
+            //{
+            //    if (character.Key != nextChar)
+            //    {
+            //        character.Value.GetComponent<Character>().SetAbilityDelay(
+            //            character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
+            //    }
+            //}
+        }
+
+        List<GameObject> battleOrderList = new List<GameObject>();
+        private void CreateCharacterTurnOrder()
+        {
+            // Loop through all the characters from both teams
             foreach (var character in playerCharacters)
             {
-                if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
-                {
-                    abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
-                    nextChar = character.Key;
-                    team = TeamName.Friendly;
-                }
+                battleOrderList.Add(character.Value);
             }
             foreach (var character in enemyCharacters)
             {
-                if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
-                {
-                    abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
-                    nextChar = character.Key;
-                    team = TeamName.Enemy;
-                }
+                battleOrderList.Add(character.Value);
             }
+            battleOrderList.OrderBy(c => c.GetComponent<Character>().GetAbilityDelay());
+        }
 
-            // This charcacter takes its turn
-            if (team == TeamName.Friendly)
-                playerCharacters[nextChar].GetComponent<Character>().TakeTurn();
-            else if (team == TeamName.Enemy)
-                enemyCharacters[nextChar].GetComponent<Character>().TakeTurn();
+        private void AddToCharacterTurnOrder(GameObject characterGO)
+        {
+            battleOrderList.Add(characterGO);
+            battleOrderList.OrderBy(c => c.GetComponent<Character>().GetAbilityDelay());
+        }
 
-            // subtract this characters attack delay from all other character's attack delay
-            foreach (var character in playerCharacters)
+        private void NextCharacterTakeTurn()
+        {
+            string list = string.Empty;
+            foreach (var item in battleOrderList)
             {
-                if (character.Key != nextChar)
-                {
-                    character.Value.GetComponent<Character>().SetAbilityDelay(
-                        character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
-                }
+                list += $"{item.name}, ";
             }
-            foreach (var character in enemyCharacters)
-            {
-                if (character.Key != nextChar)
-                {
-                    character.Value.GetComponent<Character>().SetAbilityDelay(
-                        character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
-                }
-            }
+            Debug.Log($"Current Turn Order: {list}");
+            battleOrderList.First().GetComponent<Character>().TakeTurn();
+            battleOrderList.RemoveAt(0);
         }
 
         // may move this
@@ -382,7 +430,12 @@ namespace Battle
             }
         }
 
-
+        void OnTurnOver(CharacterTurnOverEventInfo characterTurnOverEventInfo)
+        {
+            Debug.Log("CombatManager Alerted to unit finished it's Turn: " + characterTurnOverEventInfo.UnitGO.name);
+            AddToCharacterTurnOrder(characterTurnOverEventInfo.UnitGO);
+            readyForNextTurn = true;
+        }
         #endregion
     }
 }
