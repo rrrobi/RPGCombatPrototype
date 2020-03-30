@@ -77,10 +77,14 @@ namespace Battle
 
                 GameObject panelGO;
                 // Instantiate panel
+                //if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
+                //    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
+                //else
+                //    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
                 if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
-                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, new Vector3(1.0f, 0.0f, 0.0f), Quaternion.identity, FriendlyPanel.transform) as GameObject;
                 else
-                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, new Vector3(-1.0f, 0.0f, 0.0f), Quaternion.identity, FriendlyPanel.transform) as GameObject;
                 // Set buttons varables
                 panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel";
                 Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
@@ -88,14 +92,24 @@ namespace Battle
                 {
                     if (text.name == "NameText")
                     {
-                        text.text = character.name;
+                        text.text = $"{character.name} : {character.GetComponent<Character>().GetAbilityDelay()}";
                     }
                     if (text.name == "HPText")
                     {
                         text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
                     }
-
                 }
+
+                // TODO... Find a better way
+                // We have to get All image components in children becasue otherwise the first image it finds is the actual panel image.
+                // So it set the logo to replace the panel itself.
+                Image[] images = panelGO.GetComponentsInChildren<Image>();
+                foreach (var characterLogo in images)
+                {
+                    if (characterLogo.name == "CharacterLogo")
+                        characterLogo.sprite = character.GetComponent<Character>().GetMonsterSprite();
+                }
+                
 
             }
             else

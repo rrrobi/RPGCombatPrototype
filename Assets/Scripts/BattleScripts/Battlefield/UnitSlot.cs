@@ -23,7 +23,7 @@ namespace Battle
         // Use this for initialization
         void Start()
         {
-            unitSlotSprite = Resources.Load<Sprite>("BattleResources/Sprites/SimpleUnitSlot");
+            unitSlotSprite = Resources.Load<Sprite>("BattleResources/Sprites/SimpleUnitSlot_v2");
             SpriteRenderer unitSlotSR = this.gameObject.AddComponent<SpriteRenderer>();
             // Set Correct Monster sprite
             unitSlotSR.sprite = unitSlotSprite;
