@@ -130,6 +130,16 @@ namespace Battle
                     text.text = "HP : " + character.GetComponent<Character>().GetHP + "/" + character.GetComponent<Character>().GetMaxHP;
                 }
             }
+
+            // Still playing around with this
+            //float missingHP = character.GetComponent<Character>().GetMaxHP - character.GetComponent<Character>().GetHP;
+            //float scale = (missingHP / FullHP);
+
+            //SpeedBarGO.transform.localScale = new Vector3(1.1f, scale, 1.0f);
+
+            //float barLength = 2;
+            //float offset = (barLength / 2) - (scale);
+            //SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
         }
         #endregion
 
