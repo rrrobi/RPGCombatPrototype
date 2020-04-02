@@ -100,6 +100,10 @@ namespace Battle
                     }
                 }
 
+                Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
+                healthSlider.maxValue = character.GetComponent<Character>().GetMaxHP;
+                healthSlider.value = character.GetComponent<Character>().GetHP;
+
                 // TODO... Find a better way
                 // We have to get All image components in children becasue otherwise the first image it finds is the actual panel image.
                 // So it set the logo to replace the panel itself.
@@ -140,6 +144,8 @@ namespace Battle
             //float barLength = 2;
             //float offset = (barLength / 2) - (scale);
             //SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
+            Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
+            healthSlider.value = character.GetComponent<Character>().GetHP;
         }
         #endregion
 

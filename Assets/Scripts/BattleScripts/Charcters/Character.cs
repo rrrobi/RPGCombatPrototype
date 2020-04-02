@@ -173,6 +173,7 @@ namespace Battle
             switch (team)
             {
                 case TeamName.Friendly:
+                    
                     enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
                     break;
                 case TeamName.Enemy:
