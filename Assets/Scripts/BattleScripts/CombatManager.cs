@@ -282,54 +282,32 @@ namespace Battle
                 NextCharacterTakeTurn();                
             }
 
-            //// TODO... streamline this
-            //// loop through ALL characters
-            //float abilityDelay = 1000;
-            //string nextChar = string.Empty;
-            //TeamName team = TeamName.Friendly;
-            //// find the character with the lowest Attack delay
-            //foreach (var character in playerCharacters)
-            //{
-            //    if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
-            //    {
-            //        abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
-            //        nextChar = character.Key;
-            //        team = TeamName.Friendly;
-            //    }
-            //}
-            //foreach (var character in enemyCharacters)
-            //{
-            //    if (character.Value.GetComponent<Character>().GetAbilityDelay() < abilityDelay)
-            //    {
-            //        abilityDelay = character.Value.GetComponent<Character>().GetAbilityDelay();
-            //        nextChar = character.Key;
-            //        team = TeamName.Enemy;
-            //    }
-            //}
+            // Ensure Battle is setup before starting loop
+            ///////////////////////////////////////////////////////
+            // Battlefield controller Setup
+            // Battle UI Controller Setup
+            // Friendly Charcters Setup
+            // Enemy charcaters Setup
 
-            //// This charcacter takes its turn
-            //if (team == TeamName.Friendly)
-            //    playerCharacters[nextChar].GetComponent<Character>().TakeTurn();
-            //else if (team == TeamName.Enemy)
-            //    enemyCharacters[nextChar].GetComponent<Character>().TakeTurn();
+            // Main Combat Loop - 
+            // Maybe a coroutine - So it can wait for each individual section to complete before moving on
+            ///////////////////////////////////////////////////////
+            // Next Char In Queue (NCIQ) highlights
 
-            //// subtract this characters attack delay from all other character's attack delay
-            //foreach (var character in playerCharacters)
-            //{
-            //    if (character.Key != nextChar)
-            //    {
-            //        character.Value.GetComponent<Character>().SetAbilityDelay(
-            //            character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
-            //    }
-            //}
-            //foreach (var character in enemyCharacters)
-            //{
-            //    if (character.Key != nextChar)
-            //    {
-            //        character.Value.GetComponent<Character>().SetAbilityDelay(
-            //            character.Value.GetComponent<Character>().GetAbilityDelay() - abilityDelay);
-            //    }
-            //}
+            // If NCIQ is an enemy, AI take turn
+            // If NCIQ is Friendly, Ability Menu Opens
+
+            // Attack animation runs
+
+            // Get Hit Animation runs
+
+            // UI Health Update + Animation
+
+            // Queue Updates
+
+            // UI Queue position Update + Animation
+            ///////////////////////////////////////////////////////
+
         }
 
         Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
