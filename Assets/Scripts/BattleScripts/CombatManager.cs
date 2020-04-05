@@ -62,9 +62,6 @@ namespace Battle
         [SerializeField]
         private GameObject EnemyTeamGO;
 
-        // Battle Objects - unused
-        //Queue<GameObject> actionQueue = new Queue<GameObject>();
-
         void OnEnable()
         {
             if (Instance != null)
@@ -134,6 +131,14 @@ namespace Battle
             CharacterTurnOverEventInfo.UnregisterListener(OnTurnOver);
         }
 
+        public void ClearEventListentersOnSceneClosure()
+        {
+            UnregisterEventCallbacks();
+            battlefieldController.UnregisterEventCallbacks();
+            battleUIController.UnregisterEventCallbacks();
+        }
+
+        #region Adding Monsters
         void AddPlayerMonsters()
         {
             // get number of Monster slots available
@@ -230,29 +235,9 @@ namespace Battle
             }
         }
 
-        //public void AddToActionQueue(GameObject monster)
-        //{
-        //    if (!actionQueue.Contains(monster))
-        //    {
-        //        actionQueue.Enqueue(monster);
-
-        //        // Temp
-        //        Debug.Log(monster.name + " joined the action queue");
-        //    }
-        //}
-
-        //public GameObject TakeFromActionQueue()
-        //{
-        //    return actionQueue.Dequeue();
-        //}
-
-        public void ClearEventListentersOnSceneClosure()
-        {
-            UnregisterEventCallbacks();
-            battlefieldController.UnregisterEventCallbacks();
-            battleUIController.UnregisterEventCallbacks();
-        }
-
+        #endregion
+                
+        #region Data Persistance
         public void PassChangedStatsToGM()
         {
             // TODO... i dont like how this info is passed back - rework
@@ -270,13 +255,15 @@ namespace Battle
             }
         }
 
+        #endregion
+
         // Update is called once per frame
         bool readyForNextTurn = true;
         void Update()
         {
             // TODO... I hate this - find a better way
             // Start off the battle by letting the fist charcater take its turn
-            if (readyForNextTurn)
+            if (readyForNextTurn && IsSetupComplete())
             {
                 readyForNextTurn = false;
                 NextCharacterTakeTurn();                
@@ -284,8 +271,8 @@ namespace Battle
 
             // Ensure Battle is setup before starting loop
             ///////////////////////////////////////////////////////
-            // Battlefield controller Setup
-            // Battle UI Controller Setup
+            // Battlefield controller Setup - not mono brehaviour should not be an issue
+            // Battle UI Controller Setup - not mono brehaviour should not be an issue
             // Friendly Charcters Setup
             // Enemy charcaters Setup
 
@@ -308,6 +295,26 @@ namespace Battle
             // UI Queue position Update + Animation
             ///////////////////////////////////////////////////////
 
+        }
+
+        private bool IsSetupComplete()
+        {
+            bool isReady = true;
+
+            // Has to check at the start + through the game
+            // Character Setup check
+            foreach (var character in playerCharacters)
+            {
+                if (!character.Value.GetComponent<Character>().GetIsSetupComplete)
+                    isReady = false;
+            }
+            foreach (var character in enemyCharacters)
+            {
+                if (!character.Value.GetComponent<Character>().GetIsSetupComplete)
+                    isReady = false;
+            }
+
+            return isReady;
         }
 
         Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
@@ -366,7 +373,6 @@ namespace Battle
             //battleOrderList.Remove(battleOrderList.First().Key);
         }
 
-        // may move this
         #region EventCallbacks
 
         void OnUnitDied(DeathEventInfo deathEventInfo)

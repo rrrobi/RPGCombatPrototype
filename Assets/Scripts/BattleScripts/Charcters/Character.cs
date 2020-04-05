@@ -9,6 +9,11 @@ namespace Battle
 {
     public class Character : MonoBehaviour
     {
+        // For use in onther areas to ensure all completed before trying to use the character
+        private bool IsSetupComplete = false;
+        public bool GetIsSetupComplete { get { return IsSetupComplete; } }
+
+
         string uniqueID;
         public string GetUniqueID { get { return uniqueID; } }
         public void SetUniqueID(string ID) { uniqueID = ID; }
@@ -17,9 +22,6 @@ namespace Battle
         public float GetAbilityDelay() { return abilityDelay; }
         public void SetAbilityDelay(float AD) { abilityDelay = AD; }
 
-        // Will be changed to be Ability specific
-        protected float attackCD = 10;
-        protected float attackTimer;
         protected bool isReady = false;
         public void SetIsReady(bool ready) { isReady = ready; }
         public bool GetIsReady { get { return isReady; } }
@@ -113,7 +115,6 @@ namespace Battle
             Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
 
             abilityDelay = Random.Range(3, 10);  // TODO... - will be set from monster Info
-            attackTimer = attackCD;
 
             // Set this monster's Sprite
             AssignSprite();
@@ -125,6 +126,9 @@ namespace Battle
 
             // Discove whcih teams are friend or foe
             DiscoverTeams();
+
+            // Confirm Setup is complete
+            IsSetupComplete = true;
         }
 
         // Update is called once per frame
@@ -184,18 +188,6 @@ namespace Battle
                     Debug.LogError("Issue with team tags, this shouldn't happen!");
                     break;
             }
-        }
-
-        protected void ScaleSpeedBar()
-        {
-            float timePast = attackCD - attackTimer;
-            float scale = (timePast / attackCD);
-
-            SpeedBarGO.transform.localScale = new Vector3(1.1f, scale, 1.0f);
-
-            float barLength = 2;
-            float offset = (barLength / 2) - (scale);
-            SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
         }
 
         // TODO....
