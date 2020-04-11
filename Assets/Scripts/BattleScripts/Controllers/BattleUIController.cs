@@ -77,30 +77,24 @@ namespace Battle
         private void SetupPanalPositions()
         {            
             float panelWidth = FriendlyPanel.GetComponent<RectTransform>().rect.width;
-            float endPadding = 1;
-            float interPanalGap = 2;
+            float endPadding = 50;
+            float interPanalGap = 75;
 
             for (int i = 0; i < CharPanel_XPosList.Length; i++)
             {
 
-                CharPanel_XPosList[i] = -(panelWidth / 2) + endPadding + (i * interPanalGap);
+                CharPanel_XPosList[i] = -(panelWidth/2) + endPadding + (i * interPanalGap);
 
-                if (CharPanel_XPosList[i] < +(panelWidth / 2) - endPadding)
-                    Debug.LogError("Charcater panel spaceing has run too far to the right, and has gone off the page... look into this!");
+                //if (CharPanel_XPosList[i] < +(panelWidth / 2) - endPadding)
+                //    Debug.LogError("Charcater panel spaceing has run too far to the right, and has gone off the page... look into this!");
             }
-            // start x pos = -width/2 + 1(boarder padding)
-            // subsequent panels x pos = previous xpos + 2 (ensure this does not exceed +width/2)
-            // Y pos = +1.5 (freindly) OR -1.5 (enemy)
         }
 
         #region HP panels
         private void AddToHPPanel(GameObject character)
         {
             if (FriendlyPanel != null)
-            {
-                
-
-
+            {               
                 GameObject panelGO;
                 // Instantiate panel
                 //if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
@@ -108,9 +102,9 @@ namespace Battle
                 //else
                 //    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, EnemyPanel.transform) as GameObject;
                 if (character.GetComponent<Character>().GetTeam == TeamName.Friendly)
-                    panelGO = GameObject.Instantiate(monsterPanelTemplate, new Vector3(1.0f, 0.0f, 0.0f), Quaternion.identity, FriendlyPanel.transform) as GameObject;
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
                 else
-                    panelGO = GameObject.Instantiate(monsterPanelTemplate, new Vector3(-1.0f, 0.0f, 0.0f), Quaternion.identity, FriendlyPanel.transform) as GameObject;
+                    panelGO = GameObject.Instantiate(monsterPanelTemplate, Vector3.zero, Quaternion.identity, FriendlyPanel.transform) as GameObject;
                 // Set buttons varables
                 panelGO.name = character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel";
                 Text[] panelTexts = panelGO.GetComponentsInChildren<Text>();
@@ -172,6 +166,23 @@ namespace Battle
             //SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
             Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
             healthSlider.value = character.GetComponent<Character>().GetHP;
+        }
+        
+        public void ReorderHPPanels()
+        {
+            // foreach character in CombatManager's OrderList
+            int i = 0;
+            foreach (var character in CombatManager.Instance.GetBattleOrderList())
+            {
+                // Find accociated Charcater panel
+                // TODO.. Is there a better way of doing this, i dont like it
+                GameObject panelGO = GameObject.Find(character.Value.GetComponent<Character>().GetTeam.ToString() + "_" + character.Value.GetComponent<Character>().GetUniqueID + "_Panel");
+
+                // Move to the location dication by that charcaters place in the OrderList
+                panelGO.transform.localPosition = new Vector3(CharPanel_XPosList[i], -0.0f, 0.0f);
+
+                i++;
+            }
         }
         #endregion
 

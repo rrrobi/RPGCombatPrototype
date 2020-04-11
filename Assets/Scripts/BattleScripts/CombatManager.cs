@@ -56,6 +56,9 @@ namespace Battle
             enemyCharacters.Remove(character.GetComponent<Monster>().GetUniqueID);//.name);
         }
 
+        private Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
+        public Dictionary<string, GameObject> GetBattleOrderList() { return battleOrderList; }
+
         // Monster Setup Objects
         [SerializeField]
         private GameObject FriendlyTeamGO;
@@ -265,6 +268,8 @@ namespace Battle
             // Start off the battle by letting the fist charcater take its turn
             if (readyForNextTurn && IsSetupComplete())
             {
+                battleUIController.ReorderHPPanels();
+
                 readyForNextTurn = false;
                 NextCharacterTakeTurn();                
             }
@@ -317,7 +322,7 @@ namespace Battle
             return isReady;
         }
 
-        Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
+        
         private void CreateCharacterTurnOrder()
         {
             // Loop through all the characters from both teams
