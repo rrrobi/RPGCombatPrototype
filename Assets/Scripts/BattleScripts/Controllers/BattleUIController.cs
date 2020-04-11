@@ -25,6 +25,8 @@ namespace Battle
         GameObject MenuPanel;
         GameObject GameOverPanel;
         GameObject VictoryPanel;
+        const int MAX_CHAR_PANALS = 12;
+        float[] CharPanel_XPosList = new float[MAX_CHAR_PANALS];
 
         // for the GoBack button - not implemented yet
         GameObject ActivePanel;
@@ -63,10 +65,32 @@ namespace Battle
             GameOverPanel.SetActive(false);
             VictoryPanel.SetActive(false);
 
+            SetupPanalPositions();
+
             RegisterEventCallbacks();
             // Starts battle in the character select state
             //abilityState = AbilityState.CharcterSelect;
             TransferAbilityState(AbilityState.CharcterSelect, AbilityState.CharcterSelect);
+        }
+
+
+        private void SetupPanalPositions()
+        {            
+            float panelWidth = FriendlyPanel.GetComponent<RectTransform>().rect.width;
+            float endPadding = 1;
+            float interPanalGap = 2;
+
+            for (int i = 0; i < CharPanel_XPosList.Length; i++)
+            {
+
+                CharPanel_XPosList[i] = -(panelWidth / 2) + endPadding + (i * interPanalGap);
+
+                if (CharPanel_XPosList[i] < +(panelWidth / 2) - endPadding)
+                    Debug.LogError("Charcater panel spaceing has run too far to the right, and has gone off the page... look into this!");
+            }
+            // start x pos = -width/2 + 1(boarder padding)
+            // subsequent panels x pos = previous xpos + 2 (ensure this does not exceed +width/2)
+            // Y pos = +1.5 (freindly) OR -1.5 (enemy)
         }
 
         #region HP panels
@@ -74,6 +98,8 @@ namespace Battle
         {
             if (FriendlyPanel != null)
             {
+                
+
 
                 GameObject panelGO;
                 // Instantiate panel
