@@ -274,6 +274,7 @@ namespace Battle
                 NextCharacterTakeTurn();                
             }
 
+                       
             // Ensure Battle is setup before starting loop
             ///////////////////////////////////////////////////////
             // Battlefield controller Setup - not mono brehaviour should not be an issue

@@ -23,6 +23,7 @@ namespace Battle
         GameObject EnemyPanel;
         GameObject ActionPanel;
         GameObject MenuPanel;
+        GameObject BackPanel;
         GameObject GameOverPanel;
         GameObject VictoryPanel;
         const int MAX_CHAR_PANALS = 12;
@@ -58,10 +59,12 @@ namespace Battle
             EnemyPanel = GameObject.Find("EnemyPanel");
             ActionPanel = GameObject.Find("ActionPanel");
             MenuPanel = GameObject.Find("MenuPanel");
+            BackPanel = GameObject.Find("BackPanel");
             GameOverPanel = GameObject.Find("GameOverPanel");
             VictoryPanel = GameObject.Find("VictoryPanel");
             ActionPanel.SetActive(false);
             MenuPanel.SetActive(false);
+            BackPanel.SetActive(false);
             GameOverPanel.SetActive(false);
             VictoryPanel.SetActive(false);
 
@@ -184,6 +187,7 @@ namespace Battle
                 i++;
             }
         }
+        
         #endregion
 
         #region Target highlight Code
@@ -437,6 +441,21 @@ namespace Battle
 
         #endregion
 
+        #region Back Panel
+
+        void BackPanelSetup()
+        {
+            BackPanel.SetActive(true);
+
+            ActionPanel.SetActive(false);
+            MenuPanel.SetActive(false);
+
+            // TODO... Check if this being called twice causes a problem with multiple calls to to 'BackButtonPressed'
+            BackPanel.GetComponentInChildren<Button>().onClick.AddListener(BackButtonPressed);
+        }
+
+        #endregion
+
         #region Button pressed Reactions
 
         public void ActionSelectbuttonPressed()
@@ -475,6 +494,35 @@ namespace Battle
             MenuPanelSetup(SelectedCharacter.GetComponent<Character>(), selectedMenu);
         }
 
+        public void BackButtonPressed()
+        {
+            switch (abilityState)
+            {
+                case AbilityState.ActionSelect:
+                    // if Action select stage (Only occus when in Menu)
+                    // - Close Menu Panel
+                    MenuPanel.SetActive(false);
+                    // - Re-Activate Action panel
+                    ActionPanel.SetActive(true);
+                    // - Close Back Panel
+                    BackPanel.SetActive(false);
+                    break;
+                case AbilityState.TargetSelect:
+                    // If Target Stage
+                    // - If Action used was in Menu
+                    //   - Re-Activate Menu panel
+                    //   - Change Stage back to Ability select stage
+                    // - If Action used from Action Panel
+                    //   - Re-Activate Action panel
+                    //   - Change Stage back to Ability select stage
+                    //   - Close Back Panel
+                    break;
+            }
+            
+
+            // If Confirm Stage
+            // - Return to Target Stage
+        }
         public void GameOverButtonPressed()
         {
             Debug.Log("Game over clicked!");
