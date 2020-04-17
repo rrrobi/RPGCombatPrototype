@@ -14,7 +14,8 @@ namespace Battle
         {
             CharcterSelect,
             ActionSelect,
-            TargetSelect
+            TargetSelect,
+            ConfirmSelect
         };
         AbilityState abilityState;
         public AbilityState GetAbilityState { get { return abilityState; } }
@@ -40,9 +41,14 @@ namespace Battle
 
         // Selected action - may move this to Combatmanager
         GameObject SelectedCharacter;
-        //Attack SelectedAttack;
         Ability SelectedAbility;
-        List<GameObject> SelectedTargets;
+        // possible options for an ability to target
+        List<GameObject> PossibleTargets;
+        // Actual target selected for an ability
+        GameObject SelectedTarget;
+
+        // Turn tracking variables
+        bool isMenuSetup = false;
 
         // Use this for initialization
         public void Setup()
@@ -68,7 +74,8 @@ namespace Battle
             GameOverPanel.SetActive(false);
             VictoryPanel.SetActive(false);
 
-            SetupPanalPositions();
+            BackPanelSetup();
+            SetupPanelPositions();
 
             RegisterEventCallbacks();
             // Starts battle in the character select state
@@ -77,7 +84,7 @@ namespace Battle
         }
 
 
-        private void SetupPanalPositions()
+        private void SetupPanelPositions()
         {            
             float panelWidth = FriendlyPanel.GetComponent<RectTransform>().rect.width;
             float endPadding = 50;
@@ -201,7 +208,7 @@ namespace Battle
                 case TargetType.Enemy:
                     // Get list of all Enemies currently in the battle
                     List<GameObject> enemyList = CombatManager.Instance.battlefieldController.FindAllCurrentEnemies();
-                    SelectedTargets = enemyList;
+                    PossibleTargets = enemyList;
                     // Loop through targets, adding them to the pannel
                     foreach (var enemy in enemyList)
                     {
@@ -212,7 +219,7 @@ namespace Battle
                 case TargetType.Friendly:
                     // Get list of all Friendlies currently in the battle
                     List<GameObject> friendlyList = CombatManager.Instance.battlefieldController.FindAllCurrentFriendlies();
-                    SelectedTargets = friendlyList;
+                    PossibleTargets = friendlyList;
                     // Loop through targets, adding them to the pannel
                     foreach (var friend in friendlyList)
                     {
@@ -223,7 +230,7 @@ namespace Battle
                 case TargetType.SummonSlot:
                     // Get List of Unoccupied frindly unitslots
                     List<GameObject> unitSlotList = CombatManager.Instance.battlefieldController.FindAllCurrentUnoccupiedFriendlySlots();
-                    SelectedTargets = unitSlotList;
+                    PossibleTargets = unitSlotList;
                     // Loop through targets, adding them to the pannel
                     foreach (var unitSlot in unitSlotList)
                     {
@@ -251,7 +258,7 @@ namespace Battle
                 // if attack - targets will be enemies
                 case TargetType.Enemy:
                     // Loop through targets, adding them to the pannel
-                    foreach (var enemy in SelectedTargets)
+                    foreach (var enemy in PossibleTargets)
                     {
                         enemy.GetComponent<Character>().MakeUnclickable();
                     }
@@ -259,7 +266,7 @@ namespace Battle
                 // if support - targets will be Friendlies
                 case TargetType.Friendly:
                     // Loop through targets, adding them to the pannel
-                    foreach (var friend in SelectedTargets)
+                    foreach (var friend in PossibleTargets)
                     {
                         friend.GetComponent<Character>().MakeUnclickable();
                     }
@@ -267,7 +274,7 @@ namespace Battle
                 // if summon - Targets will be unOccupied character slots on your side
                 case TargetType.SummonSlot:
                     // Loop through targets, adding them to the pannel
-                    foreach (var unitSlot in SelectedTargets)
+                    foreach (var unitSlot in PossibleTargets)
                     {
                         unitSlot.GetComponent<UnitSlot>().MakeUnclickable();
                     }
@@ -302,6 +309,34 @@ namespace Battle
             }
         }
 
+        void ConfirmHighlight()
+        {
+            List<GameObject> affectedTargets = SelectedAbility.GetAbilityTargetList(SelectedTarget);
+
+            foreach (var item in affectedTargets)
+            {
+                if (SelectedAbility.GetTargetType() == TargetType.Friendly
+                    || SelectedAbility.GetTargetType() == TargetType.Enemy)
+                    item.GetComponent<Character>().MakeGlowingClickable();
+                else if (SelectedAbility.GetTargetType() == TargetType.SummonSlot)
+                    item.GetComponent<UnitSlot>().MakeGlowingClickable();
+            }
+        }
+
+        void RemoveConfirmHighlight()
+        {
+            List<GameObject> affectedTargets = SelectedAbility.GetAbilityTargetList(SelectedTarget);
+
+            foreach (var item in affectedTargets)
+            {
+                if (SelectedAbility.GetTargetType() == TargetType.Friendly
+                    || SelectedAbility.GetTargetType() == TargetType.Enemy)
+                    item.GetComponent<Character>().MakeUnclickable();
+                else if (SelectedAbility.GetTargetType() == TargetType.SummonSlot)
+                    item.GetComponent<UnitSlot>().MakeUnclickable();
+            }
+        }
+
         void TransferAbilityState(AbilityState from, AbilityState to)
         {
             // Handle 'From' Logic
@@ -319,6 +354,10 @@ namespace Battle
                     // remove highlight from targets
                     RemoveTargetHighlight();
                     break;
+                case AbilityState.ConfirmSelect:
+                    // TODO... Remove confirmation flash
+                    RemoveConfirmHighlight();
+                    break;
             }
 
             // Handle 'To' logic
@@ -330,6 +369,8 @@ namespace Battle
                     // highlight all 'ready' friendly characters
                     //CharacterSelectHighlight(); <- Not required to highlight anymore, might rename this state 
                     abilityState = AbilityState.CharcterSelect;
+                    // Previous turn is over - Reset tracking variables
+                    isMenuSetup = false;
                     break;
                 case AbilityState.ActionSelect:
                     abilityState = AbilityState.ActionSelect;
@@ -338,6 +379,11 @@ namespace Battle
                     // highlight relevant Targets
                     TargetHighlight();
                     abilityState = AbilityState.TargetSelect;
+                    break;
+                case AbilityState.ConfirmSelect:
+                    // TODO... Activate Confirm flash
+                    ConfirmHighlight();
+                    abilityState = AbilityState.ConfirmSelect;
                     break;
             }
         }
@@ -445,10 +491,10 @@ namespace Battle
 
         void BackPanelSetup()
         {
-            BackPanel.SetActive(true);
+            //BackPanel.SetActive(true);
 
-            ActionPanel.SetActive(false);
-            MenuPanel.SetActive(false);
+            //ActionPanel.SetActive(false);
+            //MenuPanel.SetActive(false);
 
             // TODO... Check if this being called twice causes a problem with multiple calls to to 'BackButtonPressed'
             BackPanel.GetComponentInChildren<Button>().onClick.AddListener(BackButtonPressed);
@@ -467,6 +513,8 @@ namespace Battle
             // record which action has been chosen
             SelectedAbility = SelectedCharacter.GetComponent<Character>().SearchAllAbilitiesByName(buttonClicked);
 
+            // Activate BackPanel - We might want to go back and change our mind
+            BackPanel.SetActive(true);
             // deactivate action panel - And Menu panel (we might be using action from menu panel)
             ActionPanel.SetActive(false);
             MenuPanel.SetActive(false);
@@ -480,18 +528,18 @@ namespace Battle
             Debug.Log(buttonClicked);
             buttonClicked = buttonClicked.Replace("_Button", "");
 
-            // record which action has been chosen
-            //SelectedAbility = SelectedCharacter.GetComponent<Character>().GetAbilityByName(buttonClicked);
-
+            // Activate BackPanel - We might want to go back and change our mind
+            BackPanel.SetActive(true);
             // deactivate action panel
             ActionPanel.SetActive(false);
             MenuPanel.SetActive(true);
 
-            // Find whcih menu button was pressed
+            // Find which menu button was pressed
             ActionMenu selectedMenu = SelectedCharacter.GetComponent<Character>().GetMenuByName(buttonClicked);
 
             // Populate Menu
             MenuPanelSetup(SelectedCharacter.GetComponent<Character>(), selectedMenu);
+            isMenuSetup = true;
         }
 
         public void BackButtonPressed()
@@ -506,22 +554,37 @@ namespace Battle
                     ActionPanel.SetActive(true);
                     // - Close Back Panel
                     BackPanel.SetActive(false);
+                    isMenuSetup = false;
                     break;
                 case AbilityState.TargetSelect:
                     // If Target Stage
                     // - If Action used was in Menu
-                    //   - Re-Activate Menu panel
-                    //   - Change Stage back to Ability select stage
+                    if (isMenuSetup)
+                    {
+                        //   - Re-Activate Menu panel
+                        MenuPanel.SetActive(true);
+                        //   - Change Stage back to Ability select stage
+                        TransferAbilityState(abilityState, AbilityState.ActionSelect);
+                    }
                     // - If Action used from Action Panel
-                    //   - Re-Activate Action panel
-                    //   - Change Stage back to Ability select stage
-                    //   - Close Back Panel
+                    else
+                    {
+                        //   - Re-Activate Action panel
+                        ActionPanel.SetActive(true);
+                        //   - Change Stage back to Ability select stage
+                        TransferAbilityState(abilityState, AbilityState.ActionSelect);
+                        //   - Close Back Panel
+                        BackPanel.SetActive(false);
+                    }
                     break;
-            }
-            
+                case AbilityState.ConfirmSelect:
+                    // If Confirm Stage
+                    // - Return to Target Stage
+                    TransferAbilityState(abilityState, AbilityState.TargetSelect);                    
+                    break;
+            }          
 
-            // If Confirm Stage
-            // - Return to Target Stage
+            
         }
         public void GameOverButtonPressed()
         {
@@ -600,11 +663,17 @@ namespace Battle
 
             if (abilityState == AbilityState.TargetSelect)
             {
+                SelectedTarget = selectedEventInfo.UnitGO;
+                TransferAbilityState(abilityState, AbilityState.ConfirmSelect);
+            }
+            else if (abilityState == AbilityState.ConfirmSelect)
+            {
+                TransferAbilityState(abilityState, AbilityState.CharcterSelect);
+
                 SelectedAbility.NewAction(SelectedCharacter,
                         selectedEventInfo.UnitGO);
-
-                TransferAbilityState(abilityState, AbilityState.CharcterSelect);
             }
+
         }
 
         void OnBattleWon(BattleWonEventInfo battleWonEventInfo)

@@ -42,19 +42,12 @@ namespace Battle
             abilityCD = cd;
         }
 
-        public void NewAction(GameObject source, GameObject target)
+        // TODO... I don't think AOE will work for Summon Abilities right now.
+        public List<GameObject> GetAbilityTargetList(GameObject target)
         {
-            Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
-            // Trigger AbilityUsed Event Callback
-            EventCallbacks.UseAbilityEventInfo uaei = new EventCallbacks.UseAbilityEventInfo();
-            uaei.EventDescription = $"{source.name} Has used {abilityName} on {target.name}";
-            uaei.UnitGO = source;
-            uaei.FireEvent();
-
             // Handle AOE, 
             // Get all targets based on 'AbilityEffectType'            
             List<GameObject> targetList = new List<GameObject>();
-            
 
             // slot name 'UnitSlot_0-0'
             //                   (_X-Y)            
@@ -128,8 +121,96 @@ namespace Battle
                     break;
             }
 
-            // for each target, apply each effect
+            return targetList;
+        }
 
+        public void NewAction(GameObject source, GameObject target)
+        {
+            Debug.Log($"{source.name} Has used {abilityName} on {target.name}");
+            // Trigger AbilityUsed Event Callback
+            EventCallbacks.UseAbilityEventInfo uaei = new EventCallbacks.UseAbilityEventInfo();
+            uaei.EventDescription = $"{source.name} Has used {abilityName} on {target.name}";
+            uaei.UnitGO = source;
+            uaei.FireEvent();
+
+            // Handle AOE, 
+            // Get all targets based on 'AbilityEffectType'            
+            List<GameObject> targetList = GetAbilityTargetList(target);// new List<GameObject>();
+            
+
+            //// slot name 'UnitSlot_0-0'
+            ////                   (_X-Y)            
+            //switch (abilityEffectType)
+            //{
+            //    case AbilityEffectType.Direct:
+            //        // Direct - Target list ONLY contains main target
+            //        targetList.Add(target);
+            //        break;
+            //    case AbilityEffectType.Cleave:
+            //        {
+            //            // To find the AoE targets I must:
+            //            // 1) find the 'Y' of the slot containg the main target
+            //            // 2) Find all other slots in line with the target's 'Y' - using the parent of the main target to find search only other 'siblings'
+            //            // 3) Find target character occupying each slot we have selected
+            //            // 4) Add each target character to a list
+            //            GameObject targetUnitSlot = CombatManager.Instance.battlefieldController.FindSlotFromCharacter(target);
+            //            string y = targetUnitSlot.name.Substring(targetUnitSlot.name.Length - 1);
+            //            for (int x = 0; x < 3; x++)
+            //            {
+            //                GameObject slot = targetUnitSlot.transform.parent.Find($"UnitSlot_{x}-{y}").gameObject;
+            //                GameObject aoeTarget = slot.GetComponent<UnitSlot>().GetOccupyingCharacter();
+            //                if (aoeTarget != null)
+            //                    targetList.Add(aoeTarget);
+            //            }
+            //            // should now have all 3 targets in the cleaved row
+            //        }
+            //        break;
+            //    case AbilityEffectType.Pierce:
+            //        {
+            //            // To find the AoE targets I must:
+            //            // 1) find the 'X' of the slot containg the main target
+            //            // 2) Find all other slots in line with the target's 'X' - using the parent of the main target to find search only other 'siblings'
+            //            // 3) Find target character occupying each slot we have selected
+            //            // 4) Add each target character to a list
+            //            GameObject targetUnitSlot = CombatManager.Instance.battlefieldController.FindSlotFromCharacter(target);
+            //            string x = targetUnitSlot.name.Substring(targetUnitSlot.name.Length - 3, 1);
+            //            for (int y = 0; y < 2; y++)
+            //            {
+            //                GameObject slot = targetUnitSlot.transform.parent.Find($"UnitSlot_{x}-{y}").gameObject;
+            //                GameObject aoeTarget = slot.GetComponent<UnitSlot>().GetOccupyingCharacter();
+            //                if (aoeTarget != null)
+            //                    targetList.Add(aoeTarget);
+            //            }
+            //            // should now have all 2 targets in the cleaved row
+            //        }
+            //        break;
+            //    case AbilityEffectType.Nova:
+            //        {
+            //            // To find the AoE targets I must:
+            //            // 1) Find all slots in the target's team - using the parent of the main target to find search only other 'siblings'
+            //            // 3) Find target character occupying each slot we have selected
+            //            // 4) Add each target character to a list
+            //            GameObject targetUnitSlot = CombatManager.Instance.battlefieldController.FindSlotFromCharacter(target);
+            //            for (int y = 0; y < 2; y++)
+            //            {
+            //                for (int x = 0; x < 3; x++)
+            //                {
+            //                    GameObject slot = targetUnitSlot.transform.parent.Find($"UnitSlot_{x}-{y}").gameObject;
+            //                    GameObject aoeTarget = slot.GetComponent<UnitSlot>().GetOccupyingCharacter();
+            //                    if (aoeTarget != null)
+            //                        targetList.Add(aoeTarget);
+            //                }
+            //            }
+            //            // should now have all 6 targets in the cleaved row
+            //        }
+            //        break;
+            //    case AbilityEffectType.None:
+            //    default:
+            //        Debug.LogError("AbilityEffectType is not working!!!");
+            //        break;
+            //}
+
+            // for each target, apply each effect
             foreach (var t in targetList)
             {
                 // Trigger AbilityHit Event Callback

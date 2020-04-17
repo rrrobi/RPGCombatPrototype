@@ -143,10 +143,17 @@ namespace Battle
             //    ScaleSpeedBar();
         }
 
-        public void MakeClickable()
+        public void MakeGlowingClickable()
         {
             this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
             // Set Sprite Shader to Glow
+            this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Glow"));
+        }
+
+        public void MakeClickable()
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
+            // Set Sprite Shader to Highlight
             this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
         }
 
