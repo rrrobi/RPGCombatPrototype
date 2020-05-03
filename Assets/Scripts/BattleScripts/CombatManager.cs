@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using EventCallbacks;
+using System.Linq;
 
 namespace Battle
 {
@@ -55,14 +56,14 @@ namespace Battle
             enemyCharacters.Remove(character.GetComponent<Monster>().GetUniqueID);//.name);
         }
 
+        private Dictionary<string, GameObject> battleOrderList = new Dictionary<string, GameObject>();
+        public Dictionary<string, GameObject> GetBattleOrderList() { return battleOrderList; }
+
         // Monster Setup Objects
         [SerializeField]
         private GameObject FriendlyTeamGO;
         [SerializeField]
         private GameObject EnemyTeamGO;
-
-        // Battle Objects - unused
-        Queue<GameObject> actionQueue = new Queue<GameObject>();
 
         void OnEnable()
         {
@@ -99,14 +100,22 @@ namespace Battle
                 AddToPlayerMonsterInfoList(kvp.Value);
             }
 
+            // Register Listeners
+            RegisterEventCallbacks();
+
             // Spawn Enemy monsters
             AddEnemyMonsters();
 
             // Spawn Players Monsters
-            AddPlayerMonsters();
+            AddPlayerMonsters();            
 
-            // Register Listeners
-            RegisterEventCallbacks();
+            //// Register Listeners
+            //RegisterEventCallbacks();
+
+            // TODO... i don't like this- it causes each starting creature to be added then replaced with itself
+            //          I intend to build a ReadyTostart class whcih will ensure everything is in place before we start the game loop.
+            // initial set up of the Battler Order list 
+            //CreateCharacterTurnOrder();
         }
 
         void RegisterEventCallbacks()
@@ -114,6 +123,7 @@ namespace Battle
             DeathEventInfo.RegisterListener(OnUnitDied);
             HPChangedEventInfo.RegisterListener(OnHPChange);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
+            CharacterTurnOverEventInfo.RegisterListener(OnTurnOver);
         }
         
         void UnregisterEventCallbacks()
@@ -121,8 +131,17 @@ namespace Battle
             DeathEventInfo.UnregisterListener(OnUnitDied);
             HPChangedEventInfo.UnregisterListener(OnHPChange);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
+            CharacterTurnOverEventInfo.UnregisterListener(OnTurnOver);
         }
 
+        public void ClearEventListentersOnSceneClosure()
+        {
+            UnregisterEventCallbacks();
+            battlefieldController.UnregisterEventCallbacks();
+            battleUIController.UnregisterEventCallbacks();
+        }
+
+        #region Adding Monsters
         void AddPlayerMonsters()
         {
             // get number of Monster slots available
@@ -161,7 +180,7 @@ namespace Battle
             }            
         }
 
-        // TODO... This may longer be required - Index is no longer used for Player summon abilities
+        // TODO... This may no longer be required - Index is no longer used for Player summon abilities
         public void AddSummonedPlayerMonster(int index, GameObject unitSlot)
         {
             // TODO... temp, remove this - may be better setting mi in 'spawnMonster' to a default argument
@@ -219,29 +238,9 @@ namespace Battle
             }
         }
 
-        public void AddToActionQueue(GameObject monster)
-        {
-            if (!actionQueue.Contains(monster))
-            {
-                actionQueue.Enqueue(monster);
-
-                // Temp
-                Debug.Log(monster.name + " joined the action queue");
-            }
-        }
-
-        public GameObject TakeFromActionQueue()
-        {
-            return actionQueue.Dequeue();
-        }
-
-        public void ClearEventListentersOnSceneClosure()
-        {
-            UnregisterEventCallbacks();
-            battlefieldController.UnregisterEventCallbacks();
-            battleUIController.UnregisterEventCallbacks();
-        }
-
+        #endregion
+                
+        #region Data Persistance
         public void PassChangedStatsToGM()
         {
             // TODO... i dont like how this info is passed back - rework
@@ -259,13 +258,127 @@ namespace Battle
             }
         }
 
+        #endregion
+
         // Update is called once per frame
+        bool readyForNextTurn = true;
         void Update()
         {
+            // TODO... I hate this - find a better way
+            // Start off the battle by letting the fist charcater take its turn
+            if (readyForNextTurn && IsSetupComplete())
+            {
+                battleUIController.ReorderHPPanels();
+
+                readyForNextTurn = false;
+                NextCharacterTakeTurn();                
+            }
+
+                       
+            // Ensure Battle is setup before starting loop
+            ///////////////////////////////////////////////////////
+            // Battlefield controller Setup - not mono brehaviour should not be an issue
+            // Battle UI Controller Setup - not mono brehaviour should not be an issue
+            // Friendly Charcters Setup
+            // Enemy charcaters Setup
+
+            // Main Combat Loop - 
+            // Maybe a coroutine - So it can wait for each individual section to complete before moving on
+            ///////////////////////////////////////////////////////
+            // Next Char In Queue (NCIQ) highlights
+
+            // If NCIQ is an enemy, AI take turn
+            // If NCIQ is Friendly, Ability Menu Opens
+
+            // Attack animation runs
+
+            // Get Hit Animation runs
+
+            // UI Health Update + Animation
+
+            // Queue Updates
+
+            // UI Queue position Update + Animation
+            ///////////////////////////////////////////////////////
 
         }
 
-        // may move this
+        private bool IsSetupComplete()
+        {
+            bool isReady = true;
+
+            // Has to check at the start + through the game
+            // Character Setup check
+            foreach (var character in playerCharacters)
+            {
+                if (!character.Value.GetComponent<Character>().GetIsSetupComplete)
+                    isReady = false;
+            }
+            foreach (var character in enemyCharacters)
+            {
+                if (!character.Value.GetComponent<Character>().GetIsSetupComplete)
+                    isReady = false;
+            }
+
+            return isReady;
+        }
+
+        
+        private void CreateCharacterTurnOrder()
+        {
+            // Loop through all the characters from both teams
+            foreach (var character in playerCharacters)
+            {
+                battleOrderList.Add(character.Value.GetComponent<Character>().GetUniqueID ,character.Value);
+            }
+            foreach (var character in enemyCharacters)
+            {
+                battleOrderList.Add(character.Value.GetComponent<Character>().GetUniqueID, character.Value);
+            }
+            battleOrderList = battleOrderList.OrderBy(c => c.Value.GetComponent<Character>().GetAbilityDelay()).ToDictionary(z => z.Key, y => y.Value);
+        }
+
+        private void AddToCharacterTurnOrder(GameObject characterGO)
+        {
+            string ID = characterGO.GetComponent<Character>().GetUniqueID;
+            if (battleOrderList.ContainsKey(ID))
+                battleOrderList[ID] = characterGO;
+            else
+                battleOrderList.Add(ID, characterGO);
+
+            // Reorder List
+            battleOrderList = battleOrderList.OrderBy(c => c.Value.GetComponent<Character>().GetAbilityDelay()).ToDictionary(z => z.Key, y => y.Value);
+        }
+
+        private void RemoveFromCharacterTurnOrder(GameObject characterGO)
+        {
+            string ID = characterGO.GetComponent<Character>().GetUniqueID;
+            if (battleOrderList.ContainsKey(ID))
+                battleOrderList.Remove(ID);
+        }
+
+        private void NextCharacterTakeTurn()
+        {
+            string list = string.Empty;
+            foreach (var item in battleOrderList)
+            {
+                list += $"{item.Value.name}: {item.Value.GetComponent<Character>().GetAbilityDelay()}, ";
+            }
+            Debug.Log($"Current Turn Order: {list}");
+
+            // Reduce all charcaters ability Delay by the delay of the charcater currently taking its turn
+            // This character 'should' have the lowest delay, and so by doing this it simulates time moving forward
+            float currentDelay = battleOrderList.First().Value.GetComponent<Character>().GetAbilityDelay();
+            foreach (var character in battleOrderList)
+            {
+                character.Value.GetComponent<Character>().SetAbilityDelay(
+                    character.Value.GetComponent<Character>().GetAbilityDelay() - currentDelay);
+            }
+
+            battleOrderList.First().Value.GetComponent<Character>().TakeTurn();
+            //battleOrderList.Remove(battleOrderList.First().Key);
+        }
+
         #region EventCallbacks
 
         void OnUnitDied(DeathEventInfo deathEventInfo)
@@ -290,6 +403,9 @@ namespace Battle
                 // Update Dictionary of enemy charcters
                 RemoveFromEnemyCharacterList(deathEventInfo.UnitGO);
             }
+
+            // Remove from charcter Order List
+            RemoveFromCharacterTurnOrder(deathEventInfo.UnitGO);
 
             // Remove object
             Destroy(deathEventInfo.UnitGO);
@@ -333,9 +449,17 @@ namespace Battle
                     playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().SetMenu(menu);
                 }
             }
+
+            // Add to character order list - All Charcaters
+            AddToCharacterTurnOrder(unitSpawnEventInfo.UnitGO);
         }
 
-
+        void OnTurnOver(CharacterTurnOverEventInfo characterTurnOverEventInfo)
+        {
+            Debug.Log("CombatManager Alerted to unit finished it's Turn: " + characterTurnOverEventInfo.UnitGO.name);
+            AddToCharacterTurnOrder(characterTurnOverEventInfo.UnitGO);
+            readyForNextTurn = true;
+        }
         #endregion
     }
 }

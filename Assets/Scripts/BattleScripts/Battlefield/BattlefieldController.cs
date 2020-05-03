@@ -65,33 +65,33 @@ namespace Battle
         private void SetUpFriendlySlots()
         {
             FriendlySlots[0, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(-2.5f, -2.0f, 0.0f),
+                new Vector3(-5.0f, 1.5f, 0.0f), //(-2.5f, -2.0f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[0, 0].name = "UnitSlot_0-0";
             FriendlySlots[1, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(0.0f, -2.0f, 0.0f),
+                new Vector3(-5.0f, 0.0f, 0.0f),//(0.0f, -2.0f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[1, 0].name = "UnitSlot_1-0";
             FriendlySlots[2, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(2.5f, -2.0f, 0.0f),
+                new Vector3(-5.0f, -1.5f, 0.0f), //(2.5f, -2.0f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[2, 0].name = "UnitSlot_2-0";
 
             FriendlySlots[0, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(-2.5f, -4.5f, 0.0f),
+                new Vector3(-8.0f, 1.5f, 0.0f),//(-2.5f, -4.5f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[0, 1].name = "UnitSlot_0-1";
             FriendlySlots[1, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(0.0f, -4.5f, 0.0f),
+                new Vector3(-8.0f, 0.0f, 0.0f),//(0.0f, -4.5f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[1, 1].name = "UnitSlot_1-1";
             FriendlySlots[2, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(2.5f, -4.5f, 0.0f),
+                new Vector3(-8.0f, -1.5f, 0.0f),//(2.5f, -4.5f, 0.0f),
                 Quaternion.identity,
                 friendlyTeamSlots.transform) as GameObject;
             FriendlySlots[2, 1].name = "UnitSlot_2-1";
@@ -183,33 +183,33 @@ namespace Battle
         private void SetUpEnemySlots()
         {
             EnemySlots[0, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(-2.5f, 2.0f, 0.0f),
+                new Vector3(5.0f, 1.5f, 0.0f),//(-2.5f, 2.0f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[0, 0].name = "UnitSlot_0-0";
             EnemySlots[1, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(0.0f, 2.0f, 0.0f),
+                new Vector3(5.0f, 0.0f, 0.0f),//(0.0f, 2.0f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[1, 0].name = "UnitSlot_1-0";
             EnemySlots[2, 0] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(2.5f, 2.0f, 0.0f),
+                new Vector3(5.0f, -1.5f, 0.0f),//(2.5f, 2.0f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[2, 0].name = "UnitSlot_2-0";
 
             EnemySlots[0, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(-2.5f, 4.5f, 0.0f),
+                new Vector3(8.0f, 1.5f, 0.0f),//(-2.5f, 4.5f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[0, 1].name = "UnitSlot_0-1";
             EnemySlots[1, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(0.0f, 4.5f, 0.0f),
+                new Vector3(8.0f, 0.0f, 0.0f),//(0.0f, 4.5f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[1, 1].name = "UnitSlot_1-1";
             EnemySlots[2, 1] = GameObject.Instantiate(unitSlotGO,
-                new Vector3(2.5f, 4.5f, 0.0f),
+                new Vector3(8.0f, -1.5f, 0.0f),//(2.5f, 4.5f, 0.0f),
                 Quaternion.identity,
                 enemyTeamSlots.transform) as GameObject;
             EnemySlots[2, 1].name = "UnitSlot_2-1";

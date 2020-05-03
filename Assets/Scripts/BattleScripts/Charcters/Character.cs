@@ -9,13 +9,19 @@ namespace Battle
 {
     public class Character : MonoBehaviour
     {
+        // For use in onther areas to ensure all completed before trying to use the character
+        private bool IsSetupComplete = false;
+        public bool GetIsSetupComplete { get { return IsSetupComplete; } }
+
+
         string uniqueID;
         public string GetUniqueID { get { return uniqueID; } }
         public void SetUniqueID(string ID) { uniqueID = ID; }
 
-        // Will be changed to be Ability specific
-        protected float attackCD = 10;
-        protected float attackTimer;
+        protected float abilityDelay;
+        public float GetAbilityDelay() { return abilityDelay; }
+        public void SetAbilityDelay(float AD) { abilityDelay = AD; }
+
         protected bool isReady = false;
         public void SetIsReady(bool ready) { isReady = ready; }
         public bool GetIsReady { get { return isReady; } }
@@ -44,7 +50,7 @@ namespace Battle
                 Abilities.Add(abilities[i].GetAbilityName, abilities[i]);
             }
         }
-        protected Dictionary<string, ActionMenu> Menus;
+        protected Dictionary<string, ActionMenu> Menus = new Dictionary<string, ActionMenu>();
         public Dictionary<string, ActionMenu> GetMenus { get { return Menus; } }
         public ActionMenu GetMenuByName(string name) { return Menus[name]; }
         public void SetMenu(ActionMenu menu)
@@ -57,11 +63,15 @@ namespace Battle
                 Menus.Add(menu.GetMenuName, menu);
         }
         public void SetMenus(List<ActionMenu> menus)
-        {
-            Menus = new Dictionary<string, ActionMenu>();
+        {            
             for (int i = 0; i < menus.Count; i++)
             {
-                Menus.Add(menus[i].GetMenuName, menus[i]);
+                // If Menu already exists - replace with new
+                if (Menus.ContainsKey(menus[i].GetMenuName))
+                    Menus[menus[i].GetMenuName] = menus[i];
+                // Else add new menu to list
+                else
+                    Menus.Add(menus[i].GetMenuName, menus[i]);
             }
         }
         /// <summary>
@@ -104,7 +114,7 @@ namespace Battle
         {
             Debug.Log("Character, start method for: " + team.ToString() + "_" + this.name);
 
-            attackTimer = attackCD;
+            abilityDelay = Random.Range(3, 10);  // TODO... - will be set from monster Info
 
             // Set this monster's Sprite
             AssignSprite();
@@ -116,24 +126,34 @@ namespace Battle
 
             // Discove whcih teams are friend or foe
             DiscoverTeams();
+
+            // Confirm Setup is complete
+            IsSetupComplete = true;
         }
 
         // Update is called once per frame
         protected virtual void Update()
         {
-            attackTimer -= Time.deltaTime;
-            if (attackTimer <= 0)
-            {
-                TakeTurn();
-            }
-            else
-                ScaleSpeedBar();
+            //attackTimer -= Time.deltaTime;
+            //if (attackTimer <= 0)
+            //{
+            //    TakeTurn();
+            //}
+            //else
+            //    ScaleSpeedBar();
+        }
+
+        public void MakeGlowingClickable()
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
+            // Set Sprite Shader to Glow
+            this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Glow"));
         }
 
         public void MakeClickable()
         {
             this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
-            // Set Sprite Shader to Glow
+            // Set Sprite Shader to Highlight
             this.gameObject.GetComponentInChildren<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
         }
 
@@ -164,6 +184,7 @@ namespace Battle
             switch (team)
             {
                 case TeamName.Friendly:
+                    
                     enemyTeam = GameObject.FindGameObjectWithTag("EnemyTeam");
                     break;
                 case TeamName.Enemy:
@@ -176,34 +197,29 @@ namespace Battle
             }
         }
 
-        protected void ScaleSpeedBar()
-        {
-            float timePast = attackCD - attackTimer;
-            float scale = (timePast / attackCD);
-
-            SpeedBarGO.transform.localScale = new Vector3(1.1f, scale, 1.0f);
-
-            float barLength = 2;
-            float offset = (barLength / 2) - (scale);
-            SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
-        }
-
         // TODO....
         // Split AI/Player attack code
-        protected void TakeTurn()
+        public void TakeTurn()
         {
             if (team == TeamName.Enemy)
                 Attack();
             else
             {
-                isReady = true;
-                // TODO... im not sure about how this works, in regards to updating the Click-a-bility in more than one place, 
-                // should this be passed to UIController?
-                // If so BattleUIController may not need to be public
-                if (CombatManager.Instance.battleUIController.GetAbilityState == BattleUIController.AbilityState.CharcterSelect)
-                    MakeClickable();
+                // Trigger Attacked Event callback
+                EventCallbacks.CharacterReadyEventInfo crei = new EventCallbacks.CharacterReadyEventInfo();
+                crei.EventDescription = $"Unit {gameObject.name} Is ready to take it's turn.";
+                crei.UnitGO = gameObject;
+                crei.FireEvent();
 
-                CombatManager.Instance.AddToActionQueue(this.gameObject);
+
+                //isReady = true;
+                //// TODO... im not sure about how this works, in regards to updating the Click-a-bility in more than one place, 
+                //// should this be passed to UIController?
+                //// If so BattleUIController may not need to be public
+                //if (CombatManager.Instance.battleUIController.GetAbilityState == BattleUIController.AbilityState.CharcterSelect)
+                //    MakeClickable();
+
+                //CombatManager.Instance.AddToActionQueue(this.gameObject);
             }
         }
 
@@ -230,8 +246,9 @@ namespace Battle
 
         public void UpdateAttackTimer(float cd)
         {
-            attackCD = cd;
-            attackTimer = attackCD;
+            abilityDelay = cd;
+            //attackCD = cd;
+            //attackTimer = attackCD;
         }
 
         public void TakeDamage(int damage)

@@ -57,6 +57,16 @@ namespace EventCallbacks
         public GameObject UnitGO;
     }
 
+    public class CharacterReadyEventInfo : EventInfo<CharacterReadyEventInfo>
+    {
+        public GameObject UnitGO;
+    }
+
+    public class CharacterTurnOverEventInfo : EventInfo<CharacterTurnOverEventInfo>
+    {
+        public GameObject UnitGO;
+    }
+
     public class HeroDeathEventInfo : EventInfo<HeroDeathEventInfo>
     {
         // Battle is lost if this happens

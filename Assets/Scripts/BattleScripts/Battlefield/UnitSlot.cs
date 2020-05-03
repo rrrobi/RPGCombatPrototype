@@ -23,7 +23,7 @@ namespace Battle
         // Use this for initialization
         void Start()
         {
-            unitSlotSprite = Resources.Load<Sprite>("BattleResources/Sprites/SimpleUnitSlot");
+            unitSlotSprite = Resources.Load<Sprite>("BattleResources/Sprites/SimpleUnitSlot_v2");
             SpriteRenderer unitSlotSR = this.gameObject.AddComponent<SpriteRenderer>();
             // Set Correct Monster sprite
             unitSlotSR.sprite = unitSlotSprite;
@@ -42,10 +42,17 @@ namespace Battle
 
         }
 
-        public void MakeClickable()
+        public void MakeGlowingClickable()
         {
             this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
             // Set Sprite Shader to Glow
+            this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Glow"));
+        }
+
+        public void MakeClickable()
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
+            // Set Sprite Shader to Highlight
             this.gameObject.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Custom/Sprite Outline"));
         }
 
