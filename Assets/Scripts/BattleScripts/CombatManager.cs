@@ -262,16 +262,25 @@ namespace Battle
 
         // Update is called once per frame
         bool readyForNextTurn = true;
+
+        bool isFirstLoop = true;
         void Update()
         {
+            if (isFirstLoop && IsSetupComplete())
+            {
+                battleUIController.OrderHPPanels(true);
+                isFirstLoop = false;
+            }
+
             // TODO... I hate this - find a better way
             // Start off the battle by letting the fist charcater take its turn
-            if (readyForNextTurn && IsSetupComplete())
+            bool ready = readyForNextTurn && battleUIController.CheckHPPanelsInPlace();
+            if (ready && IsSetupComplete())
             {
-                battleUIController.ReorderHPPanels();
+                
 
                 readyForNextTurn = false;
-                NextCharacterTakeTurn();                
+                NextCharacterTakeTurn();                                   
             }
 
                        
@@ -458,6 +467,7 @@ namespace Battle
         {
             Debug.Log("CombatManager Alerted to unit finished it's Turn: " + characterTurnOverEventInfo.UnitGO.name);
             AddToCharacterTurnOrder(characterTurnOverEventInfo.UnitGO);
+            battleUIController.OrderHPPanels(false);
             readyForNextTurn = true;
         }
         #endregion
