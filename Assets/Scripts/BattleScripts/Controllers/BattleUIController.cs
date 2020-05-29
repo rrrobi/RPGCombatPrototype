@@ -178,7 +178,7 @@ namespace Battle
             healthSlider.value = character.GetComponent<Character>().GetHP;
         }
         
-        public void ReorderHPPanels()
+        public void OrderHPPanels(bool initialSetup)
         {
             // foreach character in CombatManager's OrderList
             int i = 0;
@@ -189,15 +189,37 @@ namespace Battle
                 GameObject panelGO = GameObject.Find(character.Value.GetComponent<Character>().GetTeam.ToString() + "_" + character.Value.GetComponent<Character>().GetUniqueID + "_Panel");
 
                 // Move to the location dication by that charcaters place in the OrderList
-                panelGO.transform.localPosition = new Vector3(CharPanel_XPosList[i], -0.0f, 0.0f);
+                if (initialSetup)
+                    panelGO.transform.localPosition = new Vector3(CharPanel_XPosList[i], -0.0f, 0.0f);
+                else
+                    panelGO.GetComponent<UICharacterPanel>().MoveTo(new Vector3(CharPanel_XPosList[i], -0.0f, 0.0f));
 
                 i++;
             }
         }
         
+        public bool CheckHPPanelsInPlace()
+        {
+            bool allInPosition = true;
+            int i = 0;
+            foreach (var character in CombatManager.Instance.GetBattleOrderList())
+            {
+                // Find accociated Charcater panel
+                // TODO.. Is there a better way of doing this, i dont like it
+                GameObject panelGO = GameObject.Find(character.Value.GetComponent<Character>().GetTeam.ToString() + "_" + character.Value.GetComponent<Character>().GetUniqueID + "_Panel");
+
+                if (Vector3.Distance(panelGO.GetComponent<UICharacterPanel>().transform.localPosition, new Vector3(CharPanel_XPosList[i], -0.0f, 0.0f)) > 0.1f)
+                    allInPosition = false;
+
+                i++;
+            }
+
+            return allInPosition;
+        }
+
         #endregion
 
-        #region Target highlight Code
+        #region Target/Confirm highlight Code
 
         void TargetHighlight()
         {
@@ -491,11 +513,6 @@ namespace Battle
 
         void BackPanelSetup()
         {
-            //BackPanel.SetActive(true);
-
-            //ActionPanel.SetActive(false);
-            //MenuPanel.SetActive(false);
-
             // TODO... Check if this being called twice causes a problem with multiple calls to to 'BackButtonPressed'
             BackPanel.GetComponentInChildren<Button>().onClick.AddListener(BackButtonPressed);
         }
