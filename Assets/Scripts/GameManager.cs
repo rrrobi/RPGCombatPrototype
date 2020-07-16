@@ -9,6 +9,12 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get; protected set; }
 
+    #region SaveGame Values
+    ActiveSaveSlot activeSaveSlot;
+    public ActiveSaveSlot GetActiveSaveSlot() { return activeSaveSlot; }
+    public void SetActiveSaveSlot(ActiveSaveSlot slot) { activeSaveSlot = slot; }
+    #endregion
+
     // Globaly Used Variables
     HeroDataReader heroData = new HeroDataReader();
     public HeroDataReader GetHeroData { get { return heroData; } }
@@ -107,6 +113,17 @@ public class GameManager : MonoBehaviour {
     void Update () {
 		
 	}
+
+    public void InitialiseGame()
+    {
+        // if New game
+        SceneManager.LoadScene("Dungeon");
+
+        // else if loading existing game
+        // TODO... 
+        // Load Dungeon data
+        // Load Hero Data
+    }
 
     public void StartBattle()
     {
