@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; protected set; }
 
     #region SaveGame Values
-    ActiveSaveSlot activeSaveSlot;
-    public ActiveSaveSlot GetActiveSaveSlot() { return activeSaveSlot; }
-    public void SetActiveSaveSlot(ActiveSaveSlot slot) { activeSaveSlot = slot; }
+    //ActiveSaveSlot activeSaveSlot;
+    //public ActiveSaveSlot GetActiveSaveSlot() { return activeSaveSlot; }
+    //public void SetActiveSaveSlot(ActiveSaveSlot slot) { activeSaveSlot = slot; }
     #endregion
 
     // Globaly Used Variables
@@ -91,6 +91,9 @@ public class GameManager : MonoBehaviour {
 
         heroData.Setup();
         heroData.ReadData();
+        // TODO... VERY temp, 
+        // until save file covers all Hero Data, the game needs to start by pulling all default hero data from Json then replacing the parts covered by the save file
+        LoadHeroData(); 
         AssignPlayerMonsterParty();
 
         if (BSP_MapDictionary.Count < 1)
@@ -109,21 +112,29 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    // Load Hero Info
+    void LoadHeroData()
+    {
+        SaveData data = SaveSystem.LoadFull();
+
+        heroData.heroWrapper.HeroData.HeroInfo.PlayerName = data.PlayerName;
+        heroData.heroWrapper.HeroData.HeroInfo.CombatLevel = data.CombatLevel;
+        heroData.heroWrapper.HeroData.HeroInfo.MaxHP = data.MaxHP;
+        heroData.heroWrapper.HeroData.HeroInfo.CurrentHP = data.CurrentHP;
+        heroData.heroWrapper.HeroData.HeroInfo.StrengthModifier = data.StrengthModifier;
+        heroData.heroWrapper.HeroData.HeroInfo.WillModifier = data.WillModifier;
+        heroData.heroWrapper.HeroData.HeroInfo.GoldOwned = data.GoldOwned;
+    }
+
+    void SaveData()
+    {
+        SaveSystem.FullSave(heroData.heroWrapper.HeroData.HeroInfo);
+    }
+
     // Update is called once per frame
     void Update () {
 		
 	}
-
-    public void InitialiseGame()
-    {
-        // if New game
-        SceneManager.LoadScene("Dungeon");
-
-        // else if loading existing game
-        // TODO... 
-        // Load Dungeon data
-        // Load Hero Data
-    }
 
     public void StartBattle()
     {
@@ -146,6 +157,8 @@ public class GameManager : MonoBehaviour {
         // Ensure EnemyMonsterParty is empty on leving the battle
         enemyMonsterParty.Clear();
 
+        // auto save
+        SaveData();
         SceneManager.LoadScene("Dungeon");
     }
 

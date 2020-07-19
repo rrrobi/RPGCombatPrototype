@@ -9,8 +9,8 @@ public class SaveData
 {
     // Encrypted Binary save data
     // Persists between game sessions
-    string Date;
-    string Time;
+    public string Date;
+    public string Time;
 
     #region Hero Data
         // TODO... implement a check to ensure Hero info is not different in layout to hero save info - 
@@ -35,8 +35,8 @@ public class SaveData
 
     public SaveData(HeroInfo hi, string dungeonData_placeholder)
     {
-        Date = DateTime.Now.Date.ToString("DD-MM-YYYY");
-        Time = DateTime.Now.TimeOfDay.ToString("HH:mm:ss");
+        Date = DateTime.Now.Date.ToString("dd-MM-yyyy");
+        //Time = DateTime.Now.TimeOfDay.ToString("hh:mm:ss");
 
         PlayerName = hi.PlayerName;
         CombatLevel = hi.CombatLevel;
