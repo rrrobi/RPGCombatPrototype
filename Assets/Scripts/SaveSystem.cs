@@ -19,10 +19,15 @@ public static class SaveSystem
     public static ActiveSaveSlot GetActiveSaveSlot() { return activeSaveSlot; }
     public static void SetActiveSaveSlot(ActiveSaveSlot slot) { activeSaveSlot = slot; }
 
+    static string savePath = Application.persistentDataPath + $"/Saves/";
+
     public static void FullSave(HeroInfo hi)
     {
+        if (!Directory.Exists(savePath))
+            Directory.CreateDirectory(savePath);
+
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + $"/{activeSaveSlot.ToString()}Save.slot";
+        string path = savePath + $"{activeSaveSlot.ToString()}Save.slot";
         FileStream stream = new FileStream(path, FileMode.Create);
 
         SaveData data = new SaveData(hi, "Dungeon placeholder");
@@ -36,7 +41,9 @@ public static class SaveSystem
         if (saveSlot == ActiveSaveSlot.Default)
             saveSlot = activeSaveSlot;
 
-        string path = Application.persistentDataPath + $"/{saveSlot.ToString()}Save.slot";
+        if (!Directory.Exists(savePath))
+            Directory.CreateDirectory(savePath);
+        string path = savePath + $"{saveSlot.ToString()}Save.slot";
 
         if (!File.Exists(path))
         {
