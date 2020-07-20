@@ -89,10 +89,8 @@ public class GameManager : MonoBehaviour {
         MonsterDataReader.SetUp();
         MonsterDataReader.ReadData();
 
-        heroData.Setup();
-        heroData.ReadData();
-        // TODO... VERY temp, 
-        // until save file covers all Hero Data, the game needs to start by pulling all default hero data from Json then replacing the parts covered by the save file
+        // Game loads Hero Data from save file,
+        // IF NewGame - this save file is set to default in Launch-Menu Scene
         LoadHeroData(); 
         AssignPlayerMonsterParty();
 
@@ -116,14 +114,23 @@ public class GameManager : MonoBehaviour {
     void LoadHeroData()
     {
         SaveData data = SaveSystem.LoadFull();
-
+        heroData.heroWrapper.HeroData.HeroInfo.UniqueID = data.UniqueID;
         heroData.heroWrapper.HeroData.HeroInfo.PlayerName = data.PlayerName;
+        heroData.heroWrapper.HeroData.HeroInfo.FriendlySpriteName = data.FriendlySpriteName;
         heroData.heroWrapper.HeroData.HeroInfo.CombatLevel = data.CombatLevel;
         heroData.heroWrapper.HeroData.HeroInfo.MaxHP = data.MaxHP;
         heroData.heroWrapper.HeroData.HeroInfo.CurrentHP = data.CurrentHP;
         heroData.heroWrapper.HeroData.HeroInfo.StrengthModifier = data.StrengthModifier;
         heroData.heroWrapper.HeroData.HeroInfo.WillModifier = data.WillModifier;
         heroData.heroWrapper.HeroData.HeroInfo.GoldOwned = data.GoldOwned;
+
+        heroData.heroWrapper.HeroData.HeroInfo.baseActions = data.baseActions;
+        heroData.heroWrapper.HeroData.HeroInfo.SummonActions = data.SummonActions;
+        heroData.heroWrapper.HeroData.HeroInfo.ItemActions = data.ItemActions;
+        heroData.heroWrapper.HeroData.HeroInfo.SpellActions = data.SpellActions;
+
+        heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons = data.PlayerDemons;
+        heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons = data.ActiveDemons;
     }
 
     void SaveData()
