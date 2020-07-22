@@ -61,6 +61,9 @@ public class BSP_MapGen
     Vector2Int mapDownStairs;
     public Vector2Int GetMapDownStairs { get { return mapDownStairs; } }
 
+    List<RoomCache> cacheList = new List<RoomCache>();
+    public List<RoomCache> GetCacheList { get { return cacheList; } }
+
     // Room Gen variables
     const int ROOM_MIN_WIDTH = 2;
     const int ROOM_MIN_HEIGHT = 2;
@@ -82,6 +85,14 @@ public class BSP_MapGen
         MAP_WIDTH = map_Width;
         MAP_HEIGHT = map_Height;
         floorDifficulty = difficulty;
+    }
+
+    public void LoadBSPDungeon(int[,] newMap, List<RoomCache> newCacheList)
+    {
+        map = newMap;
+        cacheList = newCacheList;
+        // upstairs
+        // down stairs
     }
 
     public void GenerateBSPDungeon()
@@ -385,6 +396,11 @@ public class BSP_MapGen
         room.roomCache.guardians = PopulateGuardList(cacheDifficulty);
         // Gold = 10 * Cache difficulty level
         room.roomCache.goldLoot = cacheDifficulty * 10;
+
+        // TODO... look inot this, im not sure i like this. 
+        // I am only making the list of caches like this to work with Load and save easier.
+        // and i am only doing this the easier way as i 'think' i will not be keeping dungeon gen this way long term
+        cacheList.Add(room.roomCache);
 
         segment.segmentRoom = room;
 
