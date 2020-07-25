@@ -87,12 +87,14 @@ public class BSP_MapGen
         floorDifficulty = difficulty;
     }
 
-    public void LoadBSPDungeon(int[,] newMap, List<RoomCache> newCacheList)
+    public void LoadBSPDungeon(int[,] newMap, List<RoomCache> newCacheList, Vector2Int upStairPos, Vector2Int downStairPos)
     {
         map = newMap;
         cacheList = newCacheList;
         // upstairs
+        mapUpStairs = upStairPos;
         // down stairs
+        mapDownStairs = downStairPos;
     }
 
     public void GenerateBSPDungeon()
