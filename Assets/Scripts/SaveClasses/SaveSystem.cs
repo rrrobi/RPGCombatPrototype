@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Global;
 
@@ -26,7 +27,7 @@ public static class SaveSystem
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
 
-        BinaryFormatter formatter = new BinaryFormatter();
+        BinaryFormatter formatter = GetBinaryFormatter();
         string path = savePath + $"{activeSaveSlot.ToString()}Save.slot";
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -51,7 +52,7 @@ public static class SaveSystem
             return null;
         }
 
-        BinaryFormatter formatter = new BinaryFormatter();
+        BinaryFormatter formatter = GetBinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Open);
 
         try
@@ -69,5 +70,19 @@ public static class SaveSystem
             return null;
         }
 
+    }
+
+    private static BinaryFormatter GetBinaryFormatter()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        SurrogateSelector selector = new SurrogateSelector();
+
+        Vector2ISerializationSurrogate vector2ISurrogate = new Vector2ISerializationSurrogate();
+
+        selector.AddSurrogate(typeof(Vector2Int), new StreamingContext(StreamingContextStates.All), vector2ISurrogate);
+
+        formatter.SurrogateSelector = selector;
+
+        return formatter;
     }
 }

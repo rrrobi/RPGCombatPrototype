@@ -45,13 +45,13 @@ public class SaveData
     #endregion
 
     #region Dungeon Data
-    
+    Dictionary<int, DungeonFloorData> DungeonFloorList = new Dictionary<int, DungeonFloorData>();
     #endregion
 
     #region World Data - outside world does not yet exist!
     #endregion
 
-    public SaveData(HeroInfo hi, string dungeonData_placeholder)
+    public SaveData(HeroInfo hi, Dictionary<int, DungeonFloorData> dungeonData)
     {
         Date = DateTime.Now.Date.ToString("dd-MM-yyyy");
         //Time = DateTime.Now.TimeOfDay.ToString("hh:mm:ss");
@@ -72,8 +72,8 @@ public class SaveData
 
         PlayerDemons = hi.PlayerDemons;
         ActiveDemons = hi.ActiveDemons;
-    // Dungeon Data
+        // Dungeon Data
+        DungeonFloorList = dungeonData;
 
-
-}
+    }
 }
