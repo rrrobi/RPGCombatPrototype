@@ -7,7 +7,7 @@ using Global;
 public struct DungeonFloorData
 {
     public int[,] map;
-    List<RoomCache> cacheList;
+    public List<RoomCache> cacheList;
     public Vector2Int upStairsPos;
     public Vector2Int downStairsPos;
 }
@@ -45,7 +45,7 @@ public class SaveData
     #endregion
 
     #region Dungeon Data
-    Dictionary<int, DungeonFloorData> DungeonFloorList = new Dictionary<int, DungeonFloorData>();
+    public Dictionary<int, DungeonFloorData> DungeonFloorList = new Dictionary<int, DungeonFloorData>();
     #endregion
 
     #region World Data - outside world does not yet exist!

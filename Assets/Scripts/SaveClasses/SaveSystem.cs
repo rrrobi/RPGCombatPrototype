@@ -22,7 +22,7 @@ public static class SaveSystem
 
     static string savePath = Application.persistentDataPath + $"/Saves/";
 
-    public static void FullSave(HeroInfo hi)
+    public static void FullSave(HeroInfo hi, Dictionary<int, DungeonFloorData> dungeonData)
     {
         if (!Directory.Exists(savePath))
             Directory.CreateDirectory(savePath);
@@ -31,7 +31,7 @@ public static class SaveSystem
         string path = savePath + $"{activeSaveSlot.ToString()}Save.slot";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        SaveData data = new SaveData(hi, "Dungeon placeholder");
+        SaveData data = new SaveData(hi, dungeonData);
 
         formatter.Serialize(stream, data);
         stream.Close();

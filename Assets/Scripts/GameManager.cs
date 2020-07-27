@@ -131,11 +131,31 @@ public class GameManager : MonoBehaviour {
 
         heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons = data.PlayerDemons;
         heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons = data.ActiveDemons;
+
+        Dictionary<int, DungeonFloorData> dungeonData = data.DungeonFloorList;
+        foreach (var floor in dungeonData)
+        {
+            //BSP_MapGen mapGen = new BSP_MapGen()
+            //BSP_MapDictionary.Add(floor.Key, )
+        }
+
     }
 
     void SaveData()
     {
-        SaveSystem.FullSave(heroData.heroWrapper.HeroData.HeroInfo);
+        Dictionary<int, DungeonFloorData> dungeonData = new Dictionary<int, DungeonFloorData>();
+        foreach (var floor in BSP_MapDictionary)
+        {
+            DungeonFloorData floorData = new DungeonFloorData();
+            floorData.map = floor.Value.GetMap;
+            floorData.upStairsPos = floor.Value.GetMapUpStairs;
+            floorData.downStairsPos = floor.Value.GetMapDownStairs;
+            floorData.cacheList = floor.Value.GetCacheList;
+
+            dungeonData.Add(floor.Key, floorData);
+        }
+
+        SaveSystem.FullSave(heroData.heroWrapper.HeroData.HeroInfo, dungeonData);
     }
 
     // Update is called once per frame

@@ -94,7 +94,8 @@ public class LaunchMenuManager : MonoBehaviour
 
     void CreateNewSave()
     {
-        SaveSystem.FullSave(heroData.heroWrapper.HeroData.HeroInfo); 
+        Dictionary<int, string> dungeonData = new Dictionary<int, string>();
+        SaveSystem.FullSave(heroData.heroWrapper.HeroData.HeroInfo, dungeonData); 
     }
 
     void LaunchGame()
