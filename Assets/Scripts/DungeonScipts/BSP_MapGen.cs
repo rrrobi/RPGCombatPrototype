@@ -32,6 +32,7 @@ public struct Room
     public List<Vector2Int> roomDoors;
 }
 
+[System.Serializable]
 public struct RoomCache
 {
     public Vector2Int position;
@@ -70,10 +71,16 @@ public class BSP_MapGen
 
     public RoomCache FindCache(Vector2Int pos)
     {
-        foreach (var segment in BSPMap[0][0])
+        //foreach (var segment in BSPMap[0][0])
+        //{
+        //    if (segment.segmentRoom.roomCache.position == pos)
+        //        return segment.segmentRoom.roomCache;
+        //}
+
+        foreach (var cache in cacheList)
         {
-            if (segment.segmentRoom.roomCache.position == pos)
-                return segment.segmentRoom.roomCache;
+            if (cache.position == pos)
+                return cache;
         }
 
         Debug.LogError("No cache has been found at the pos: X-" + pos.x + " Y-" + pos.y);

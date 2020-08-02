@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Global;
 
+[System.Serializable]
 public struct DungeonFloorData
 {
     public int[,] map;
