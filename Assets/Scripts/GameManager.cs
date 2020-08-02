@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviour {
     Vector2Int playerDungeonPosition = new Vector2Int();
     public Vector2Int GetPlayerDungeonPosition { get { return playerDungeonPosition; } }
     public void SetPlayerDungeonPosition(Vector2Int pos) { playerDungeonPosition = pos; }
-    int dungeonMapWidth = 50;
-    public int GetDungeonMapWidth { get { return dungeonMapWidth; } }    
-    int dungeonMapHeight = 30;
-    public int GetDungeonMapHeight { get { return dungeonMapHeight; } }
+    const int DUNGEON_MAP_WIDTH = 50;
+    public int GetDungeonMapWidth { get { return DUNGEON_MAP_WIDTH; } }    
+    const int DUNGEON_MAP_HEIGHT = 30;
+    public int GetDungeonMapHeight { get { return DUNGEON_MAP_HEIGHT; } }
     Dictionary<int, BSP_MapGen> BSP_MapDictionary = new Dictionary<int, BSP_MapGen>();
     public BSP_MapGen GetBSPMapForFloor(int floor) { return BSP_MapDictionary[floor]; }
     public BSP_MapGen GetBSPMapForCurrentFloor { get { return BSP_MapDictionary[playerCurrentFloor]; } }
@@ -91,15 +91,16 @@ public class GameManager : MonoBehaviour {
 
         // Game loads Hero Data from save file,
         // IF NewGame - this save file is set to default in Launch-Menu Scene
-        LoadHeroData(); 
+        LoadGameData(); 
         AssignPlayerMonsterParty();
 
-        if (BSP_MapDictionary.Count < 1)
-        {
-            SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, baseFloorDifficulty));
-            BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
-            playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapUpStairs;           
-        }
+
+        //if (BSP_MapDictionary.Count < 1)
+        //{
+        //    SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, baseFloorDifficulty));
+        //    BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
+        //    playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapUpStairs;           
+        //}
     }
 
     void AssignPlayerMonsterParty()
@@ -110,8 +111,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    // Load Hero Info
-    void LoadHeroData()
+    // Load Game Info
+    void LoadGameData()
     {
         SaveData data = SaveSystem.LoadFull();
         heroData.heroWrapper.HeroData.HeroInfo.UniqueID = data.UniqueID;
@@ -133,16 +134,37 @@ public class GameManager : MonoBehaviour {
         heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons = data.ActiveDemons;
 
         Dictionary<int, DungeonFloorData> dungeonData = data.DungeonFloorList;
-        foreach (var floor in dungeonData)
+        // if new Game
+        if (dungeonData.Count == 0)
         {
-            //BSP_MapGen mapGen = new BSP_MapGen()
-            //BSP_MapDictionary.Add(floor.Key, )
+            // Generate new bungeon floor
+            SetBSPMapForFloor(playerStartFloor, new BSP_MapGen(DUNGEON_MAP_WIDTH, DUNGEON_MAP_HEIGHT, baseFloorDifficulty));
+            BSP_MapDictionary[playerStartFloor].GenerateBSPDungeon();
+            playerDungeonPosition = BSP_MapDictionary[playerStartFloor].GetMapUpStairs;
+        }
+        else
+        {
+            playerCurrentFloor = data.CurrentFloor;
+            playerDungeonPosition = data.PlayerPosition;
+
+            foreach (var floor in dungeonData)
+            {
+                int newFloorDifficulty = baseFloorDifficulty + Mathf.Abs(0 - floor.Key);
+
+                BSP_MapGen mapGen = new BSP_MapGen(DUNGEON_MAP_WIDTH, DUNGEON_MAP_HEIGHT, newFloorDifficulty);
+                mapGen.LoadBSPDungeon(floor.Value.map, floor.Value.cacheList, floor.Value.upStairsPos, floor.Value.downStairsPos);
+                BSP_MapDictionary.Add(floor.Key, mapGen);
+            }
         }
 
     }
 
     void SaveData()
     {
+        heroData.heroWrapper.HeroData.HeroInfo.CurrentDungeonFloor = playerCurrentFloor;
+        heroData.heroWrapper.HeroData.HeroInfo.CurrentXPosition = playerDungeonPosition.x;
+        heroData.heroWrapper.HeroData.HeroInfo.CurrentYPosition = playerDungeonPosition.y;
+
         Dictionary<int, DungeonFloorData> dungeonData = new Dictionary<int, DungeonFloorData>();
         foreach (var floor in BSP_MapDictionary)
         {
@@ -181,7 +203,7 @@ public class GameManager : MonoBehaviour {
         }
         else
         { Debug.Log("Something has gone wrong, we are returning to the dungeon while not standing on a Cache!"); }
-        // Ensure EnemyMonsterParty is empty on leving the battle
+        // Ensure EnemyMonsterParty is empty on leaving the battle
         enemyMonsterParty.Clear();
 
         // auto save
@@ -195,7 +217,7 @@ public class GameManager : MonoBehaviour {
         if (!BSP_MapDictionary.ContainsKey(DestinationFloor))
         {
             int newFloorDifficulty = baseFloorDifficulty + Mathf.Abs(0 - DestinationFloor);
-            SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(dungeonMapWidth, dungeonMapHeight, newFloorDifficulty));
+            SetBSPMapForFloor(DestinationFloor, new BSP_MapGen(DUNGEON_MAP_WIDTH, DUNGEON_MAP_HEIGHT, newFloorDifficulty));
             BSP_MapDictionary[DestinationFloor].GenerateBSPDungeon();            
         }
         // Set player position to the new 'Up Stairs' tile

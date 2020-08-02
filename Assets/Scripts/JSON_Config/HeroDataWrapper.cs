@@ -203,6 +203,9 @@ namespace Global
         public string WillModifier = "";
 
         public int GoldOwned = 0;
+        public int CurrentDungeonFloor = 0;
+        public int CurrentXPosition = 0;
+        public int CurrentYPosition = 0;
 
         // test - items/spells not used yet
         public AbilityGroup baseActions = new AbilityGroup();

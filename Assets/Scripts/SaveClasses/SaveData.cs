@@ -45,6 +45,8 @@ public class SaveData
     #endregion
 
     #region Dungeon Data
+    public int CurrentFloor = 0;
+    public Vector2Int PlayerPosition = new Vector2Int(0, 0);
     public Dictionary<int, DungeonFloorData> DungeonFloorList = new Dictionary<int, DungeonFloorData>();
     #endregion
 
@@ -72,6 +74,11 @@ public class SaveData
 
         PlayerDemons = hi.PlayerDemons;
         ActiveDemons = hi.ActiveDemons;
+
+        CurrentFloor = hi.CurrentDungeonFloor;
+        PlayerPosition.x = hi.CurrentXPosition;
+        PlayerPosition.y = hi.CurrentYPosition;
+
         // Dungeon Data
         DungeonFloorList = dungeonData;
 
