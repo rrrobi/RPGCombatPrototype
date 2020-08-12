@@ -32,7 +32,7 @@ public class LaunchMenuManager : MonoBehaviour
             }
             else
             {
-                slotButton.GetComponentInChildren<Text>().text = $"{data.PlayerName} - {data.Date}";
+                slotButton.GetComponentInChildren<Text>().text = $"{data.HeroInfoData.PlayerName} - {data.Date}";
                 slotButton.GetComponent<Button>().interactable = true;
             }                      
         }

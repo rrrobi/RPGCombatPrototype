@@ -115,23 +115,7 @@ public class GameManager : MonoBehaviour {
     void LoadGameData()
     {
         SaveData data = SaveSystem.LoadFull();
-        heroData.heroWrapper.HeroData.HeroInfo.UniqueID = data.UniqueID;
-        heroData.heroWrapper.HeroData.HeroInfo.PlayerName = data.PlayerName;
-        heroData.heroWrapper.HeroData.HeroInfo.FriendlySpriteName = data.FriendlySpriteName;
-        heroData.heroWrapper.HeroData.HeroInfo.CombatLevel = data.CombatLevel;
-        heroData.heroWrapper.HeroData.HeroInfo.MaxHP = data.MaxHP;
-        heroData.heroWrapper.HeroData.HeroInfo.CurrentHP = data.CurrentHP;
-        heroData.heroWrapper.HeroData.HeroInfo.StrengthModifier = data.StrengthModifier;
-        heroData.heroWrapper.HeroData.HeroInfo.WillModifier = data.WillModifier;
-        heroData.heroWrapper.HeroData.HeroInfo.GoldOwned = data.GoldOwned;
-
-        heroData.heroWrapper.HeroData.HeroInfo.baseActions = data.baseActions;
-        heroData.heroWrapper.HeroData.HeroInfo.SummonActions = data.SummonActions;
-        heroData.heroWrapper.HeroData.HeroInfo.ItemActions = data.ItemActions;
-        heroData.heroWrapper.HeroData.HeroInfo.SpellActions = data.SpellActions;
-
-        heroData.heroWrapper.HeroData.HeroInfo.PlayerDemons = data.PlayerDemons;
-        heroData.heroWrapper.HeroData.HeroInfo.ActiveDemons = data.ActiveDemons;
+        heroData.heroWrapper.HeroData.HeroInfo = data.HeroInfoData;
 
         Dictionary<int, DungeonFloorData> dungeonData = data.DungeonFloorList;
         // if new Game
@@ -144,8 +128,9 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            playerCurrentFloor = data.CurrentFloor;
-            playerDungeonPosition = data.PlayerPosition;
+            playerCurrentFloor = data.HeroInfoData.CurrentDungeonFloor;
+            playerDungeonPosition.x = data.HeroInfoData.CurrentXPosition;
+            playerDungeonPosition.y = data.HeroInfoData.CurrentYPosition;
 
             foreach (var floor in dungeonData)
             {
