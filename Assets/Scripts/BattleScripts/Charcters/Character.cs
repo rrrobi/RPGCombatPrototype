@@ -36,6 +36,13 @@ namespace Battle
         public void SetMaxHP(int hp) { maxHP = hp; }
         public int GetMaxHP { get { return maxHP; } }
 
+        protected int mP;
+        public void SetMP(int mp) { mP = mp; }
+        public int GetMP { get { return mP; } }
+        protected int maxMP;
+        public void SetMaxMP(int mp) { maxMP = mp; }
+        public int GetMaxMP { get { return maxMP; } }
+
         protected Dictionary<string, Ability> Abilities;
         public Dictionary<string, Ability> GetAbilities { get { return Abilities; } }
         public Ability GetAbilityByName(string name)

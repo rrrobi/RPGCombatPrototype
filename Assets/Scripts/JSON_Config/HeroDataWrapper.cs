@@ -23,7 +23,9 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.PlayerName = "Rrrobi";
             heroWrapper.HeroData.HeroInfo.FriendlySpriteName = "SimpleHeroBackBlue";
             heroWrapper.HeroData.HeroInfo.MaxHP = 100;
-            heroWrapper.HeroData.HeroInfo.CurrentHP = 90;
+            heroWrapper.HeroData.HeroInfo.CurrentHP = 100;
+            heroWrapper.HeroData.HeroInfo.MaxMana = 100;
+            heroWrapper.HeroData.HeroInfo.CurrentMana = 100;
             heroWrapper.HeroData.HeroInfo.CombatLevel = "10";
             heroWrapper.HeroData.HeroInfo.StrengthModifier = "10";
             heroWrapper.HeroData.HeroInfo.WillModifier = "10";
@@ -197,6 +199,8 @@ namespace Global
         public string FriendlySpriteName = "";
         public int MaxHP = 0;
         public int CurrentHP = 0;
+        public int MaxMana = 0;
+        public int CurrentMana = 0;
 
         public string CombatLevel = "";
         public string StrengthModifier = "";
