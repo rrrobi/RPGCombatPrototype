@@ -21,6 +21,9 @@ namespace Battle
         protected float abilityCD;
         public float GetAbilityCD { get { return abilityCD; } }
 
+        protected int abilityManaCost;
+        public int GetAbilityManaCost { get { return abilityManaCost; } }
+
         protected TargetType targetType;
         public TargetType GetTargetType() { return targetType; }
         public void SetTargetType(TargetType type) { targetType = type; }
@@ -36,10 +39,11 @@ namespace Battle
         }
         public List<AbilityEffect> GetEffectList() { return effectList; }
 
-        public Ability(string name, float cd)
+        public Ability(string name, float cd, int manaCost)
         {
             abilityName = name;
             abilityCD = cd;
+            abilityManaCost = manaCost;
         }
 
         // TODO... I don't think AOE will work for Summon Abilities right now.
@@ -261,7 +265,7 @@ namespace Battle
             ctoei.UnitGO = source;
             ctoei.FireEvent();
 
-            // Reset Sprite Shader to Dprite Default (not Glowing)
+            // Reset Sprite Shader to Sprite Default (not Glowing)
             //source.GetComponent<Character>().MakeUnclickable();
         }
     }

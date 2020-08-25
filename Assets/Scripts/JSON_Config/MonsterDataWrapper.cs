@@ -27,6 +27,8 @@ namespace Global
             m1.AnnimationController = "DefaultMonster";
             m1.MaxHP = 50;
             m1.CurrentHP = 50;
+            m1.MaxMana = 0;
+            m1.CurrentMana = 0;
             m1.Ability1 = "Slash";
             m1.Ability2 = "Stab";
             monsterWrapper.MonsterData.MonsterList.Add(m1);
@@ -40,6 +42,8 @@ namespace Global
             m2.AnnimationController = "DefaultMonster";
             m2.MaxHP = 15;
             m2.CurrentHP = 15;
+            m2.MaxMana = 0;
+            m2.CurrentMana = 0;
             m2.Ability1 = "Tackle";
             monsterWrapper.MonsterData.MonsterList.Add(m2);
 
@@ -52,6 +56,8 @@ namespace Global
             m3.AnnimationController = "DefaultMonster";
             m3.MaxHP = 75;
             m3.CurrentHP = 75;
+            m3.MaxMana = 0;
+            m3.CurrentMana = 0;
             m3.Ability1 = "Bash";
             m3.Ability2 = "Taunt";
             m3.Ability3 = "Guard";
@@ -163,6 +169,8 @@ namespace Global
         public string AnnimationController = "";
         public int MaxHP = 0;
         public int CurrentHP = 0;
+        public int MaxMana = 0;
+        public int CurrentMana = 0;
 
         public string StrengthModifier = "";
         public string WillModifier = "";

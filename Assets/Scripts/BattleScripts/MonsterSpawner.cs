@@ -198,7 +198,7 @@ namespace Battle
             string givenName = abilityInfo.Name;
             if (mi != null)
                 givenName = mi.MonsterName;
-            Ability ability = new Ability(givenName, abilityInfo.AbilityCD);
+            Ability ability = new Ability(givenName, abilityInfo.AbilityCD, abilityInfo.ManaCost);
             ability.SetTargetType(abilityInfo.targetType);
             ability.SetAbilityEffectType(abilityInfo.abilityEffectType);
             foreach (var effect in abilityInfo.abilityEffects)

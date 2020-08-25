@@ -71,6 +71,7 @@ namespace Global
                 ability1.abilityEffects.Add(effect1);
 
                 ability1.AbilityCD = 10f;
+                ability1.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability1);
             }
 
@@ -90,6 +91,7 @@ namespace Global
                 ability2.abilityEffects.Add(effect1);
 
                 ability2.AbilityCD = 12f;
+                ability2.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability2);
             }
 
@@ -109,6 +111,7 @@ namespace Global
                 ability3.abilityEffects.Add(effect1);
 
                 ability3.AbilityCD = 5f;
+                ability3.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability3);
             }
 
@@ -128,6 +131,7 @@ namespace Global
                 ability4.abilityEffects.Add(effect1);
 
                 ability4.AbilityCD = 15f;
+                ability4.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability4);
             }
 
@@ -148,6 +152,7 @@ namespace Global
                 ability5.abilityEffects.Add(effect1);
 
                 ability5.AbilityCD = 10f;
+                ability5.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability5);
             }
 
@@ -168,6 +173,7 @@ namespace Global
                 ability6.abilityEffects.Add(effect1);
 
                 ability6.AbilityCD = 10f;
+                ability6.ManaCost = 0;
                 abilityWrapper.AbilityData.AbilityList.Add(ability6);
             }
 
@@ -187,6 +193,7 @@ namespace Global
                 ability9.abilityEffects.Add(effect1);
 
                 ability9.AbilityCD = 20f;
+                ability9.ManaCost = 0;
                 ability9.summonIndex = 0;                                   // <- index of 0, means it will use characters pool of demons to summon from
                 abilityWrapper.AbilityData.AbilityList.Add(ability9);
             }
@@ -207,6 +214,7 @@ namespace Global
                 ability10.abilityEffects.Add(effect1);
 
                 ability10.AbilityCD = 10f;
+                ability10.ManaCost = 10;
                 abilityWrapper.AbilityData.AbilityList.Add(ability10);
             }
 
@@ -226,6 +234,7 @@ namespace Global
                 ability11.abilityEffects.Add(effect1);
 
                 ability11.AbilityCD = 10f;
+                ability11.ManaCost = 25;
                 abilityWrapper.AbilityData.AbilityList.Add(ability11);
             }
 
@@ -304,18 +313,13 @@ namespace Global
     {
         public string Name = "";
         public TargetType targetType = TargetType.None;
-     //   public AbilityType abilityType = AbilityType.None;
         public AbilityEffectType abilityEffectType = AbilityEffectType.None;
-     //   public AbilityDamageType abilityDamageType = AbilityDamageType.None;
-        // strength of ability = damage delt, health healed of stat buffed/debuffed depending on ability type
-     //   public int BaseAbilityStrength = 0;
-
-        // Will replace 'abilityType', 'abilityDamageType' and 'BaseAbilityStrength'
         // Each Ability will have one to Many effects, on use it will cycle through each effect for eacvh target
-        public List<Effect> abilityEffects = new List<Effect>(); // Not ready yet
+        public List<Effect> abilityEffects = new List<Effect>(); 
 
-        // AbilityCD - time in battle for this ability to take effect
+        // AbilityCD - time in battle needed to recover after using this ability
         public float AbilityCD = 0f;
+        public int ManaCost = 0;
         // index for the character to be summoned
         public int summonIndex = 0;
     }
@@ -333,6 +337,7 @@ namespace Global
     {
         public AbilityType abilityType = AbilityType.None;
         public AbilityDamageType damageType = AbilityDamageType.None;
+        // strength of ability = damage delt, health healed of stat buffed/debuffed depending on ability type
         public int BaseAbilityStrength = 0;
 
     }
