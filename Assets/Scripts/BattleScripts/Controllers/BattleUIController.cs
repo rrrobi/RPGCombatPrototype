@@ -130,9 +130,28 @@ namespace Battle
                     }
                 }
 
-                Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
-                healthSlider.maxValue = character.GetComponent<Character>().GetMaxHP;
-                healthSlider.value = character.GetComponent<Character>().GetHP;
+                Slider[] sliders = panelGO.GetComponentsInChildren<Slider>();
+                foreach (var slider in sliders)
+                {
+                    if (slider.gameObject.name == "HealthBar")
+                    {
+                        slider.maxValue = character.GetComponent<Character>().GetMaxHP;
+                        slider.value = character.GetComponent<Character>().GetHP;
+                    }
+                    else if (slider.gameObject.name == "ManaBar")
+                    {
+                        slider.maxValue = character.GetComponent<Character>().GetMaxMP;
+                        slider.value = character.GetComponent<Character>().GetMP;
+                    }
+                }
+
+                //Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
+                //healthSlider.maxValue = character.GetComponent<Character>().GetMaxHP;
+                //healthSlider.value = character.GetComponent<Character>().GetHP;
+
+                //Slider manaSlider = panelGO.GetComponentInChildren<Slider>();
+                //manaSlider.maxValue = character.GetComponent<Character>().GetMaxMP;
+                //manaSlider.value = character.GetComponent<Character>().GetMP;
 
                 // TODO... Find a better way
                 // We have to get All image components in children becasue otherwise the first image it finds is the actual panel image.
@@ -143,8 +162,6 @@ namespace Battle
                     if (characterLogo.name == "CharacterLogo")
                         characterLogo.sprite = character.GetComponent<Character>().GetMonsterSprite();
                 }
-                
-
             }
             else
             {
@@ -174,6 +191,15 @@ namespace Battle
             //float barLength = 2;
             //float offset = (barLength / 2) - (scale);
             //SpeedBarGO.transform.localPosition = new Vector3(0.0f, offset, 0.0f);
+            Slider[] sliders = panelGO.GetComponentsInChildren<Slider>();
+            foreach (var slider in sliders)
+            {
+                if (slider.gameObject.name == "HealthBar")
+                {
+                    slider.value = character.GetComponent<Character>().GetHP;
+                }
+            }
+
             Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
             healthSlider.value = character.GetComponent<Character>().GetHP;
         }
