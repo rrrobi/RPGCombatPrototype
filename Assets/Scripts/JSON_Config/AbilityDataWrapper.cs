@@ -234,7 +234,7 @@ namespace Global
                 ability11.abilityEffects.Add(effect1);
 
                 ability11.AbilityCD = 10f;
-                ability11.ManaCost = 25;
+                ability11.ManaCost = 60;
                 abilityWrapper.AbilityData.AbilityList.Add(ability11);
             }
 

@@ -255,6 +255,8 @@ namespace Battle
         {
             // Calculate Cooldown from ability cooldown and source agi 
             float cd = abilityCD;
+            // Subtract Mana cost of the ability from the source Character's Mana pool
+            source.GetComponent<Character>().SetMP(source.GetComponent<Character>().GetMP - abilityManaCost);
             // Restart the source's cooldown
             source.GetComponent<Character>().UpdateAttackTimer(cd);
             source.GetComponent<Character>().SetIsReady(false);

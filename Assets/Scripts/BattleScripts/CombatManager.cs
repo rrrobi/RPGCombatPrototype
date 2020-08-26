@@ -249,7 +249,7 @@ namespace Battle
             // Update Hero HP            
             int hp = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetHP;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentHP = hp;
-            int mana = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetMaxMP;
+            int mana = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetMP;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentMana = mana;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.GoldOwned += battleLoot;
 

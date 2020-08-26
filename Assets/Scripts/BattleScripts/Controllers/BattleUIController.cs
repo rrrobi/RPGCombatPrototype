@@ -436,14 +436,17 @@ namespace Battle
             }
         }
 
-        void AddToActionPanel(Ability ability)//string buttonName)
+        void AddToActionPanel(Ability ability)
         {
             // Instantiate button
             GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, ActionPanel.transform) as GameObject;
             // Set buttons varables
-            buttonGO.name = ability.GetAbilityName + "_Button";//buttonName + "_Button";
+            buttonGO.name = ability.GetAbilityName + "_Button";
             Text buttonText = buttonGO.GetComponentInChildren<Text>();
-            buttonText.text = ability.GetAbilityName;// buttonName;
+            buttonText.text = ability.GetAbilityName;
+            // Inactive is mana cost not available
+            if (SelectedCharacter.GetComponent<Character>().GetMP < ability.GetAbilityManaCost)
+                buttonGO.GetComponent<Button>().interactable = false;
 
             // Provide instructions for what each button does
             buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
@@ -491,9 +494,12 @@ namespace Battle
             // Instantiate button
             GameObject buttonGO = GameObject.Instantiate(actionButtonTemplate, Vector3.zero, Quaternion.identity, MenuPanel.transform) as GameObject;
             // Set buttons varables
-            buttonGO.name = ability.GetAbilityName + "_Button";//buttonName + "_Button";
+            buttonGO.name = ability.GetAbilityName + "_Button";
             Text buttonText = buttonGO.GetComponentInChildren<Text>();
-            buttonText.text = ability.GetAbilityName;// buttonName;
+            buttonText.text = ability.GetAbilityName;
+            // Inactive is mana cost not available
+            if (SelectedCharacter.GetComponent<Character>().GetMP < ability.GetAbilityManaCost)
+                buttonGO.GetComponent<Button>().interactable = false;
 
             // Provide instructions for what each button does
             buttonGO.GetComponent<Button>().onClick.AddListener(ActionSelectbuttonPressed);
