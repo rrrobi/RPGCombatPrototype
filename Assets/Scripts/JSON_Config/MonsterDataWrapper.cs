@@ -29,6 +29,9 @@ namespace Global
             m1.CurrentHP = 50;
             m1.MaxMana = 0;
             m1.CurrentMana = 0;
+            m1.StrengthModifier = 10;
+            m1.WillModifier = 10;
+            m1.AgilityModifier = 10;
             m1.Ability1 = "Slash";
             m1.Ability2 = "Stab";
             monsterWrapper.MonsterData.MonsterList.Add(m1);
@@ -44,6 +47,9 @@ namespace Global
             m2.CurrentHP = 15;
             m2.MaxMana = 0;
             m2.CurrentMana = 0;
+            m2.StrengthModifier = 5;
+            m2.WillModifier = 5;
+            m2.AgilityModifier = 13;
             m2.Ability1 = "Tackle";
             monsterWrapper.MonsterData.MonsterList.Add(m2);
 
@@ -58,6 +64,9 @@ namespace Global
             m3.CurrentHP = 75;
             m3.MaxMana = 0;
             m3.CurrentMana = 0;
+            m3.StrengthModifier = 15;
+            m3.WillModifier = 15;
+            m3.AgilityModifier = 7;
             m3.Ability1 = "Bash";
             m3.Ability2 = "Taunt";
             m3.Ability3 = "Guard";
@@ -172,8 +181,9 @@ namespace Global
         public int MaxMana = 0;
         public int CurrentMana = 0;
 
-        public string StrengthModifier = "";
-        public string WillModifier = "";
+        public int StrengthModifier = 0;
+        public int WillModifier = 0;
+        public int AgilityModifier = 0;
 
         public string Ability1 = "";
         public string Ability2 = "";

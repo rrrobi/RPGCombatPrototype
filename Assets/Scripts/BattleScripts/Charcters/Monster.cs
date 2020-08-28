@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using System.Linq;
 using UnityEngine.UI;
+using Global;
 
 namespace Battle
 {
@@ -34,5 +35,15 @@ namespace Battle
 
         }
 
+        public void SetupMonster(MonsterInfo mi)
+        {
+            SetMaxHP(mi.MaxHP);
+            SetHP(mi.CurrentHP);
+            SetMaxMP(mi.MaxMana);
+            SetMP(mi.CurrentMana);
+
+            SetStrengthModifer(mi.StrengthModifier);
+            SetWillModifer(mi.WillModifier);
+        }
     }
 }

@@ -27,13 +27,13 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.MaxMana = 100;
             heroWrapper.HeroData.HeroInfo.CurrentMana = 100;
             heroWrapper.HeroData.HeroInfo.CombatLevel = "10";
-            heroWrapper.HeroData.HeroInfo.StrengthModifier = "10";
-            heroWrapper.HeroData.HeroInfo.WillModifier = "10";
+            heroWrapper.HeroData.HeroInfo.StrengthModifier = 10;
+            heroWrapper.HeroData.HeroInfo.WillModifier = 10;
+            heroWrapper.HeroData.HeroInfo.AgilityModifier = 10;
             heroWrapper.HeroData.HeroInfo.GoldOwned = 0;
 
             heroWrapper.HeroData.HeroInfo.baseActions.Name = "None";
             heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Slash");
-            //heroWrapper.HeroData.HeroInfo.baseActions.Abilities.Add("Heal");
             heroWrapper.HeroData.HeroInfo.baseActions.MenuType = "None";
 
             heroWrapper.HeroData.HeroInfo.SummonActions.Name = "Summon";
@@ -56,6 +56,9 @@ namespace Global
             m1.CurrentHP = 75;
             m1.MaxMana = 0;
             m1.CurrentMana = 0;
+            m1.StrengthModifier = 15;
+            m1.WillModifier = 15;
+            m1.AgilityModifier = 7;
             m1.Ability1 = "Bash";
             m1.Ability2 = "Taunt";
             m1.Ability3 = "Guard";
@@ -72,6 +75,9 @@ namespace Global
             m2.CurrentHP = 75;
             m2.MaxMana = 0;
             m2.CurrentMana = 0;
+            m2.StrengthModifier = 15;
+            m2.WillModifier = 15;
+            m2.AgilityModifier = 7;
             m2.Ability1 = "Bash";
             m2.Ability2 = "Taunt";
             m2.Ability3 = "Guard";
@@ -88,6 +94,9 @@ namespace Global
             m3.CurrentHP = 50;
             m3.MaxMana = 0;
             m3.CurrentMana = 0;
+            m3.StrengthModifier = 10;
+            m3.WillModifier = 10;
+            m3.AgilityModifier = 10;
             m3.Ability1 = "Slash";
             m3.Ability2 = "Stab";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m3);
@@ -102,6 +111,9 @@ namespace Global
             m4.CurrentHP = 50;
             m4.MaxMana = 0;
             m4.CurrentMana = 0;
+            m4.StrengthModifier = 10;
+            m4.WillModifier = 10;
+            m4.AgilityModifier = 10;
             m4.Ability1 = "Slash";
             m4.Ability2 = "Stab";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m4);
@@ -116,6 +128,9 @@ namespace Global
             m5.CurrentHP = 15;
             m5.MaxMana = 0;
             m5.CurrentMana = 0;
+            m5.StrengthModifier = 5;
+            m5.WillModifier = 5;
+            m5.AgilityModifier = 13;
             m5.Ability1 = "Tackle";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m5);
 
@@ -129,6 +144,9 @@ namespace Global
             m6.CurrentHP = 15;
             m6.MaxMana = 0;
             m6.CurrentMana = 0;
+            m6.StrengthModifier = 5;
+            m6.WillModifier = 5;
+            m6.AgilityModifier = 13;
             m6.Ability1 = "Tackle";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m6);
             #endregion
@@ -215,8 +233,9 @@ namespace Global
         public int CurrentMana = 0;
 
         public string CombatLevel = "";
-        public string StrengthModifier = "";
-        public string WillModifier = "";
+        public int StrengthModifier = 0;
+        public int WillModifier = 0;
+        public int AgilityModifier = 0;
 
         public int GoldOwned = 0;
         public int CurrentDungeonFloor = 0;

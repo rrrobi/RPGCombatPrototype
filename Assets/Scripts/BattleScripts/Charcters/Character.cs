@@ -29,6 +29,7 @@ namespace Battle
         [SerializeField]
         protected GameObject SpeedBarGO;
 
+        #region Character Stats variables
         protected int hP;
         public void SetHP(int hp) { hP = hp; }
         public int GetHP { get { return hP; } }
@@ -42,6 +43,14 @@ namespace Battle
         protected int maxMP;
         public void SetMaxMP(int mp) { maxMP = mp; }
         public int GetMaxMP { get { return maxMP; } }
+
+        protected int strengthModifer;
+        public void SetStrengthModifer(int str) { strengthModifer = str; }
+        public int GetStrengthModifer { get { return strengthModifer; } }
+        protected int willModifer;
+        public void SetWillModifer(int will) { willModifer = will; }
+        public int GetWillModifer { get { return willModifer; } }
+        #endregion
 
         protected Dictionary<string, Ability> Abilities;
         public Dictionary<string, Ability> GetAbilities { get { return Abilities; } }

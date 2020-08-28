@@ -14,7 +14,7 @@ namespace Battle
             MonsterInfo = mi;
         }
 
-        // this is where are DO the direct heal
+        // this is where are DO the Summon
         public override void EffectAction(int strengthModifier, GameObject target)
         {
             CombatManager.Instance.AddSummonedPlayerMonster(MonsterInfo, target);

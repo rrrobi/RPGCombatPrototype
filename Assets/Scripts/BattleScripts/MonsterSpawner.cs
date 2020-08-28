@@ -100,11 +100,9 @@ namespace Battle
             heroGO.GetComponent<Hero>().SetMenus(menus);
             #endregion
 
-            // Set monster HP
-            heroGO.GetComponent<Hero>().SetMaxHP(heroInfo.MaxHP);
-            heroGO.GetComponent<Hero>().SetHP(heroInfo.CurrentHP); // Must be set here or the UI at start doesn't update with correct HP
-            heroGO.GetComponent<Hero>().SetMaxMP(heroInfo.MaxMana);
-            heroGO.GetComponent<Hero>().SetMP(heroInfo.CurrentMana);
+            // Set Hero HP, MP + Stats
+            // HP and Mana specifically Must be set here or the UI at start doesn't update with correct HP/MP
+            heroGO.GetComponent<Hero>().SetupHero(heroInfo);
             // Set Character Unique ID
             heroGO.GetComponent<Hero>().SetUniqueID(heroInfo.UniqueID);
 
@@ -175,11 +173,9 @@ namespace Battle
             // TODO... what if no abilities?!?
             monsterGO.GetComponent<Monster>().SetMonsterAbilities(abilities);
 
-            // Set monster HP
-            monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
-            monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // Must be set here or the UI at start doesn't update with correct HP
-            monsterGO.GetComponent<Monster>().SetMaxMP(monsterInfo.MaxMana);
-            monsterGO.GetComponent<Monster>().SetMP(monsterInfo.CurrentMana);
+            // Set monster HP, MP and stats
+            // HP and Mana specifically Must be set here or the UI at start doesn't update with correct HP/MP
+            monsterGO.GetComponent<Monster>().SetupMonster(monsterInfo);
             // Set Character Unique ID
             monsterGO.GetComponent<Monster>().SetUniqueID(AssignUniqueID(monsterInfo, team));
 

@@ -66,7 +66,7 @@ namespace Global
                 {
                     abilityType = AbilityType.Attack,
                     damageType = AbilityDamageType.Physical,
-                    BaseAbilityStrength = 10
+                    BaseAbilityStrength = 5
                 };
                 ability1.abilityEffects.Add(effect1);
 
@@ -86,7 +86,7 @@ namespace Global
                 {
                     abilityType = AbilityType.Attack,
                     damageType = AbilityDamageType.Physical,
-                    BaseAbilityStrength = 15
+                    BaseAbilityStrength = 10
                 };
                 ability2.abilityEffects.Add(effect1);
 
@@ -106,7 +106,7 @@ namespace Global
                 {
                     abilityType = AbilityType.Attack,
                     damageType = AbilityDamageType.Physical,
-                    BaseAbilityStrength = 10
+                    BaseAbilityStrength = 5
                 };
                 ability3.abilityEffects.Add(effect1);
 
@@ -126,7 +126,7 @@ namespace Global
                 {
                     abilityType = AbilityType.Attack,
                     damageType = AbilityDamageType.Physical,
-                    BaseAbilityStrength = 25
+                    BaseAbilityStrength = 20
                 };
                 ability4.abilityEffects.Add(effect1);
 
@@ -209,7 +209,7 @@ namespace Global
                 {
                     abilityType = AbilityType.DirectHeal,
                     damageType = AbilityDamageType.Light,
-                    BaseAbilityStrength = 25
+                    BaseAbilityStrength = 20
                 };
                 ability10.abilityEffects.Add(effect1);
 

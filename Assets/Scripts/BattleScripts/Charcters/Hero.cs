@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Global;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,17 @@ namespace Battle
         protected override void Update()
         {
             base.Update();
+        }
+
+        public void SetupHero(HeroInfo hi)
+        {
+            SetMaxHP(hi.MaxHP);
+            SetHP(hi.CurrentHP);
+            SetMaxMP(hi.MaxMana);
+            SetMP(hi.CurrentMana);
+
+            SetStrengthModifer(hi.StrengthModifier);
+            SetWillModifer(hi.WillModifier);
         }
 
         protected override void CharacterDies()
