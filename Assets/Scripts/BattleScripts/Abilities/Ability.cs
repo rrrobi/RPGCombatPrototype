@@ -171,8 +171,6 @@ namespace Battle
                             break;
                     }
 
-                    //int strengthModified = effect.BaseAbilityStrength + source.GetComponent<Character>().GetStrengthModifer;
-                    //int willModified = effect.BaseAbilityStrength + source.GetComponent<Character>().GetWillModifer;
                     switch (effect.abilityType)
                     {
                         case AbilityType.Attack:
@@ -200,6 +198,7 @@ namespace Battle
         {
             // Calculate Cooldown from ability cooldown and source agi 
             float cd = abilityCD;
+
             // Subtract Mana cost of the ability from the source Character's Mana pool
             source.GetComponent<Character>().SetMP(source.GetComponent<Character>().GetMP - abilityManaCost);
             EventCallbacks.MPChangedEventInfo mpcei = new EventCallbacks.MPChangedEventInfo();
