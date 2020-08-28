@@ -257,6 +257,11 @@ namespace Battle
             float cd = abilityCD;
             // Subtract Mana cost of the ability from the source Character's Mana pool
             source.GetComponent<Character>().SetMP(source.GetComponent<Character>().GetMP - abilityManaCost);
+            EventCallbacks.MPChangedEventInfo mpcei = new EventCallbacks.MPChangedEventInfo();
+            mpcei.EventDescription = $"Unit {source.name} has had the mana cost({abilityManaCost}) of ability {abilityName} deducted from its mana pool.";
+            mpcei.UnitGO = source;
+            mpcei.FireEvent();
+
             // Restart the source's cooldown
             source.GetComponent<Character>().UpdateAttackTimer(cd);
             source.GetComponent<Character>().SetIsReady(false);

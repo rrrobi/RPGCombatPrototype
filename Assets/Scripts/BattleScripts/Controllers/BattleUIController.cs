@@ -100,8 +100,8 @@ namespace Battle
             }
         }
 
-        #region HP panels
-        private void AddToHPPanel(GameObject character)
+        #region Character panels
+        private void AddToCharacterPanel(GameObject character)
         {
             if (FriendlyPanel != null)
             {               
@@ -169,7 +169,7 @@ namespace Battle
             }
         }
 
-        private void UpdateHPPanel(GameObject character)
+        private void UpdateCharacterPanelHP(GameObject character)
         {
             // TODO.. Is there a better way of doing this, i dont like it
             GameObject panelGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel");
@@ -200,11 +200,29 @@ namespace Battle
                 }
             }
 
-            Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
-            healthSlider.value = character.GetComponent<Character>().GetHP;
+            //Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
+            //healthSlider.value = character.GetComponent<Character>().GetHP;
         }
-        
-        public void OrderHPPanels(bool initialSetup)
+
+        private void UpdateCharacterPanelMP(GameObject character)
+        {
+            // TODO.. Is there a better way of doing this, i dont like it
+            GameObject panelGO = GameObject.Find(character.GetComponent<Character>().GetTeam.ToString() + "_" + character.GetComponent<Character>().GetUniqueID + "_Panel");
+            
+            Slider[] sliders = panelGO.GetComponentsInChildren<Slider>();
+            foreach (var slider in sliders)
+            {
+                if (slider.gameObject.name == "ManaBar")
+                {
+                    slider.value = character.GetComponent<Character>().GetMP;
+                }
+            }
+
+            //Slider healthSlider = panelGO.GetComponentInChildren<Slider>();
+            //healthSlider.value = character.GetComponent<Character>().GetHP;
+        }
+
+        public void OrderCharacterPanels(bool initialSetup)
         {
             // foreach character in CombatManager's OrderList
             int i = 0;
@@ -224,7 +242,7 @@ namespace Battle
             }
         }
         
-        public bool CheckHPPanelsInPlace()
+        public bool CheckCharacterPanelsInPlace()
         {
             bool allInPosition = true;
             int i = 0;
@@ -668,6 +686,7 @@ namespace Battle
 
             BattleWonEventInfo.RegisterListener(OnBattleWon);
             HPChangedEventInfo.RegisterListener(OnHPChange);
+            MPChangedEventInfo.RegisterListener(OnMPChange);
             HeroDeathEventInfo.RegisterListener(OnHeroDeath);
             DeathEventInfo.RegisterListener(OnUnitDied);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
@@ -680,6 +699,7 @@ namespace Battle
 
             BattleWonEventInfo.UnregisterListener(OnBattleWon);
             HPChangedEventInfo.UnregisterListener(OnHPChange);
+            MPChangedEventInfo.UnregisterListener(OnMPChange);
             HeroDeathEventInfo.UnregisterListener(OnHeroDeath);
             DeathEventInfo.UnregisterListener(OnUnitDied);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
@@ -742,7 +762,14 @@ namespace Battle
         {
             Debug.Log("BattleUIController Alerted to Character HP Change: " + hpChangedEventInfo.UnitGO.name);
 
-            UpdateHPPanel(hpChangedEventInfo.UnitGO);
+            UpdateCharacterPanelHP(hpChangedEventInfo.UnitGO);
+        }
+
+        void OnMPChange(MPChangedEventInfo mpChangedEventInfo)
+        {
+            Debug.Log("BattleUIController Alerted to Character MP Change: " + mpChangedEventInfo.UnitGO.name);
+
+            UpdateCharacterPanelMP(mpChangedEventInfo.UnitGO);
         }
 
         void OnUnitDied(DeathEventInfo deathEventInfo)
@@ -775,7 +802,7 @@ namespace Battle
         void OnUnitSpawn(UnitSpawnEventInfo unitSpawnEventInfo)
         {
             Debug.Log("BattleUIController Alerted to unit Spawned: " + unitSpawnEventInfo.UnitGO.name);
-            AddToHPPanel(unitSpawnEventInfo.UnitGO);
+            AddToCharacterPanel(unitSpawnEventInfo.UnitGO);
         }
 
         #endregion

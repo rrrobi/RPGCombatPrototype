@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using EventCallbacks;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Battle
 {
@@ -122,6 +123,7 @@ namespace Battle
         {
             DeathEventInfo.RegisterListener(OnUnitDied);
             HPChangedEventInfo.RegisterListener(OnHPChange);
+            MPChangedEventInfo.RegisterListener(OnMPChange);
             UnitSpawnEventInfo.RegisterListener(OnUnitSpawn);
             CharacterTurnOverEventInfo.RegisterListener(OnTurnOver);
         }
@@ -130,6 +132,7 @@ namespace Battle
         {
             DeathEventInfo.UnregisterListener(OnUnitDied);
             HPChangedEventInfo.UnregisterListener(OnHPChange);
+            MPChangedEventInfo.UnregisterListener(OnMPChange);
             UnitSpawnEventInfo.UnregisterListener(OnUnitSpawn);
             CharacterTurnOverEventInfo.UnregisterListener(OnTurnOver);
         }
@@ -270,13 +273,13 @@ namespace Battle
         {
             if (isFirstLoop && IsSetupComplete())
             {
-                battleUIController.OrderHPPanels(true);
+                battleUIController.OrderCharacterPanels(true);
                 isFirstLoop = false;
             }
 
             // TODO... I hate this - find a better way
             // Start off the battle by letting the fist charcater take its turn
-            bool ready = readyForNextTurn && battleUIController.CheckHPPanelsInPlace();
+            bool ready = readyForNextTurn && battleUIController.CheckCharacterPanelsInPlace();
             if (ready && IsSetupComplete())
             {
                 
@@ -422,6 +425,9 @@ namespace Battle
             Destroy(deathEventInfo.UnitGO);
         }
 
+        //TODO... Look into the way HP and Mana is passed on for Hero's monsters. 
+        // Currently this is required to ensure persistance between battles. 
+        // I would prefer if this step was removed in favour of it being handled at battle end, like Hero HP and Mana
         // This updates the player's MonsterList info with the new HP for the monsters
         void OnHPChange(HPChangedEventInfo hpChangedEventInfo)
         {
@@ -435,6 +441,26 @@ namespace Battle
                 if (playerMonsterinfoList.ContainsKey(uID))
                 {
                     playerMonsterinfoList[hpChangedEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].CurrentHP = hpChangedEventInfo.UnitGO.GetComponent<Character>().GetHP;
+
+                    // Update Summon Menu
+                    ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);
+                    playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().SetMenu(menu);
+                }
+            }
+        }
+        // This updates the player's MonsterList info with the new MP for the monsters
+        void OnMPChange(MPChangedEventInfo mpChangedEventInfo)
+        {
+            Debug.Log("CombatManager Alerted to Character MP Change: " + mpChangedEventInfo.UnitGO.name);
+
+            // We only care about freindly monsters at this point
+            if (mpChangedEventInfo.UnitGO.GetComponent<Character>().GetTeam == TeamName.Friendly)
+            {
+                string uID = mpChangedEventInfo.UnitGO.GetComponent<Character>().GetUniqueID;
+                // Also, we only care about monsters in our playerMonsterInfoList (i.e NOT the hero) <- this is because the hero Mana is tracked differently.
+                if (playerMonsterinfoList.ContainsKey(uID))
+                {
+                    playerMonsterinfoList[mpChangedEventInfo.UnitGO.GetComponent<Character>().GetUniqueID].CurrentMana = mpChangedEventInfo.UnitGO.GetComponent<Character>().GetMP;
 
                     // Update Summon Menu
                     ActionMenu menu = monsterSpawner.PopulateHeroSummonMenu(GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo);
@@ -469,7 +495,7 @@ namespace Battle
         {
             Debug.Log("CombatManager Alerted to unit finished it's Turn: " + characterTurnOverEventInfo.UnitGO.name);
             AddToCharacterTurnOrder(characterTurnOverEventInfo.UnitGO);
-            battleUIController.OrderHPPanels(false);
+            battleUIController.OrderCharacterPanels(false);
             readyForNextTurn = true;
         }
         #endregion

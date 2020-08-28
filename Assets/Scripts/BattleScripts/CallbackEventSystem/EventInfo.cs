@@ -106,6 +106,13 @@ namespace EventCallbacks
         // eg. Who attacked
     }
 
+    public class MPChangedEventInfo : EventInfo<MPChangedEventInfo>
+    {
+        // Info about the character who's mana poll just changed.
+        public GameObject UnitGO;
+        // more info can go here is needed, but i can't think what it may be        
+    }
+
     public class UnitSpawnEventInfo : EventInfo<UnitSpawnEventInfo>
     {
         public GameObject UnitGO;

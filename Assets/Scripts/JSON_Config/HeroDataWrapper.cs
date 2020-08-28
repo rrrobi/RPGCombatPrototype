@@ -54,6 +54,8 @@ namespace Global
             m1.EnemySpriteName = "SimpleTankMonsterRed";
             m1.MaxHP = 75;
             m1.CurrentHP = 75;
+            m1.MaxMana = 0;
+            m1.CurrentMana = 0;
             m1.Ability1 = "Bash";
             m1.Ability2 = "Taunt";
             m1.Ability3 = "Guard";
@@ -68,6 +70,8 @@ namespace Global
             m2.EnemySpriteName = "SimpleTankMonsterRed";
             m2.MaxHP = 75;
             m2.CurrentHP = 75;
+            m2.MaxMana = 0;
+            m2.CurrentMana = 0;
             m2.Ability1 = "Bash";
             m2.Ability2 = "Taunt";
             m2.Ability3 = "Guard";
@@ -82,6 +86,8 @@ namespace Global
             m3.EnemySpriteName = "SimpleMonsterRed";
             m3.MaxHP = 50;
             m3.CurrentHP = 50;
+            m3.MaxMana = 0;
+            m3.CurrentMana = 0;
             m3.Ability1 = "Slash";
             m3.Ability2 = "Stab";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m3);
@@ -94,6 +100,8 @@ namespace Global
             m4.EnemySpriteName = "SimpleMonsterRed";
             m4.MaxHP = 50;
             m4.CurrentHP = 50;
+            m4.MaxMana = 0;
+            m4.CurrentMana = 0;
             m4.Ability1 = "Slash";
             m4.Ability2 = "Stab";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m4);
@@ -106,6 +114,8 @@ namespace Global
             m5.EnemySpriteName = "SimpleMonsterSwarmRed";
             m5.MaxHP = 15;
             m5.CurrentHP = 15;
+            m5.MaxMana = 0;
+            m5.CurrentMana = 0;
             m5.Ability1 = "Tackle";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m5);
 
@@ -117,6 +127,8 @@ namespace Global
             m6.EnemySpriteName = "SimpleMonsterSwarmRed";
             m6.MaxHP = 15;
             m6.CurrentHP = 15;
+            m6.MaxMana = 0;
+            m6.CurrentMana = 0;
             m6.Ability1 = "Tackle";
             heroWrapper.HeroData.HeroInfo.PlayerDemons.Add(m6);
             #endregion

@@ -178,6 +178,8 @@ namespace Battle
             // Set monster HP
             monsterGO.GetComponent<Monster>().SetMaxHP(monsterInfo.MaxHP);
             monsterGO.GetComponent<Monster>().SetHP(monsterInfo.CurrentHP); // Must be set here or the UI at start doesn't update with correct HP
+            monsterGO.GetComponent<Monster>().SetMaxMP(monsterInfo.MaxMana);
+            monsterGO.GetComponent<Monster>().SetMP(monsterInfo.CurrentMana);
             // Set Character Unique ID
             monsterGO.GetComponent<Monster>().SetUniqueID(AssignUniqueID(monsterInfo, team));
 
