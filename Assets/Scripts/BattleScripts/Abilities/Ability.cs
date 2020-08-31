@@ -198,6 +198,14 @@ namespace Battle
         {
             // Calculate Cooldown from ability cooldown and source agi 
             float cd = abilityCD;
+            // 10 Agility give a modifier of 0;
+            float agiMod = source.GetComponent<Character>().GetAgilityModifer - 10;
+            // Each point of modifer increases/decreaces the cd by 10%
+            float agiFraction = (float)(agiMod / 10.0);
+            // Reverse Negative to positive, and vise versa, A positive agi modifier need to make cd QUICKER!
+            agiFraction *= -1;
+            // We do not allow CD between abilities to go below 1
+            cd = Mathf.Max(abilityCD + (abilityCD * agiFraction), 1.0f);
 
             // Subtract Mana cost of the ability from the source Character's Mana pool
             source.GetComponent<Character>().SetMP(source.GetComponent<Character>().GetMP - abilityManaCost);

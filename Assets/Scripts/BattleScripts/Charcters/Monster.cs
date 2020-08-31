@@ -44,6 +44,7 @@ namespace Battle
 
             SetStrengthModifer(mi.StrengthModifier);
             SetWillModifer(mi.WillModifier);
+            SetAgilityModifer(mi.AgilityModifier);
         }
     }
 }

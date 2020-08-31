@@ -30,6 +30,7 @@ namespace Battle
 
             SetStrengthModifer(hi.StrengthModifier);
             SetWillModifer(hi.WillModifier);
+            SetAgilityModifer(hi.AgilityModifier);
         }
 
         protected override void CharacterDies()

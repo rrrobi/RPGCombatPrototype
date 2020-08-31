@@ -50,6 +50,9 @@ namespace Battle
         protected int willModifer;
         public void SetWillModifer(int will) { willModifer = will; }
         public int GetWillModifer { get { return willModifer; } }
+        protected int agilityModifer;
+        public void SetAgilityModifer(int agi) { agilityModifer = agi; }
+        public int GetAgilityModifer { get { return agilityModifer; } }
         #endregion
 
         protected Dictionary<string, Ability> Abilities;
