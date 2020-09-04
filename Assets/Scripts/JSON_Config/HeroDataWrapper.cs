@@ -45,6 +45,13 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.SpellActions.Abilities.Add("Fire Wave");
             heroWrapper.HeroData.HeroInfo.SpellActions.MenuType = "Spells";
 
+            heroWrapper.HeroData.HeroInfo.ItemActions.Name = "Items";
+            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Health Potion");
+            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Mana Potion");
+            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Throwing Axe");
+            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Dynamite");
+            heroWrapper.HeroData.HeroInfo.ItemActions.MenuType = "Items";
+
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
             m1.UniqueID = "01-002";

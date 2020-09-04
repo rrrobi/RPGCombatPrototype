@@ -48,8 +48,8 @@ namespace Global
     {
         public AbilityDataWrapper abilityWrapper = new AbilityDataWrapper();
 
-        string filename = "abilityData.json";
-        string path;
+        string abilityFilename = "abilityData.json";
+        string abilityPath;
 
         // This only needs to be called if im am changing machines during devoplment
         // To ensure the Ability Json Config file is correct
@@ -243,8 +243,8 @@ namespace Global
 
         public void SetUp()
         {
-            path = Application.persistentDataPath + "/" + filename;
-            Debug.Log("AbilityData Path: " + path);
+            abilityPath = Application.persistentDataPath + "/" + abilityFilename;
+            Debug.Log("AbilityData Path: " + abilityPath);
 
             JSONSetUp();
         }
@@ -252,26 +252,26 @@ namespace Global
         public void SaveData()
         {
             string contents = JsonUtility.ToJson(abilityWrapper, true);
-            System.IO.File.WriteAllText(path, contents);
+            System.IO.File.WriteAllText(abilityPath, contents);
         }
 
         public void ReadData()
         {
             try
             {
-                if (System.IO.File.Exists(path))
+                if (System.IO.File.Exists(abilityPath))
                 {
-                    string contents = System.IO.File.ReadAllText(path);
+                    string contents = System.IO.File.ReadAllText(abilityPath);
                     abilityWrapper = JsonUtility.FromJson<AbilityDataWrapper>(contents);
                 }
                 else
                 {
-                    Debug.Log("File: '" + path + "' does not exist.");
+                    Debug.Log("File: '" + abilityPath + "' does not exist.");
                 }
             }
             catch (System.Exception ex)
             {
-                Debug.Log("File not as expected at " + path);
+                Debug.Log("File not as expected at " + abilityPath);
             }
         }
 
@@ -320,6 +320,7 @@ namespace Global
         // AbilityCD - time in battle needed to recover after using this ability
         public float AbilityCD = 0f;
         public int ManaCost = 0;
+        public int Charges = -1;
         // index for the character to be summoned
         public int summonIndex = 0;
     }
