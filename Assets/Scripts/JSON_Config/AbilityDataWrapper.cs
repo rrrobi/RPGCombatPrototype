@@ -5,7 +5,7 @@ using UnityEngine;
 public enum AbilityType
 {
     None,
-    Attack,
+    DirectDamage,
     DirectHeal,
     Support,
     Summon
@@ -64,7 +64,7 @@ namespace Global
                 ability1.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 5
                 };
@@ -84,7 +84,7 @@ namespace Global
                 ability2.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 10
                 };
@@ -104,7 +104,7 @@ namespace Global
                 ability3.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 5
                 };
@@ -124,7 +124,7 @@ namespace Global
                 ability4.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 20
                 };
@@ -145,7 +145,7 @@ namespace Global
                 ability5.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 0
                 };
@@ -166,7 +166,7 @@ namespace Global
                 ability6.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Physical,
                     BaseAbilityStrength = 0
                 };
@@ -227,7 +227,7 @@ namespace Global
                 ability11.abilityEffects = new List<Effect>();
                 Effect effect1 = new Effect()
                 {
-                    abilityType = AbilityType.Attack,
+                    abilityType = AbilityType.DirectDamage,
                     damageType = AbilityDamageType.Fire,
                     BaseAbilityStrength = 25
                 };
@@ -314,7 +314,7 @@ namespace Global
         public string Name = "";
         public TargetType targetType = TargetType.None;
         public AbilityEffectType abilityEffectType = AbilityEffectType.None;
-        // Each Ability will have one to Many effects, on use it will cycle through each effect for eacvh target
+        // Each Ability will have one to Many effects, on use it will cycle through each effect for each target
         public List<Effect> abilityEffects = new List<Effect>(); 
 
         // AbilityCD - time in battle needed to recover after using this ability
@@ -324,7 +324,6 @@ namespace Global
         public int summonIndex = 0;
     }
 
-    // Still in progress... not final
     /// <summary>
     /// Effect - One to Many within an ability
     /// contains: 

@@ -173,7 +173,7 @@ namespace Battle
 
                     switch (effect.abilityType)
                     {
-                        case AbilityType.Attack:
+                        case AbilityType.DirectDamage:
                             DirectDamageAbilityEffect ddEffect = new DirectDamageAbilityEffect();
                             ddEffect.EffectAction(modifiedAbilityPower, t);
                             break;
