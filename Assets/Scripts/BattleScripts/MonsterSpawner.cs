@@ -14,6 +14,7 @@ namespace Battle
     public class MonsterSpawner
     {
         AbilityDataReader abilityData = new AbilityDataReader();
+        ConsumableDataReader consumableData = new ConsumableDataReader();
 
         Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
         Dictionary<string, List<string>> UniqueIDLog = new Dictionary<string, List<string>>();
@@ -38,6 +39,8 @@ namespace Battle
 
             abilityData.SetUp();
             abilityData.ReadData();
+            consumableData.SetUp();
+            consumableData.ReadData();
         }
 
         public GameObject SpawnHero(TeamName team, GameObject teamGroup, GameObject unitSlot)
@@ -75,14 +78,14 @@ namespace Battle
                 menus.Add(PopulateHeroSummonMenu(heroInfo));
             }
             // Item Menu
-            if (heroInfo.ItemActions.Abilities.Count > 0)
+            if (heroInfo.ConsumableActions.Consumables.Count > 0)
             {
                 List<Ability> menuAbilities = new List<Ability>();
-                foreach (var ability in heroInfo.ItemActions.Abilities)
+                foreach (var consumable in heroInfo.ConsumableActions.Consumables)
                 {
-                    menuAbilities.Add(CreateAbilityFromData(ability));
+                    menuAbilities.Add(CreateConsumableAbilityFromData(consumable.Name, consumable.Charges));
                 }
-                ActionMenu ItemMenu = new ActionMenu(heroInfo.ItemActions.Name, menuAbilities);
+                ActionMenu ItemMenu = new ActionMenu(heroInfo.ConsumableActions.Name, menuAbilities);
                 menus.Add(ItemMenu);
             }
             // Spells Menu
@@ -216,6 +219,31 @@ namespace Battle
             // TODO... should never be allowed to happen, look inot more robust error handling
             return null;
         }
+
+        Ability CreateConsumableAbilityFromData(string abilityName, int charges)
+        {
+            AbilityInfo consumableInfo = consumableData.GetConsumableByName(abilityName);
+
+            string givenName = $"{consumableInfo.Name} x{charges}";
+            Ability consumableAbility = new Ability(givenName, consumableInfo.AbilityCD, consumableInfo.ManaCost, charges);
+            consumableAbility.SetTargetType(consumableInfo.targetType);
+            consumableAbility.SetAbilityEffectType(consumableInfo.abilityEffectType);
+            foreach (var effect in consumableInfo.abilityEffects)
+            {
+                AbilityEffect abilityEffect = new AbilityEffect()
+                {
+                    abilityType = effect.abilityType,
+                    damageType = effect.damageType,
+                    BaseAbilityStrength = effect.BaseAbilityStrength
+                };
+                consumableAbility.AddToEffectList(abilityEffect);
+            }
+            return consumableAbility;
+
+            // TODO... should never be allowed to happen, look inot more robust error handling
+            return null;
+        }
+
 
         string AssignUniqueID(MonsterInfo mi, TeamName team)
         {

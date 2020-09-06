@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Global
 {
-    public class ItemDataReader
+    public class ConsumableDataReader
     {
-        public ItemDataWrapper itemWrapper = new ItemDataWrapper();
+        public ConsumableDataWrapper consumableWrapper = new ConsumableDataWrapper();
 
-        string itemFilename = "itemData.json";
-        string itemPath;
+        string consumableFilename = "itemData.json";
+        string consumablePath;
 
         // This only needs to be called if im am changing machines during devoplment
         // To ensure the Item Json Config file is correct
@@ -32,8 +32,7 @@ namespace Global
 
                 item.AbilityCD = 5f;
                 item.ManaCost = 0;
-                item.Charges = 0;
-                itemWrapper.ItemData.ItemList.Add(item);
+                consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }
 
             // TODO... still need to add mana regen functionallity
@@ -54,8 +53,7 @@ namespace Global
 
                 item.AbilityCD = 5f;
                 item.ManaCost = 0;
-                item.Charges = 0;
-                itemWrapper.ItemData.ItemList.Add(item);
+                consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }
 
             {
@@ -75,8 +73,7 @@ namespace Global
 
                 item.AbilityCD = 5f;
                 item.ManaCost = 0;
-                item.Charges = 0;
-                itemWrapper.ItemData.ItemList.Add(item);
+                consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }
 
             {
@@ -96,8 +93,7 @@ namespace Global
 
                 item.AbilityCD = 15f;
                 item.ManaCost = 0;
-                item.Charges = 0;
-                itemWrapper.ItemData.ItemList.Add(item);
+                consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }
              
             SaveData();
@@ -105,71 +101,71 @@ namespace Global
 
         public void SetUp()
         {
-            itemPath = Application.persistentDataPath + "/" + itemFilename;
-            Debug.Log("ItemData Path: " + itemPath);
+            consumablePath = Application.persistentDataPath + "/" + consumableFilename;
+            Debug.Log("ItemData Path: " + consumablePath);
 
             JSONSetUp();
         }
 
         public void SaveData()
         {
-            string contents = JsonUtility.ToJson(itemWrapper, true);
-            System.IO.File.WriteAllText(itemPath, contents);
+            string contents = JsonUtility.ToJson(consumableWrapper, true);
+            System.IO.File.WriteAllText(consumablePath, contents);
         }
 
         public void ReadData()
         {
             try
             {
-                if (System.IO.File.Exists(itemPath))
+                if (System.IO.File.Exists(consumablePath))
                 {
-                    string contents = System.IO.File.ReadAllText(itemPath);
-                    itemWrapper = JsonUtility.FromJson<ItemDataWrapper>(contents);
+                    string contents = System.IO.File.ReadAllText(consumablePath);
+                    consumableWrapper = JsonUtility.FromJson<ConsumableDataWrapper>(contents);
                 }
                 else
                 {
-                    Debug.Log("File: '" + itemPath + "' does not exist.");
+                    Debug.Log("File: '" + consumablePath + "' does not exist.");
                 }
             }
             catch (System.Exception ex)
             {
-                Debug.Log("File not as expected at " + itemPath);
+                Debug.Log("File not as expected at " + consumablePath);
             }
         }
 
-        public AbilityInfo GetItemByName(string name)
+        public AbilityInfo GetConsumableByName(string name)
         {
-            List<AbilityInfo> itemInfoGroup = itemWrapper.ItemData.ItemList.FindAll(s => s.Name == name);
+            List<AbilityInfo> consumableInfoGroup = consumableWrapper.ConsumableData.ConsumableList.FindAll(s => s.Name == name);
 
-            if (itemInfoGroup.Count < 1)
+            if (consumableInfoGroup.Count < 1)
             {
                 // TODO... Need more robust error handling
                 Debug.Log("No Abilities in Config using Name of: " + name);
                 return null;
             }
-            else if (itemInfoGroup.Count > 1)
+            else if (consumableInfoGroup.Count > 1)
             {
                 // TODO... Need more robust error handling
                 Debug.Log("Too Many Abilities in Config using Name of: " + name);
-                return itemInfoGroup[0];
+                return consumableInfoGroup[0];
             }
             // Return first from list. After error handleing above, there should only be one ability in the list.
-            return itemInfoGroup[0];
+            return consumableInfoGroup[0];
         }
     }
 
     [System.Serializable]
-    public class ItemDataWrapper
+    public class ConsumableDataWrapper
     {
-        public ItemData ItemData = new ItemData();
+        public ConsumableData ConsumableData = new ConsumableData();
     }
 
     // Item Data is identical in format and layout to Ability Data
     // This is a separate class to keep the config json files separate
     [System.Serializable]
-    public class ItemData
+    public class ConsumableData
     {
-        public List<AbilityInfo> ItemList = new List<AbilityInfo>();
+        public List<AbilityInfo> ConsumableList = new List<AbilityInfo>();
     }
 
     

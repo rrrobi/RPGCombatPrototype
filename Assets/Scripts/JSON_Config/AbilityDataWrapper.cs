@@ -320,7 +320,6 @@ namespace Global
         // AbilityCD - time in battle needed to recover after using this ability
         public float AbilityCD = 0f;
         public int ManaCost = 0;
-        public int Charges = -1;
         // index for the character to be summoned
         public int summonIndex = 0;
     }

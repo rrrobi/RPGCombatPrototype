@@ -469,7 +469,10 @@ namespace Battle
             // Add panel for each ability
             foreach (var kvp in abilities)
             {
-                AddToActionPanel(kvp.Value);//.GetAbilityName);
+                // Abilites where Charges are not relevant have 'Charges' set to -1 by default
+                // if 'charges' == 0, then they are both required and 'out of stock'
+                if (kvp.Value.GetAbilityCharges != 0)
+                    AddToActionPanel(kvp.Value);//.GetAbilityName);
             }
 
             // Get that characters Menus
@@ -529,7 +532,10 @@ namespace Battle
             // Add button for each Ability
             foreach (var ability in menu.GetActionList)
             {
-                AddToMenuPanel(ability);
+                // Abilites where Charges are not relevant have 'Charges' set to -1 by default
+                // if 'charges' == 0, then they are both required and 'out of stock'
+                if (ability.GetAbilityCharges != 0)
+                    AddToMenuPanel(ability);
             }
         }
 

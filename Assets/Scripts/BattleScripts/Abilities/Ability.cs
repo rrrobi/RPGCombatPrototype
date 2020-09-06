@@ -24,6 +24,9 @@ namespace Battle
         protected int abilityManaCost;
         public int GetAbilityManaCost { get { return abilityManaCost; } }
 
+        protected int abilityCharges;
+        public int GetAbilityCharges { get { return abilityCharges; } }
+
         protected TargetType targetType;
         public TargetType GetTargetType() { return targetType; }
         public void SetTargetType(TargetType type) { targetType = type; }
@@ -39,11 +42,12 @@ namespace Battle
         }
         public List<AbilityEffect> GetEffectList() { return effectList; }
 
-        public Ability(string name, float cd, int manaCost)
+        public Ability(string name, float cd, int manaCost, int charges = -1)
         {
             abilityName = name;
             abilityCD = cd;
             abilityManaCost = manaCost;
+            abilityCharges = charges;
         }
 
         // TODO... I don't think AOE will work for Summon Abilities right now.

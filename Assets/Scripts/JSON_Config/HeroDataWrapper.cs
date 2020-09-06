@@ -45,12 +45,16 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.SpellActions.Abilities.Add("Fire Wave");
             heroWrapper.HeroData.HeroInfo.SpellActions.MenuType = "Spells";
 
-            heroWrapper.HeroData.HeroInfo.ItemActions.Name = "Items";
-            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Health Potion");
-            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Mana Potion");
-            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Throwing Axe");
-            heroWrapper.HeroData.HeroInfo.ItemActions.Abilities.Add("Dynamite");
-            heroWrapper.HeroData.HeroInfo.ItemActions.MenuType = "Items";
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.Name = "Items";
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable{ Name = "Health Potion", Charges = 3 });
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Mana Potion", Charges = 4 });
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Throwing Axe", Charges = 2 });
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Dynamite", Charges = 1 });
+
+            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Mana Potion", 4);
+            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Throwing Axe", 2);
+            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Dynamite", 1);
+            heroWrapper.HeroData.HeroInfo.ConsumableActions.MenuType = "Items";
 
             #region player demon List setup
             MonsterInfo m1 = new MonsterInfo();
@@ -252,7 +256,7 @@ namespace Global
         // test - items/spells not used yet
         public AbilityGroup baseActions = new AbilityGroup();
         public AbilityGroup SummonActions = new AbilityGroup();
-        public AbilityGroup ItemActions = new AbilityGroup();
+        public ConsumableGroup ConsumableActions = new ConsumableGroup();
         public AbilityGroup SpellActions = new AbilityGroup();
 
         public List<MonsterInfo> PlayerDemons = new List<MonsterInfo>();
@@ -266,5 +270,20 @@ namespace Global
         public string Name = "";
         public List<string> Abilities = new List<string>();
         public string MenuType = ""; // <- i dont think this is used for anything atm
+    }
+
+    [System.Serializable]
+    public class ConsumableGroup
+    {
+        public string Name = "";
+        public List<Consumable> Consumables = new List<Consumable>();
+        public string MenuType = ""; // <- i dont think this is used for anything atm
+    }
+
+    [System.Serializable]
+    public class Consumable
+    {
+        public string Name = "";
+        public int Charges = 0;
     }
 }
