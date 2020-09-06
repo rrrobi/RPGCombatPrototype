@@ -30,7 +30,7 @@ namespace Global
                 };
                 item.abilityEffects.Add(effect1);
 
-                item.AbilityCD = 5f;
+                item.AbilityCD = 1f;
                 item.ManaCost = 0;
                 consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }

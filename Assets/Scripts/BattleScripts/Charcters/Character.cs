@@ -304,6 +304,34 @@ namespace Battle
                 CharacterDies();
         }
 
+        public void RemoveMana(int manaCost)
+        {
+            Debug.Log(this.name + " has used " + manaCost + " mana");
+            mP -= manaCost;
+            // Mana can't drop below 0
+            mP = Mathf.Max(mP, 0);
+
+            // Trigger Mana change Event callback
+            EventCallbacks.MPChangedEventInfo mpcei = new EventCallbacks.MPChangedEventInfo();
+            mpcei.EventDescription = $"Unit {gameObject.name} has had the mana cost({manaCost}) deducted from its mana pool.";
+            mpcei.UnitGO = gameObject;
+            mpcei.FireEvent();
+        }
+
+        public void RecoverMana(int mana)
+        {
+            Debug.Log(this.name + " has regained " + mana + " mana");
+            mP += mana;
+            // Mana can't go above the max
+            mP = Mathf.Clamp(mP += mana, 0, maxMP);
+
+            // Trigger Mana change Event callback
+            EventCallbacks.MPChangedEventInfo mpcei = new EventCallbacks.MPChangedEventInfo();
+            mpcei.EventDescription = $"Unit {gameObject.name} has regained {mana} point to it's mana pool.";
+            mpcei.UnitGO = gameObject;
+            mpcei.FireEvent();
+        }
+               
         protected virtual void CharacterDies()
         {
             Debug.Log(this.name + " has died!");

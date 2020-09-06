@@ -50,10 +50,6 @@ namespace Global
             heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Mana Potion", Charges = 4 });
             heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Throwing Axe", Charges = 2 });
             heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = "Dynamite", Charges = 1 });
-
-            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Mana Potion", 4);
-            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Throwing Axe", 2);
-            //heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add("Dynamite", 1);
             heroWrapper.HeroData.HeroInfo.ConsumableActions.MenuType = "Items";
 
             #region player demon List setup

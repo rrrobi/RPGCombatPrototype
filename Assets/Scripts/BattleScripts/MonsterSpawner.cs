@@ -224,7 +224,7 @@ namespace Battle
         {
             AbilityInfo consumableInfo = consumableData.GetConsumableByName(abilityName);
 
-            string givenName = $"{consumableInfo.Name} x{charges}";
+            string givenName = consumableInfo.Name;
             Ability consumableAbility = new Ability(givenName, consumableInfo.AbilityCD, consumableInfo.ManaCost, charges);
             consumableAbility.SetTargetType(consumableInfo.targetType);
             consumableAbility.SetAbilityEffectType(consumableInfo.abilityEffectType);

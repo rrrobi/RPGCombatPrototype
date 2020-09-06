@@ -212,11 +212,11 @@ namespace Battle
             cd = Mathf.Max(abilityCD + (abilityCD * agiFraction), 1.0f);
 
             // Subtract Mana cost of the ability from the source Character's Mana pool
-            source.GetComponent<Character>().SetMP(source.GetComponent<Character>().GetMP - abilityManaCost);
-            EventCallbacks.MPChangedEventInfo mpcei = new EventCallbacks.MPChangedEventInfo();
-            mpcei.EventDescription = $"Unit {source.name} has had the mana cost({abilityManaCost}) of ability {abilityName} deducted from its mana pool.";
-            mpcei.UnitGO = source;
-            mpcei.FireEvent();
+            source.GetComponent<Character>().RemoveMana(abilityManaCost);
+
+            // If applicable remove 1 charge from charge count
+            if (abilityCharges > 0)
+                abilityCharges--;
 
             // Restart the source's cooldown
             source.GetComponent<Character>().UpdateAttackTimer(cd);

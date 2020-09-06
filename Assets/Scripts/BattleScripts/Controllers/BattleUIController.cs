@@ -546,7 +546,10 @@ namespace Battle
             // Set buttons varables
             buttonGO.name = ability.GetAbilityName + "_Button";
             Text buttonText = buttonGO.GetComponentInChildren<Text>();
-            buttonText.text = ability.GetAbilityName;
+            if (ability.GetAbilityCharges != -1)
+                buttonText.text = $"{ability.GetAbilityName} x{ability.GetAbilityCharges}";
+            else
+                buttonText.text = ability.GetAbilityName;
             // Inactive is mana cost not available
             if (SelectedCharacter.GetComponent<Character>().GetMP < ability.GetAbilityManaCost)
                 buttonGO.GetComponent<Button>().interactable = false;
