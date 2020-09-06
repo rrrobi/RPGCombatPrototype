@@ -256,6 +256,24 @@ namespace Battle
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.CurrentMana = mana;
             GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.GoldOwned += battleLoot;
 
+            //update Item charges
+            // TODO... I don't like this
+            // ALSO... This will need to be amended to include adding new loot items
+            ActionMenu consumableMenu = playerCharacters[GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.PlayerName].GetComponent<Hero>().GetMenuByName("Items");
+            foreach (var item in consumableMenu.GetActionList)
+            {
+                for (int i = 0; i < GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Count; i++)
+                {
+                    if (GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables[i].Name == item.GetAbilityName)
+                    {
+                        if (item.GetAbilityCharges > 0)
+                            GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables[i].Charges = item.GetAbilityCharges;
+                        else if (item.GetAbilityCharges == 0)
+                            GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.RemoveAt(i);
+                    }
+                }
+            }
+
             // update Monster stats
             foreach (var kvp in playerMonsterinfoList)
             {
