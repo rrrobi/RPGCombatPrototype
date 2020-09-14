@@ -7,6 +7,7 @@ public enum AbilityType
     None,
     DirectDamage,
     DirectHeal,
+    DirectManaRegen,
     Support,
     Summon
 }

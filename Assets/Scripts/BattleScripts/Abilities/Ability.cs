@@ -189,6 +189,10 @@ namespace Battle
                             DirectHealAbilityEffect dhEffect = new DirectHealAbilityEffect();
                             dhEffect.EffectAction(modifiedAbilityPower, t);
                             break;
+                        case AbilityType.DirectManaRegen:
+                            DirectManaRegenAbilityEffect dmrEffect = new DirectManaRegenAbilityEffect();
+                            dmrEffect.EffectAction(modifiedAbilityPower, t);
+                            break;
                     }
                 }
             }
