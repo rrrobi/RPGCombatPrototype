@@ -35,7 +35,6 @@ namespace Global
                 consumableWrapper.ConsumableData.ConsumableList.Add(item);
             }
 
-            // TODO... still need to add mana regen functionallity
             {
                 AbilityInfo item = new AbilityInfo();
                 item.Name = "Mana Potion";
