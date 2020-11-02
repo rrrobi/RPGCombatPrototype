@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour {
     int cacheBattleBounty;
     public int GetCacheBattleBounty { get { return cacheBattleBounty; } }
     public void SetCacheBattleBounty(int bounty) { cacheBattleBounty = bounty; }
+    List<AbilityInfo> cacheBattleConsumableLoot;
+    public List<AbilityInfo> GetCacheBattleConsumableLoot { get { return cacheBattleConsumableLoot; } }
+    public void SetCacheBattleConsumableLoot(List<AbilityInfo> consumableLoot) { cacheBattleConsumableLoot = consumableLoot; }
 
     // Variables for Starting Dungeon Scene
     int playerCurrentFloor = -1;
@@ -88,6 +91,8 @@ public class GameManager : MonoBehaviour {
         // Set up MonsterData config file for use        
         MonsterDataReader.SetUp();
         MonsterDataReader.ReadData();
+        ConsumableDataReader.SetUp();
+        ConsumableDataReader.ReadData();
 
         // Game loads Hero Data from save file,
         // IF NewGame - this save file is set to default in Launch-Menu Scene

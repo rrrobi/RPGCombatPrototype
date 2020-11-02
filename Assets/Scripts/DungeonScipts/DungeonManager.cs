@@ -191,6 +191,7 @@ public class DungeonManager : MonoBehaviour {
         }
 
         GameManager.Instance.SetCacheBattleBounty(roomCache.goldLoot);
+        GameManager.Instance.SetCacheBattleConsumableLoot(roomCache.consumableLoot);
 
         GameManager.Instance.StartBattle();
     }

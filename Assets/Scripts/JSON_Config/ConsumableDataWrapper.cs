@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Global
 {
-    public class ConsumableDataReader
+    static public class ConsumableDataReader
     {
-        public ConsumableDataWrapper consumableWrapper = new ConsumableDataWrapper();
+        static public ConsumableDataWrapper consumableWrapper = new ConsumableDataWrapper();
 
-        string consumableFilename = "itemData.json";
-        string consumablePath;
+        static string consumableFilename = "itemData.json";
+        static string consumablePath;
 
         // This only needs to be called if im am changing machines during devoplment
         // To ensure the Item Json Config file is correct
-        private void JSONSetUp()
+        static private void JSONSetUp()
         {
             {
                 AbilityInfo item = new AbilityInfo();
@@ -98,7 +98,7 @@ namespace Global
             SaveData();
         }
 
-        public void SetUp()
+        static public void SetUp()
         {
             consumablePath = Application.persistentDataPath + "/" + consumableFilename;
             Debug.Log("ItemData Path: " + consumablePath);
@@ -106,13 +106,13 @@ namespace Global
             JSONSetUp();
         }
 
-        public void SaveData()
+        static public void SaveData()
         {
             string contents = JsonUtility.ToJson(consumableWrapper, true);
             System.IO.File.WriteAllText(consumablePath, contents);
         }
 
-        public void ReadData()
+        static public void ReadData()
         {
             try
             {
@@ -132,7 +132,7 @@ namespace Global
             }
         }
 
-        public AbilityInfo GetConsumableByName(string name)
+        static public AbilityInfo GetConsumableByName(string name)
         {
             List<AbilityInfo> consumableInfoGroup = consumableWrapper.ConsumableData.ConsumableList.FindAll(s => s.Name == name);
 

@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 using EventCallbacks;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Global;
 
 namespace Battle
 {
@@ -12,6 +13,7 @@ namespace Battle
     {
         // Battle loot
         int battleLoot;
+        List<AbilityInfo> consumableLoot;
 
         public static CombatManager Instance { get; protected set; }
         MonsterSpawner monsterSpawner = new MonsterSpawner();
@@ -84,6 +86,7 @@ namespace Battle
         {
             // Ensure the Combat manager knows what loot is at stake in this battle.
             battleLoot = GameManager.Instance.GetCacheBattleBounty;
+            consumableLoot = GameManager.Instance.GetCacheBattleConsumableLoot;
 
             // Ititial setup of battlefield
             battlefieldController.Setup();
@@ -273,6 +276,23 @@ namespace Battle
                     }
                 }
             }
+            // Add Consumable loot to hero Data after battle
+            foreach (var item in consumableLoot)
+            {
+                bool isFound = false;
+                for (int i = 0; i < GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Count; i++)
+                {
+                    if (GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables[i].Name == item.Name)
+                    {
+                        GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables[i].Charges++;
+                        isFound = true;
+                    }
+                }
+                if (!isFound)
+                    GameManager.Instance.GetHeroData.heroWrapper.HeroData.HeroInfo.ConsumableActions.Consumables.Add(new Consumable { Name = item.Name, Charges = 1 });
+
+            }
+
 
             // update Monster stats
             foreach (var kvp in playerMonsterinfoList)

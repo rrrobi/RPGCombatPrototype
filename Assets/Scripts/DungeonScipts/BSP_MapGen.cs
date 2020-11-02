@@ -40,6 +40,7 @@ public struct RoomCache
     public List<MonsterInfo> guardians;
     // list of loot
     public int goldLoot;
+    public List<AbilityInfo> consumableLoot; // consumables are treated as Abilities
     // other info etc
 }
 
@@ -405,6 +406,8 @@ public class BSP_MapGen
         room.roomCache.guardians = PopulateGuardList(cacheDifficulty);
         // Gold = 10 * Cache difficulty level
         room.roomCache.goldLoot = cacheDifficulty * 10;
+        // Set Room Cache Consumable rewards
+        room.roomCache.consumableLoot = PopulateConsumableLoot(cacheDifficulty);
 
         // TODO... look inot this, im not sure i like this. 
         // I am only making the list of caches like this to work with Load and save easier.
@@ -447,6 +450,89 @@ public class BSP_MapGen
         }
 
         return guardList;
+    }
+
+    // TODO...
+    // This is temporary hack
+    // As long as we can set up a cache's data,
+    // It doesn't matter how we do it here, becasue i will be completely reworking Dungeon Gen soon
+    private List<AbilityInfo> PopulateConsumableLoot(int cacheDifficulty)
+    {
+        List<AbilityInfo> consumableList = new List<AbilityInfo>();
+
+        if (cacheDifficulty < 3)
+        {
+            int consumableMarker = Random.Range(1, 6);
+            switch(consumableMarker)
+            {
+                case 1:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    break;
+                case 2:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Mana Potion"));
+                    break;
+                case 3:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    break;
+                case 4:
+                case 5:
+                    break;
+            }
+        }
+        else if (cacheDifficulty < 8)
+        {
+            int consumableMarker = Random.Range(1, 6);
+            switch (consumableMarker)
+            {
+                case 1:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    break;
+                case 2:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Mana Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    break;
+                case 3:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    break;
+                case 4:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Dynamite"));
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        else
+        {
+            int consumableMarker = Random.Range(1, 6);
+            switch (consumableMarker)
+            {
+                case 1:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Mana Potion"));
+                    break;
+                case 2:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Health Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Mana Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    break;
+                case 3:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Throwing Axe"));
+                    break;
+                case 4:
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Mana Potion"));
+                    consumableList.Add(ConsumableDataReader.GetConsumableByName("Dynamite"));
+                    break;
+                case 5:
+                    break;
+            }
+        }
+
+        return consumableList;
     }
 
     private Vector2Int GetRandomPointInRoom(Room room)

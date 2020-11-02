@@ -14,7 +14,7 @@ namespace Battle
     public class MonsterSpawner
     {
         AbilityDataReader abilityData = new AbilityDataReader();
-        ConsumableDataReader consumableData = new ConsumableDataReader();
+        //ConsumableDataReader consumableData = new ConsumableDataReader();
 
         Dictionary<string, int> monsterCounts = new Dictionary<string, int>();
         Dictionary<string, List<string>> UniqueIDLog = new Dictionary<string, List<string>>();
@@ -39,8 +39,8 @@ namespace Battle
 
             abilityData.SetUp();
             abilityData.ReadData();
-            consumableData.SetUp();
-            consumableData.ReadData();
+            //consumableData.SetUp();
+            //consumableData.ReadData();
         }
 
         public GameObject SpawnHero(TeamName team, GameObject teamGroup, GameObject unitSlot)
@@ -222,8 +222,8 @@ namespace Battle
 
         Ability CreateConsumableAbilityFromData(string abilityName, int charges)
         {
-            AbilityInfo consumableInfo = consumableData.GetConsumableByName(abilityName);
-
+            AbilityInfo consumableInfo = ConsumableDataReader.GetConsumableByName(abilityName);
+            
             string givenName = consumableInfo.Name;
             Ability consumableAbility = new Ability(givenName, consumableInfo.AbilityCD, consumableInfo.ManaCost, charges);
             consumableAbility.SetTargetType(consumableInfo.targetType);
