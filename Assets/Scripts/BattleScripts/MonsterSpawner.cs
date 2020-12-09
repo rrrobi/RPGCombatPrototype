@@ -55,6 +55,8 @@ namespace Battle
             else
                 Debug.Log("TEAM name not correct!!!!");
             heroGO.GetComponent<Hero>().SetTeam(team);
+            heroGO.GetComponent<Hero>().SetUnitSlot(unitSlot);
+
             // Set Monster's ability
             List<Ability> abilities = new List<Ability>();
             if (heroInfo.baseActions.Abilities.Count > 0)
@@ -163,6 +165,8 @@ namespace Battle
             else
                 Debug.Log("TEAM name not correct!!!!");
             monsterGO.GetComponent<Monster>().SetTeam(team);
+            monsterGO.GetComponent<Monster>().SetUnitSlot(unitSlot);
+
             // Set Monster's ability
             List<Ability> abilities = new List<Ability>();
             if (!string.IsNullOrEmpty(monsterInfo.Ability1))

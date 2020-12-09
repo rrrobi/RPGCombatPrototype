@@ -274,9 +274,11 @@ namespace Battle
                 case TargetType.Enemy:
                     // Get list of all Enemies currently in the battle
                     List<GameObject> enemyList = CombatManager.Instance.battlefieldController.FindAllCurrentEnemies();
-                    PossibleTargets = enemyList;
+                    // Standard attacks can only hit a charcater if the space infront of them in empty, 
+                    // I.E. you can't hit a back line character if there is a character protecting it in the slot DIRECTLY infront of it
+                    PossibleTargets = GetPossibleTargets(enemyList);
                     // Loop through targets, adding them to the pannel
-                    foreach (var enemy in enemyList)
+                    foreach (var enemy in PossibleTargets)
                     {
                         enemy.GetComponent<Character>().MakeClickable();
                     }
@@ -312,6 +314,39 @@ namespace Battle
                     Debug.Log("Not exactly sure what should happen here, this is probably an error!");
                     break;
             }
+        }
+
+        List<GameObject> GetPossibleTargets(List<GameObject> activeCharacters)
+        {
+            // This Only handles standard target options, if the future allows exceptions, this will need to be modified.
+            List<GameObject> temp = new List<GameObject>();
+            foreach (var character in activeCharacters)
+            {                
+                // If charcater is on front row, we can always target this.
+                if (character.GetComponent<Character>().GetUnitSlot().name.EndsWith("0"))
+                {
+                    temp.Add(character);
+                    continue;
+                }
+                // if the character is on the back row, BUT there is no character DIRECTLY in front, we can target this
+                // Find the character position
+                string charPos = character.GetComponent<Character>().GetUnitSlot().name.Split('_')[1].Split('-')[0];
+                bool isblocked = false;
+                foreach (var charCompare in activeCharacters)
+                {
+                    // if any other available character is 'blocking' the charcater, move on to the next,
+                    // this is not a targetable character
+                    if (charCompare.GetComponent<Character>().GetUnitSlot().name.Split('_')[1] == $"{charPos}-0")
+                    {
+                        isblocked = true;
+                        break;
+                    }    
+                }
+                if (!isblocked)
+                    temp.Add(character);
+            }
+
+            return temp;
         }
 
         void RemoveTargetHighlight()

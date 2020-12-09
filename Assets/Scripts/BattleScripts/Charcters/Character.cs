@@ -120,6 +120,10 @@ namespace Battle
         protected GameObject myTeam;
         protected GameObject enemyTeam;
 
+        protected GameObject UnitSlot;
+        public void SetUnitSlot(GameObject unitSlot) { UnitSlot = unitSlot; }
+        public GameObject GetUnitSlot() { return UnitSlot; }
+
         protected Sprite monsterSprite;
         public void SetMonsterSprite(Sprite sprite) { monsterSprite = sprite; }
         public Sprite GetMonsterSprite() { return monsterSprite; }
