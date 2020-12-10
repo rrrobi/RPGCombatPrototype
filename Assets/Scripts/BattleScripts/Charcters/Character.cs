@@ -254,6 +254,7 @@ namespace Battle
             {
                 mobList.Add(child.gameObject);
             }
+            mobList = TargetingHelper.GetPossibleTargets(mobList);
             // attack Random enemy in list - AI (temp solution)
             // TODO....
             // Split AI/Player attack code
